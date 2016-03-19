@@ -1,0 +1,3 @@
+[submodule "common/bashlog"]
+	path = common/bashlog
+	url = https://github.com/elamperti/bashlog.git
