@@ -1,3 +1,6 @@
 [submodule "common/bashlog"]
 	path = common/bashlog
 	url = https://github.com/elamperti/bashlog.git
+[submodule "common/progressbar"]
+	path = common/progressbar
+	url = https://github.com/elamperti/bash-progressbar.git
