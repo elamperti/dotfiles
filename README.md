@@ -6,12 +6,13 @@ Hi, these are my dotfiles. I'm not sure if I'm proud or ashamed of the code you'
 ## Requirements
 The setup file expects **Bash 4** or newer. User must be able to sudo.
 
-The setup will look for (and ask confirmation to install if missing):
-  * `dialog`, which is used for the setup process
+The setup will look for the following packages (and try to install them, if you want are ok with it):
+  * `git` to initialize submodules
+  * `dialog` which is used for the setup process
   * `stow` to symlink several files
 
 ## Installing
-Just execute `setup.sh`:
+Just execute `setup.sh` and keep an eye on what happens :crystal_ball:
 
 ```
 ./setup.sh
@@ -20,16 +21,16 @@ Just execute `setup.sh`:
 ## How does it work?
 The setup will verify Bash version before starting. Then it will look for `dialog` and start the setup process asking for the user's password to sudo.
 First it will create symlinks, then proceed to install in four stages:
-  * *Common packages* are used from terminal and usually found across different distributions.
-  * *Graphical packages* are programs that require a window manager to be used or are only useful in that context.
-  * *Window manager packages* are graphical packages particular to specific window managers (XFCE and Gnome).
+  * **Common packages** are used from terminal and usually found across different distributions.
+  * **Graphical packages** are programs that require a window manager to be used or are only useful in that context.
+  * **Window manager packages** are graphical packages particular to specific window managers (XFCE and Gnome).
     After installing all the packages, bundle scripts may ask for additional information or confirmations.
-  * *Bundles* are scripts that go beyond a simple `apt-get install` adding a PPA, extra packages or executing scripts.
+  * :package: **Bundles** are scripts that go beyond a simple `apt-get install` adding a PPA, extra packages or executing scripts.
 
 ## How to customize this quickly
 In case you want to use this fast without checking how it works, you may change the following:
   * [Files in `shell/`](./shell/), which are most of the dotfiles
-  * [Packages lists](./common/packages.sh)
+  * [Packages lists](./common/settings.sh)
   * [Bundles](./bundles/), for more details see [the guide](./bundles/about-bundles.md)
 
 ## Acknowledgements

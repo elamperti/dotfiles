@@ -5,7 +5,7 @@ Bundles go beyond a simple `apt-get install`: they may add a PPA, extra packages
 The main file should be named exactly as the bundle directory, with `.sh` extension.
 It's expected to have the following functions:
 
-  * `get_name()` and `get_desc()`, both echoing name and description respectively
+  * `get_name()` and `get_desc()`, both echoing bundle name and description respectively
   * `verify_requirements()` (which should `exit` with an error if requirements are not met)
   * `on_init()` will be executed if the bundle is selected, just after the bundle selection dialog. This may enqueue fundamental packages and do other preparations, but it shouldn't stall the setup process.
   * `after_installs()` will run after the setup has installed packages. This is a good place to ask for more information and do other lengthy processes.
@@ -49,5 +49,6 @@ $@
 
 
   * **How do I enqueue packages properly?**
+
   Use the `send_cmd` function, available in `bundle-tools.sh`.
 
