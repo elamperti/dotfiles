@@ -26,7 +26,7 @@ title_color = (GREEN,BLACK,ON)
 border_color = (WHITE,BLACK,ON)
 
 # Active button color
-button_active_color = (WHITE,GREEN,ON)
+button_active_color = (BLACK,GREEN,ON)
 
 # Inactive button color
 button_inactive_color = dialog_color
