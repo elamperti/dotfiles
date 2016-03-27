@@ -1,5 +1,6 @@
 #!/bin/bash
 
+pushd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null
 source 'common/utils.sh'
 source 'common/packages.sh'
 source 'common/bundles.sh'
@@ -119,4 +120,6 @@ unset -f init_git_submodules
 unset -f main
 unset -f print_splash
 unset -f stow_and_verify
+
+popd &>/dev/null
 echo
