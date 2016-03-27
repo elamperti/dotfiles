@@ -25,6 +25,7 @@ graphical_packages="
 
 xfce_packages="
     pavucontrol: a volume control for the Pulse audio server
+    xfce4-whiskermenu-plugin: better Start menu (with search)
 "
 
 gnome_packages=""
