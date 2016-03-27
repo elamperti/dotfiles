@@ -372,11 +372,6 @@ nnoremap <C-S-tab> :bprev<CR>
 inoremap <C-tab> <Esc>:bnext<CR>
 inoremap <C-S-tab> <Esc>:bprev<CR>
 
-nnoremap <C-PageDown> :bnext<CR>
-nnoremap <C-PageUp> :bprev<CR>
-inoremap <C-PageDown> <Esc>:bnext<CR>
-inoremap <C-PageUp> <Esc>:bprev<CR>
-
 nnoremap <F1> :bnext<CR>
 nnoremap <F2> :bprev<CR>
 inoremap <F1> :bnext<CR>
