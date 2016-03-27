@@ -38,3 +38,4 @@ In case you want to use this fast without checking how it works, you may change 
   * **Cătălin Mariș**' [dotfiles](https://github.com/alrra/dotfiles) are very interesting and were great to learn when I started using dotfiles. My dotfiles take some functions and ideas from his work.
   * **Kevin Hochhalter** for the simple and powerful [bashlog](https://github.com/klhochhalter/bashlog).
   * The [/r/vim](https://www.reddit.com/r/vim/) subreddit has good ideas and lots of information on how to config [.vimrc](./bundles/vim/vim/vimrc).
+  * The [Git bundle](./bundles/git/) uses [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) :information_desk_person:

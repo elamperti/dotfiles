@@ -1,0 +1,41 @@
+[color]
+	ui = always
+
+[color "branch"]
+    current = green bold
+    local = green
+    remote = yellow
+
+[color "diff"]
+    frag = magenta bold
+    meta = yellow bold
+    new = green bold
+    old = red bold
+
+[color "status"]
+    added = green reverse
+    changed = yellow reverse
+    untracked = red reverse
+
+[core]
+    editor = vim
+    excludesfile = ~/.gitexcludes
+
+[pretty]
+    custom = "%C(blue)%h%C(red)%d %C(magenta bold)%ar %C(white)%s %C(white dim)(%an)"
+    #                  │        │                  │            │                └─ author name
+    #                  │        │                  │            └─ message
+    #                  │        │                  └─ date (relative)
+    #                  │        └─ decorations (branch, heads or tags)
+    #                  └─ hash (abbreviated)
+
+
+[push]
+    default = simple
+
+    # Make `git push` automatically push relevant
+    # annotated tags when pushing branches out
+    followTags = true
+
+[include]
+    path = ~/.gitconfig.local
