@@ -35,7 +35,8 @@ after_installs() {
     sudo mkdir -p ~/.local/share/fonts
     pushd ~/.local/share/fonts &>/dev/null
     if [ ! -f "Droid Sans Mono Nerd Font Complete.otf" ]; then
-        sudo curl -fLo "Droid Sans Mono Nerd Font Complete.otf" https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20for%20Powerline%20Nerd%20Font%20Complete.otf
+        curl --silent -fLo "Droid Sans Mono Nerd Font Complete.otf" \
+            "https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20for%20Powerline%20Nerd%20Font%20Complete.otf"
         send_cmd log INFO "Downloaded Droid Sans Mono patched font"
     fi
     popd &>/dev/null
@@ -54,7 +55,7 @@ after_installs() {
         cd ~/.vim/plugins/tern_for_vim \
             && npm install &> /dev/null
     else
-        send_cmd log WARN "Couldn\'t install tern plugin for Vim"
+        send_cmd log WARN "Couldn't install tern plugin for Vim"
     fi
 }
 

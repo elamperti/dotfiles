@@ -9,8 +9,7 @@ trap on_unload EXIT
 
 # Function to be executed on unload
 on_unload() {
-    # ToDo: Fix quote escaping
-    echo $RESPONSE|sed "s/\"'\"/\\'/g" >>../.tmpcommands
+    echo $RESPONSE|sed "s/'/\\\'/g" >>../.tmpcommands
 }
 
 # ToDo: preserve string quotes?

@@ -42,7 +42,7 @@ print_splash() {
 
 # Helper for create_symlinks()
 stow_and_verify() {
-    stow $@
+    stow $@ 2>>setup.log
     if [[ $? == 1 ]]; then
         echo -e "\nStow couldn't create the symlinks for files in ${fg_white}$(last_argument $@)${normal}"
         echo -e "You may verify the problem manually and try again."
@@ -69,7 +69,7 @@ main() {
 
     ask_for_sudo
     log NOTICE "Update apt-get repositories"
-    #sudo apt-get update &> /dev/null ||
+    sudo apt-get update &> /dev/null ||
         log ERROR "Couldn't update apt repositories"
 
     test_for "git" OR_ABORT
@@ -88,7 +88,7 @@ main() {
     test_for "dialog" OR_ABORT
 
     test_for "stow" OR_WARN "Keep in mind bundles may need stow."
-    create_symlinks
+    create_symlinks &&
     log NOTICE "Symlinks created"
 
     pick_packages

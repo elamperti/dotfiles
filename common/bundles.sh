@@ -14,6 +14,8 @@ declare -A bundle_ids
 declare -a bundle_option_list
 declare -a bundle_queue
 
+bundle_count=0
+
 create_bundle_list() {
     local main_script=
     local description=
@@ -38,6 +40,7 @@ create_bundle_list() {
                 bundle_option_list+=("$friendly_name" "$description" on)
 
                 log DEBUG "Bundle found: $bundle"
+                ((bundle_count++))
             else
                 log WARN "Bundle requirements didn't pass ($bundle)"
             fi
@@ -91,7 +94,7 @@ execute_bundle_inits() {
             call_bundle_function $bundle on_init EVAL_OUTPUT
         done
         popd &>/dev/null
-        pretty_print OK "Done (${#bundle_option_list[@]} bundles)"
+        pretty_print OK "Done (${bundle_count} bundles)"
     fi
 }
 
@@ -112,8 +115,6 @@ pick_bundles() {
     else
         log WARN "No bundles found."
     fi
-
-    unset bundle_option_list
 }
 
 show_bundle_picker() {
@@ -136,14 +137,16 @@ show_bundle_picker() {
             2>&1 1>&5 \
         )
     fi
-        exec 5>&-
-        IFS=$oIFS
+    exec 5>&-
 
     # Translate fancy name back to a bundle folder name
+    IFS=" "
     if [ ${#selected_bundles[@]} -gt 0 ]; then
         for bundle in ${selected_bundles[@]}; do
             bundle_queue+=($(get_bundle_by_name $bundle))
+            log DEBUG "Added bundle $bundle to the queue"
         done
     fi
+    IFS=$oIFS
 }
 

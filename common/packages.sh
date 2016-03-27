@@ -54,16 +54,15 @@ install_queued_packages() {
     local install_outcome=0
 
     if [ ${#package_queue[@]} -gt 0 ]; then
-        log INFO "Installing queued packages..."
+        log INFO "Installing ${#package_queue[@]} queued packages..."
         log DEBUG "Packages to install: ${package_queue[@]}"
-        sudo apt-get install ${package_queue[@]} &> /dev/null \
+        sudo apt-get install -y --force-yes ${package_queue[@]} 2>>setup.log &> /dev/null \
         || install_outcome=1
 
         if [ $install_outcome -eq 0 ]; then
-            pretty_print OK "${#package_queue[@]} required packages"
+            pretty_print OK "Installed ${#package_queue[@]} required packages"
             log DEBUG "${#package_queue[@]} packages installed/present: ${package_queue[@]}"
         else
-            pause
             log ERROR "There was a problem installing new packages."
             log DEBUG "Package install failed for: ${package_queue[@]}"
         fi
