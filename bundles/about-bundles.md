@@ -11,7 +11,7 @@ It's expected to have the following functions:
   * `after_installs()` will run after the setup has installed packages. This is a good place to ask for more information and do other lengthy processes.
 
 
-## Sample bundle script
+## Bundle script boilerplate
 
 ```
 #!/bin/bash
@@ -45,7 +45,7 @@ $@
 
   * **Why do you return the bundle _name_ and _description_ using just `echo` but the rest of the functions use `send_cmd`?**
 
-  Name and description are reduced to a simple echo to make the script easy to read. Afterwards, the `send_cmd` calls are there to send all the given commands through a file descriptor (leaving STDOUT and STDERR where they were), so when the bundle script is called it's easy to separate and execute the given commands.
+  Name and description are reduced to a simple echo to make the script easy to read. Afterwards, the `send_cmd` calls are there to send all the given commands through a file descriptor (leaving STDOUT and STDERR where they were), so when the bundle script is called it's easy to separate and execute the given commands in the context of the setup script.
 
 
   * **How do I enqueue packages properly?**

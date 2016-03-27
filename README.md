@@ -1,8 +1,6 @@
 # Enrico's dotfiles
 Hi, these are my dotfiles. I'm not sure if I'm proud or ashamed of the code you'll find in here.
 
-:warning: **Before blindly executing the setup script you should take a look at what it does.**
-
 ## Requirements
 The setup file expects **Bash 4** or newer. User must be able to sudo.
 
@@ -19,13 +17,15 @@ Just execute `setup.sh` and keep an eye on what happens :crystal_ball:
 ```
 
 ## How does it work?
-The setup will verify Bash version before starting. Then it will look for `dialog` and start the setup process asking for the user's password to sudo.
-First it will create symlinks, then proceed to install in four stages:
-  * **Common packages** are used from terminal and usually found across different distributions.
-  * **Graphical packages** are programs that require a window manager to be used or are only useful in that context.
-  * **Window manager packages** are graphical packages particular to specific window managers (XFCE and Gnome).
-    After installing all the packages, bundle scripts may ask for additional information or confirmations.
-  * :package: **Bundles** are scripts that go beyond a simple `apt-get install` adding a PPA, extra packages or executing scripts.
+The setup will verify Bash version before starting. After updating `apt`'s package list and initializing the required [submodules](./.gitmodules), symlinks will be created and the installation section will start.
+
+Package/bundle selection is divided in four steps, and in each one the setup will ask wich packages/bundles to install:
+  1. **Common packages** are used from terminal and usually found across different distributions.
+  2. **Graphical packages** are programs that require a window manager to be used or are only useful in that context.
+  3. **Window manager packages** are packages related to specific window managers (XFCE and Gnome).
+  4. :package: **Bundles**: are special scripts, read more about them in [the guide](./bundles/about-bundles.md).
+
+After installing all the required packages, bundle scripts will finish their installation and may ask for additional information.
 
 ## How to customize this quickly
 In case you want to use this fast without checking how it works, you may change the following:
@@ -37,5 +37,5 @@ In case you want to use this fast without checking how it works, you may change 
   * **Basharat Sialvi** for the [magnific tutorial](https://askubuntu.com/a/283909/198486) on setting up *powerline* everywhere.
   * **Cătălin Mariș**' [dotfiles](https://github.com/alrra/dotfiles) are very interesting and were great to learn when I started using dotfiles. My dotfiles take some functions and ideas from his work.
   * **Kevin Hochhalter** for the simple and powerful [bashlog](https://github.com/klhochhalter/bashlog).
-  * The [/r/vim](https://www.reddit.com/r/vim/) subreddit has good ideas and lots of information on how to config [.vimrc](./bundles/vim/vim/vimrc).
+  * The [/r/vim](https://www.reddit.com/r/vim/) subreddit gave me good ideas and lots of information on how to config [.vimrc](./bundles/vim/vim/vimrc)
   * The [Git bundle](./bundles/git/) uses [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) :information_desk_person:
