@@ -40,6 +40,13 @@ print_splash() {
     echo ${normal}
 }
 
+set_keyboard_layout() {
+    # My keyboard
+    setxkbmap -layout 'us' -variant 'altgr-intl' -model 'pc105' -rules 'evdev'
+
+    log NOTICE "Keyboard layout succesfully changed"
+}
+
 # Helper for create_symlinks()
 stow_and_verify() {
     stow $@ 2>>setup.log
@@ -90,6 +97,8 @@ main() {
     test_for "stow" OR_WARN "Keep in mind bundles may need stow."
     create_symlinks &&
     log NOTICE "Symlinks created"
+
+    set_keyboard_layout
 
     pick_packages
     pick_bundles
