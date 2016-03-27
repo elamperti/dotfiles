@@ -42,10 +42,6 @@ function_exists() {
     return $?
 }
 
-get_os() {
-    echo "debian"
-}
-
 install_package() {
     sudo apt-get -qqy install $@ > /dev/null
     return $?

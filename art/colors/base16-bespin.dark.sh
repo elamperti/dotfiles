@@ -1,12 +1,11 @@
 #!/bin/sh
 # Base16 Bespin - Shell color setup script
 # Jan T. Sott
-echo "TRYING tO SOURCE"
+
 if [ "${TERM%%-*}" = 'linux' ]; then
     # This script doesn't support linux console (use 'vconsole' template instead)
-    return 2>/dev/null || echo "ASDSADASDASDXCXZC" #exit 0
+    return 2>/dev/null || exit 0
 fi
-echo "SOURCED"
 
 color00="28/21/1c" # Base 00 - Black
 color01="cf/6a/4c" # Base 08 - Red
