@@ -20,14 +20,6 @@ source_bash_files() {
 
 source_bash_files
 
-# if [ -f /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh ]; then
-#     source /usr/local/lib/python2.7/dist-packages/powerline/bindings/bash/powerline.sh
-# fi
-
-if [ -f $HOME/.xmodmap ]; then
-    xmodmap $HOME/.xmodmap
-fi
-
 # Bash completion
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -39,8 +31,3 @@ fi
 
 # Unset anything that just pollutes the global space
 unset -f source_bash_files
-
-# Clear system messages (e.g.: system copyright notice, the
-# date and time of the last login, the message of the day, etc.)
-
-clear
