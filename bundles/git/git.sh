@@ -29,20 +29,21 @@ after_installs() {
     # ToDo: check if user name and email are already set
 
     local default_user_name=`grep -P "^$(whoami):" /etc/passwd | cut -f5 -d: | cut -f1 -d,`
-    local default_user_email=""
 
     exec 4>&1
-    user_name=$(dialog --keep-tite --title " Git configuration " --inputbox "Please enter your complete name:" 8 40 "${default_user_name}" 2>&1 1>&4)
-    if [ $? -eq 0 ]; then
-        user_email=$(dialog --keep-tite --title " Git configuration " --inputbox "Please enter your e-mail:" 8 40 "${default_user_email}" 2>&1 1>&4)
-    fi
-    exec 4>&-
 
-    # Save user and e-mail in a local config file
-    if [[ -n "${user_name}" ]]; then
+    user_name=$(dialog --keep-tite --title " Git configuration " --inputbox "Please enter your complete name:" 8 40 "${default_user_name}" 2>&1 1>&4)
+
+    if [[ $? -eq 0 && -n "${user_name}" ]]; then
+        local default_user_email=$(git log --format="%an %ae"|grep "${default_user_name}"|grep -o -E "[^ ]+@.*$"|head -n1)
+        user_email=$(dialog --keep-tite --title " Git configuration " --inputbox "Please enter your e-mail:" 8 40 "${default_user_email}" 2>&1 1>&4)
+
+        # Save user and e-mail in a local config file
         git config --file ${config_file} user.name "${user_name}"
         git config --file ${config_file} user.email "${user_email}"
     fi
+
+    exec 4>&-
 
     #------------------------------------
     # Download and enable diff-so-fancy |
