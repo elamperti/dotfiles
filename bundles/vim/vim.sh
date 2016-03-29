@@ -32,7 +32,7 @@ after_installs() {
         && send_cmd pretty_print OK "Created .vim symlink"
 
     # Install Droid Sans Mono, patched with Nerd Font
-    sudo mkdir -p ~/.local/share/fonts
+    mkdir -p ~/.local/share/fonts
     pushd ~/.local/share/fonts &>/dev/null
     if [ ! -f "Droid Sans Mono Nerd Font Complete.otf" ]; then
         curl --silent -fLo "Droid Sans Mono Nerd Font Complete.otf" \
