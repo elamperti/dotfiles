@@ -58,9 +58,9 @@ main() {
     print_splash
 
     ask_for_sudo
-    log NOTICE "Update apt-get repositories"
+    log NOTICE "Update apt package list"
     sudo apt-get update &> /dev/null ||
-        log ERROR "Couldn't update apt repositories"
+        log ERROR "Couldn't update apt package list"
 
     test_for "git" OR_ABORT
     init_git_submodules
