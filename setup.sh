@@ -15,9 +15,9 @@ create_symlinks() {
     if cmd_exists "stow"; then
         [ -d ~/bin ] || mkdir ~/bin
 
-        stow_and_verify -R -t ~/bin bin/ \
-          && stow_and_verify -R -t ~/ shell/ \
-        || return 1
+        # stow_and_verify ~/bin bin/
+        stow_and_verify ~/ shell/ \
+            || return 1
     else
         echo "Skiping symlink creation because stow is missing."
     fi
@@ -46,24 +46,6 @@ set_keyboard_layout() {
     setxkbmap -layout 'us' -variant 'altgr-intl' -model 'pc105' -rules 'evdev'
 
     log NOTICE "Keyboard layout succesfully changed"
-}
-
-# Helper for create_symlinks()
-stow_and_verify() {
-    stow $@ 2>>setup.log
-    if [[ $? == 1 ]]; then
-        echo -e "\nStow couldn't create the symlinks for files in ${fg_white}$(last_argument $@)${normal}"
-        echo -e "You may verify the problem manually and try again."
-        ask_yes_no "Try again?" $DEFAULT_YES
-        if answer_was_no; then
-            return 1
-        else
-            echo
-            # Down the rabbit hole!
-            stow_and_verify $@ || return 1
-        fi
-    fi
-    return 0
 }
 
 main() {
@@ -119,7 +101,6 @@ unset -f create_symlinks
 unset -f init_git_submodules
 unset -f main
 unset -f print_splash
-unset -f stow_and_verify
 
 popd &>/dev/null
 echo

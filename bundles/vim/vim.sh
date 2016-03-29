@@ -28,7 +28,7 @@ after_installs() {
     mkdir -p ~/.vim/swaps
 
     # Symlink vim folder
-    stow -R -t ~/.vim vim \
+    stow_and_verify ~/.vim vim \
         && send_cmd pretty_print OK "Created .vim symlink"
 
     # Install Droid Sans Mono, patched with Nerd Font

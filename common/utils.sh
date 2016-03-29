@@ -61,6 +61,23 @@ pause() {
     echo -e "\n"
 }
 
+stow_and_verify() {
+    stow -R -t $1 $2 2>>setup.log
+    if [[ $? == 1 ]]; then
+        echo -e "\nStow couldn't create the symlinks for files in ${fg_white}$(last_argument $@)${normal}"
+        echo -e "You may verify the problem manually and try again."
+        ask_yes_no "Try again?" $DEFAULT_YES
+        if answer_was_no; then
+            return 1
+        else
+            echo
+            # Down the rabbit hole!
+            stow_and_verify $@ || return 1
+        fi
+    fi
+    return 0
+}
+
 # Verify if a given command exists, and if it doesn't ask to install it
 # Syntax: test_for "package" [OR_WARN|OR_ABORT] ["With this error message"]
 test_for() {
