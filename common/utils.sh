@@ -33,7 +33,7 @@ cmd_exists() {
 }
 
 # Taken from here: https://stackoverflow.com/a/27326630/854076
-function clear_last_line() {
+clear_last_line() {
     tput cuu 1 && tput el
 }
 
@@ -43,7 +43,7 @@ function_exists() {
 }
 
 install_package() {
-    sudo apt-get -qqy install $@ > /dev/null
+    sudo apt-get -qqy --force-yes install $@ > /dev/null
     return $?
 }
 
