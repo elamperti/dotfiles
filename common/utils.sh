@@ -37,6 +37,10 @@ clear_last_line() {
     tput cuu 1 && tput el
 }
 
+create_backup_folder() {
+    mkdir -p "$(dirname "${BASH_SOURCE[0]}")/../backups/"
+}
+
 function_exists() {
     declare -f -F $1 > /dev/null
     return $?
@@ -62,7 +66,40 @@ pause() {
 }
 
 stow_and_verify() {
-    stow -R -t $1 $2 2>>setup.log
+    local backup_dest=""
+    local mv_flags=""
+    local backups_folder="$(dirname "${BASH_SOURCE[0]}")/../backups"
+
+    # Define list of prospective files to be stowed
+    if [ -d "$2" ]; then
+        thing_about_to_be_stowed=$(find $2 -mindepth 1 -type f -exec basename {} \;)
+    else
+        thing_about_to_be_stowed="$2"
+    fi
+
+    # If they exist, make a backup
+    for prospective_file in ${thing_about_to_be_stowed}; do
+        if [[ -f "$1/${prospective_file}" || -d "$1/${prospective_file}" ]]; then
+            # Log first to check if it's a symlink
+            if [ ! -L "$1/${prospective_file}" ]; then
+                log WARN "Creating backup of $1/${prospective_file}"
+            else
+                log DEBUG "Backing up symlinked file $1/${prospective_file}"
+            fi
+
+            backup_dest="${backups_folder}/$2/${prospective_file}"
+            mv_flags="$([ -d "$1/${prospective_file}" ] && echo "-r")"
+
+            mkdir -p "$(dirname ${backup_dest})"
+            mv $mv_flags "$1/${prospective_file}" "${backup_dest}" &>/dev/null
+            if [ "$?" -ne 0 ]; then
+                log ERROR "Failed to backup $1/${prospective_file}"
+                return 1
+            fi
+        fi
+    done
+
+    stow -R -t $1 $2
     if [[ $? == 1 ]]; then
         echo -e "\nStow couldn't create the symlinks for files in ${fg_white}$(last_argument $@)${normal}"
         echo -e "You may verify the problem manually and try again."

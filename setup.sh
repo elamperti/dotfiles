@@ -16,7 +16,7 @@ create_symlinks() {
         [ -d ~/bin ] || mkdir ~/bin
 
         # stow_and_verify ~/bin bin/
-        stow_and_verify ~/ shell/ \
+        stow_and_verify ~/ shell/ 2>>setup.log \
             || return 1
     else
         echo "Skiping symlink creation because stow is missing."
@@ -76,6 +76,8 @@ main() {
     fi
 
     test_for "dialog" OR_ABORT
+
+    create_backup_folder
 
     test_for "stow" OR_WARN "Keep in mind bundles may need stow."
     create_symlinks &&
