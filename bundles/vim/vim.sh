@@ -16,6 +16,7 @@ verify_requirements() {
 on_init() {
     if ! cmd_exists "vim"; then
         send_cmd enqueue_packages "vim"
+        send_cmd enqueue_packages "silversearcher-ag"
     fi
 }
 
@@ -35,7 +36,7 @@ after_installs() {
     mkdir -p ~/.local/share/fonts
     pushd ~/.local/share/fonts &>/dev/null
     if [ ! -f "Droid Sans Mono Nerd Font Complete.otf" ]; then
-        curl --silent -fLo "Droid Sans Mono Nerd Font Complete.otf" \
+        curl --silent -kfLo "Droid Sans Mono Nerd Font Complete.otf" \
             "https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20for%20Powerline%20Nerd%20Font%20Complete.otf"
         send_cmd log INFO "Downloaded Droid Sans Mono patched font"
     fi
