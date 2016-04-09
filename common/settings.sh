@@ -15,12 +15,14 @@ common_packages="
 "
 
 graphical_packages="
+    arduino: Arduino IDE
+    deluge: BitTorrent client
     filezilla: FTP client
     gdebi: simple tool to install \`.deb\` files
     gnome-terminal: Gnome terminal emulator
-    guake: quake-inspired dropdown terminal
-    xclip: command line interface for clipboard
+    tilda: a simple dropdown terminal
     vlc: media player
+    xclip: command line interface for clipboard
 "
 
 xfce_packages="
