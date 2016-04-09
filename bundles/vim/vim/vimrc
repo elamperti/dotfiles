@@ -339,9 +339,6 @@ map <leader>cc :Commentary<CR>
 " [,cs] Clear search
 map <leader>cs <Esc>:noh<CR>
 
-" [,n ] Toggle `set relativenumber`
-nmap <leader>n :call ToggleRelativeLineNumbers()<CR>
-
 " [,ti] Toggle indent
 nmap <leader>ti <Plug>IndentGuidesToggle
 
@@ -396,4 +393,5 @@ function! NumberToggle()
     endif
 endfunction
 
-nnoremap <C-n> :call NumberToggle()<CR>
+" [,n ] Toggle `set relativenumber`
+nmap <leader>n :call NumberToggle()<CR>
