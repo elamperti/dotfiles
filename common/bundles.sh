@@ -16,6 +16,14 @@ declare -a bundle_queue
 
 bundle_count=0
 
+bundle_exists() {
+    pushd "$(dirname "${BASH_SOURCE[0]}")/../bundles/" &> /dev/null
+    [ -f "$1/$1.sh" ]
+    local ret=$?
+    popd &>/dev/null
+    return $ret
+}
+
 create_bundle_list() {
     local main_script=
     local description=
@@ -68,18 +76,28 @@ call_bundle_function() {
     return $result
 }
 
+enqueue_bundle() {
+    bundle_queue+=($1)
+    log DEBUG "Added bundle $1 to the queue"
+}
+
 execute_bundle_after_installs() {
+    local bundle_name=""
     if [ ${#bundle_queue[@]} -gt 0 ]; then
         log INFO "Installing bundles..."
         pushd "$(dirname "${BASH_SOURCE[0]}")/../bundles/" &> /dev/null
         for bundle in ${bundle_queue[@]}; do
             log DEBUG "Installing bundle $bundle"
+            bundle_name="${bundle_ids[$bundle]:-$bundle}"
+
             call_bundle_function $bundle after_installs EVAL_OUTPUT
+            local ret=$?
+
             echo -ne "     " # Hacky indentation
-            if [ $? -eq 0 ]; then
-                pretty_print OK "${bundle_ids[$bundle]}"
+            if [ $ret -eq 0 ]; then
+                pretty_print OK "${bundle_name}"
             else
-                pretty_print FAIL "${bundle_ids[$bundle]}"
+                pretty_print FAIL "${bundle_name}"
             fi
         done
         popd &>/dev/null
@@ -143,8 +161,7 @@ show_bundle_picker() {
     IFS=" "
     if [ ${#selected_bundles[@]} -gt 0 ]; then
         for bundle in ${selected_bundles[@]}; do
-            bundle_queue+=($(get_bundle_by_name $bundle))
-            log DEBUG "Added bundle $bundle to the queue"
+            enqueue_bundle $(get_bundle_by_name $bundle)
         done
     fi
     IFS=$oIFS

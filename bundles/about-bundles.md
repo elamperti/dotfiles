@@ -10,6 +10,7 @@ It's expected to have the following functions:
   * `on_init()` will be executed if the bundle is selected, just after the bundle selection dialog. This may enqueue fundamental packages and do other preparations, but it shouldn't stall the setup process.
   * `after_installs()` will run after the setup has installed packages. This is a good place to ask for more information and do other lengthy processes.
 
+Keep all bundle names lowercase.
 
 ## Bundle script boilerplate
 
