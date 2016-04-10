@@ -29,5 +29,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# Use marker if present
+[[ -s "$HOME/.local/share/marker/marker.sh" ]] \
+    && source "$HOME/.local/share/marker/marker.sh"
+
 # Unset anything that just pollutes the global space
 unset -f source_bash_files
