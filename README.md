@@ -16,6 +16,16 @@ Just execute `setup.sh` and keep an eye on what happens :crystal_ball:
 ./setup.sh
 ```
 
+### `setup.sh` options
+
+| **Option**            |                                                                       |
+|-----------------------|-----------------------------------------------------------------------|
+| -h, --help            | Print the option list.                                                |
+| -B, --bundles         | Set up bundles only.                                                  |
+| -b, --bundle _BUNDLE_ | Install just one particular bundle.                                   |
+| --no-updates          | Skip `apt-get update`. Not recommended unless you've already updated. |
+| -v, --verbose         | Makes setup more verbose, mostly useful for debugging.                |
+
 ## How does it work?
 The setup will verify Bash version before starting. After updating `apt`'s package list and initializing the required [submodules](./.gitmodules), symlinks will be created and the installation section will start.
 

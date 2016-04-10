@@ -12,6 +12,32 @@ LOG_LEVEL="DEBUG"
 STDOUT_LOG_LEVEL="INFO"
 LOG_TO_STDOUT="YES"
 
+# To add/modify the options see `filter_args()`
+print_help() {
+    cat <<'EOF'
+
+NAME
+       Dotfiles setup script
+
+OPTIONS
+       -b, --bundle BUNDLE
+           Install just one particular bundle.
+
+        -B, --bundles
+           Set up bundles only.
+
+        -h, --help
+           Print this help.
+
+        --no-updates
+           Skip `apt-get update`. Not recommended unless you already updated.
+
+        -v, --verbose
+           Makes setup more verbose, mostly useful for debugging.
+
+EOF
+}
+
 create_symlinks() {
     if cmd_exists "stow"; then
         [ -d ~/bin ] || mkdir ~/bin
@@ -23,6 +49,60 @@ create_symlinks() {
         echo "Skiping symlink creation because stow is missing."
     fi
     return 0
+}
+
+# See `print_help()` for a complete -and easier to read- option list
+filter_args() {
+    while [[ $# > 0 ]]; do
+        arg="$1"
+
+        case $arg in
+            -b|--bundle)
+                if [ -n "$2" ]; then
+                    if bundle_exists $2; then
+                        bundle_count=1
+                        enqueue_bundle $2
+
+                        JUST_BUNDLES=1;
+                        BUNDLE=$2;
+                    else
+                        echo "Bundle $2 not found."
+                        exit 1
+                    fi
+                    shift
+                else
+                    echo -e "Missing bundle name.\n"
+                    print_help
+                    exit 1
+                fi
+                ;;
+
+            -B|--bundles)
+                JUST_BUNDLES=1;
+                ;;
+
+            -h|--help)
+                print_help
+                exit 0
+                ;;
+
+            --no-updates)
+                NO_UPDATES=1;
+                ;;
+
+            -v|-vv|-vvv|--verbose)
+                STDOUT_LOG_LEVEL="DEBUG"
+                log NOTICE "Verbosity set to ${STDOUT_LOG_LEVEL}."
+                ;;
+
+            *)
+                echo -e "Invalid option: $arg\n"
+                print_help
+                exit 1
+                ;;
+        esac
+        shift # past argument or value
+    done
 }
 
 init_git_submodules() {
@@ -55,13 +135,19 @@ main() {
         exit 1
     fi
 
+    filter_args $@
+
     rm setup.log # For easier debugging
     print_splash
 
     ask_for_sudo
-    log NOTICE "Update apt package list"
-    sudo apt-get update &> /dev/null ||
-        log ERROR "Couldn't update apt package list"
+    if [[ -v NO_UPDATES ]]; then
+        log WARN "Skipping apt update."
+    else
+        log NOTICE "Updating apt package list"
+        sudo apt-get update &> /dev/null ||
+                log ERROR "Couldn't update apt package list"
+    fi
 
     test_for "git" OR_ABORT
     init_git_submodules
@@ -78,31 +164,39 @@ main() {
 
     test_for "dialog" OR_ABORT
 
-    create_backup_folder
+    if [[ ! -v JUST_BUNDLES ]]; then
+        create_backup_folder
 
-    test_for "stow" OR_WARN "Keep in mind bundles may need stow."
-    create_symlinks &&
-    log NOTICE "Symlinks created"
+        test_for "stow" OR_WARN "Keep in mind bundles may need stow."
+        create_symlinks &&
+        log NOTICE "Symlinks created"
 
-    set_keyboard_layout
+        set_keyboard_layout
 
-    pick_packages
-    pick_bundles
+        #pick_motd
+        pick_packages
+    fi
+
+    if [[ ! -v BUNDLE ]]; then
+        pick_bundles
+    fi
 
     execute_bundle_inits
     install_queued_packages
 
     execute_bundle_after_installs
-    #pick_motd
+
     log DEBUG "Finished setup"
     pretty_print OK "Finished!"
 }
 
-main
+main $@
 
 unset -f create_symlinks
+unset -f filter_args
 unset -f init_git_submodules
 unset -f main
+unset -f print_help
 unset -f print_splash
 
 popd &>/dev/null
