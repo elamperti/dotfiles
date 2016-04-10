@@ -6,9 +6,10 @@ source 'common/packages.sh'
 source 'common/bundles.sh'
 source 'common/logger.sh'
 
-# Config for bashlog
+# Default config for bashlog
 LOG_FILE=`readlink -f "$(dirname $0)/setup.log"`
 LOG_LEVEL="DEBUG"
+STDOUT_LOG_LEVEL="INFO"
 LOG_TO_STDOUT="YES"
 
 create_symlinks() {

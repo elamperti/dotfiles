@@ -2,8 +2,6 @@
 
 DATETIME_FORMAT="+%F %T"
 
-STDOUT_LOG_LEVEL="INFO"
-
 declare -A logger_level
 logger_level[DEBUG]=10
 logger_level[INFO]=20
@@ -46,7 +44,7 @@ log() {
 
 # Parameters: level log_message
 pretty_print() {
-    if [[ -z "${logger_level[$1]}" || "${logger_level[$1]}" -lt "${logger_level[$STDOUT_LOG_LEVEL]}" ]]; then
+    if [[ -z "${logger_level[$1]}" || "${logger_level[$1]}" -lt "${logger_level[${STDOUT_LOG_LEVEL:-INFO}]}" ]]; then
         return
     fi
     case $1 in
