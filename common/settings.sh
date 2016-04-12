@@ -1,6 +1,7 @@
 #!/bin/bash
 
 common_packages="
+    alsa-utils: utilities to control the sound card
     bash-completion: command completion for Bash
     build-essential: packages required to compile C programs
     curl: tool to transfer data using several protocols
@@ -20,6 +21,7 @@ graphical_packages="
     filezilla: FTP client
     gdebi: simple tool to install \`.deb\` files
     gnome-terminal: Gnome terminal emulator
+    remmina: VNC and RDP client
     tilda: a simple dropdown terminal
     vlc: media player
     xclip: command line interface for clipboard
