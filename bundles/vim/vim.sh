@@ -28,9 +28,12 @@ after_installs() {
     mkdir -p ~/.vim
     mkdir -p ~/.vim/swaps
 
+    # Stow 2.2 has a (confirmed) bug which makes it fail for this case
+    [ -d ~/.vim ] && mv ~/.vim ../../backups/vim && mkdir -p ~/.vim
+
     # Symlink vim folder
-    stow_and_verify ~/.vim vim \
-        && send_cmd pretty_print OK "Created .vim symlink"
+    ln -s "$(pwd)/vim/vimrc" ~/.vim/ \
+        && send_cmd pretty_print OK "Created .vimrc symlink"
 
     # Install Droid Sans Mono, patched with Nerd Font
     mkdir -p ~/.local/share/fonts
