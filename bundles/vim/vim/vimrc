@@ -191,6 +191,9 @@ call vundle#begin('~/.vim/plugins')
     " Search across multiple files
     Plugin 'dyng/ctrlsf.vim'
 
+    " Multiple cursors
+    Plugin 'terryma/vim-multiple-cursors'
+
     " ------------
     " | Disabled |
     " ------------
