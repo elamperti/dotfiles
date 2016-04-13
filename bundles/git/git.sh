@@ -51,17 +51,16 @@ after_installs() {
     #------------------------------------
 
     # This is so close to just doing `git clone`, I feel dirty
-    curl --silent -fLo ~/bin/diff-highlight "https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/diff-highlight"
-    curl --silent -fLo ~/bin/diff-so-fancy "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/diff-so-fancy"
-    curl --silent -fLo ~/bin/lib/diff-so-fancy.pl "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/lib/diff-so-fancy.pl"
+    curl --silent -kfLo ~/bin/diff-highlight "https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/diff-highlight"
+    curl --silent -kfLo ~/bin/diff-so-fancy "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/diff-so-fancy"
+    curl --silent -kfLo ~/bin/lib/diff-so-fancy.pl "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/lib/diff-so-fancy.pl"
 
     if [[ -f ~/bin/diff-highlight && -f ~/bin/diff-so-fancy ]]; then
         chmod +x ~/bin/diff-highlight
         chmod +x ~/bin/diff-so-fancy
         chmod +x ~/bin/lib/diff-so-fancy.pl
 
-        git config --file ${config_file} pager.diff "diff-so-fancy | less --tabs=2 -RFX"
-        git config --file ${config_file} pager.show "diff-so-fancy | less --tabs=2 -RFX"
+        git config --file ${config_file} core.pager "diff-so-fancy | less --tabs=2 -RFX"
     else
         send_cmd log ERROR "Failed to install diff-so-fancy"
     fi
