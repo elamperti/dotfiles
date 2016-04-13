@@ -9,6 +9,7 @@ common_packages="
     git: popular distributed version control system
     htop: interactive process viewer
     mc: Midnight Commander file manager
+    moreutils: sponge, vipe, pee and other utilities
     mtr: network diagnostic tool
     ssh: OpenSSH client
     tmux: terminal multiplexer (similar to \`screen\`)
