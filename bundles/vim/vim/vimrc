@@ -309,15 +309,15 @@ if has('autocmd')
     " `~/.vimrc` and `~/.gvimrc` files whenever they are changed
 
     augroup auto_reload_vim_configs
-
         autocmd!
         autocmd BufWritePost vimrc source $MYVIMRC
-
-        if has('gui_running')
-            " autocmd BufWritePost gvimrc source $MYGVIMRC
-        endif
-
     augroup END
+
+    augroup HiglightTODO
+        autocmd!
+        autocmd WinEnter,VimEnter * :silent! call matchadd('Todo', 'TODO\|ToDo\|Todo\|FIXME', -1)
+    augroup END
+
 
 endif
 
