@@ -25,7 +25,6 @@ after_installs() {
     local tty=`tty`
 
     # Create necessary folders
-    mkdir -p ~/.vim
     mkdir -p ~/.vim/swaps
 
     # Stow 2.2 has a (confirmed) bug which makes it fail for this case
@@ -45,21 +44,11 @@ after_installs() {
     fi
     popd &>/dev/null
 
-    # ToDo: transform this barbaric "remove and reinstall"
-    #       into a friendly "update if already exists" :)
-    rm -rf ~/.vim/plugins/Vundle.vim &> /dev/null \
-        && git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/plugins/Vundle.vim &> /dev/null \
-        && printf "\n" | vim +PluginInstall +qall <$tty >$tty
-        #     └─ simulate the ENTER keypress for
-        #        the case where there are warnings
-        #         └─ ToDo: doesn't work!
-
-    # This plugin complicates things a bit
-    if cmd_exists "npm"; then
-        cd ~/.vim/plugins/tern_for_vim \
-            && npm install &> /dev/null
+    curl --silent -kfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    if [ $? ]; then
+        vim +PlugInstall +qall #<$tty >$tty
     else
-        send_cmd log WARN "Couldn't install tern plugin for Vim"
+        send_cmd log ERROR "There was a problem installing Vim Plug"
     fi
 }
 

@@ -106,109 +106,96 @@ set ttimeout
 set ttimeoutlen=400            " shorter timeout
 set updatetime=500             " better vim-gitgutter response
 
-set splitbelow                 " Open splits below and right,
-set splitright                 " which is a bit more natural.
-
 set confirm                    " Ask to save files before quitting
 
 " ----------------------------------------------------------------------
 " | Plugins                                                            |
 " ----------------------------------------------------------------------
 
-" Use Vundle to manage the vim plugins
-" https://github.com/gmarik/Vundle.vim
+" Use Plug to manage the vim plugins
+" https://github.com/junegunn/vim-plug/
 
-" Disable file type detection (required by Vundle)
-filetype off
-
-" Set the runtime path to include Vundle
-set runtimepath+=~/.vim/plugins/Vundle.vim
-
-" Initialize Vundle and specify the path
+" Initialize Plug and specify the path
 " where the plugins should be installed
-call vundle#begin('~/.vim/plugins')
-
-    " Let Vundle manage Vundle (this is important!)
-    Plugin 'gmarik/Vundle.vim'
-
+call plug#begin('~/.vim/plugins')
     " base16 color theme
-    Plugin 'chriskempson/base16-vim'
+    Plug 'chriskempson/base16-vim'
 
     " Powerline-like status bar
-    Plugin 'itchyny/lightline.vim'
+    Plug 'itchyny/lightline.vim'
 
     " Git wrapper
-    Plugin 'tpope/vim-fugitive'
+    Plug 'tpope/vim-fugitive'
 
     " Follow editorconfig files
-    Plugin 'editorconfig/editorconfig-vim'
+    Plug 'editorconfig/editorconfig-vim'
 
     " Tools for working with javascript. Requires node.
-    Plugin 'marijnh/tern_for_vim'
+    Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
 
     " Markdown highlighting, matching rules and mappings
-    Plugin 'plasticboy/vim-markdown'
+    Plug 'plasticboy/vim-markdown'
 
     " Easy-to-follow indentation guides
-    Plugin 'nathanaelkane/vim-indent-guides'
+    Plug 'nathanaelkane/vim-indent-guides'
 
     " Keyword completion system
-    Plugin 'shougo/neocomplete.vim'
+    Plug 'shougo/neocomplete.vim'
 
     " Syntax checking plugin for several languages
-    Plugin 'scrooloose/syntastic'
+    Plug 'scrooloose/syntastic'
 
     " Awesome tree directories in a toggleable sidebar
-    Plugin 'scrooloose/nerdtree'
+    Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 
     " Fuzzy search of files
-    Plugin 'ctrlpvim/ctrlp.vim'
+    Plug 'ctrlpvim/ctrlp.vim'
 
     " Zen coding
-    Plugin 'mattn/emmet-vim'
+    Plug 'mattn/emmet-vim'
 
     " Easier handling of comments
-    Plugin 'tpope/vim-commentary'
+    Plug 'tpope/vim-commentary'
 
     " Enhanced JavaScript syntax
-    Plugin 'jelera/vim-javascript-syntax'
+    Plug 'jelera/vim-javascript-syntax'
 
     " Automatic closing of parenthesis, quotes, etc.
-    Plugin 'raimondi/delimitmate'
+    Plug 'raimondi/delimitmate'
 
     " Surround text with tags, quotes, and more.
-    Plugin 'tpope/vim-surround'
+    Plug 'tpope/vim-surround'
 
     " Git gutter
-    Plugin 'airblade/vim-gitgutter'
+    Plug 'airblade/vim-gitgutter'
 
     " Swag
-    Plugin 'ryanoasis/vim-devicons'
+    Plug 'ryanoasis/vim-devicons'
 
     " Buffer tab line
-    Plugin 'ap/vim-buftabline'
+    Plug 'ap/vim-buftabline'
 
     " Search across multiple files
-    Plugin 'dyng/ctrlsf.vim'
+    Plug 'dyng/ctrlsf.vim'
 
     " Multiple cursors
-    Plugin 'terryma/vim-multiple-cursors'
+    Plug 'terryma/vim-multiple-cursors'
 
     " ------------
     " | Disabled |
     " ------------
 
     " Preview CSS colors
-    " Plugin 'ap/vim-css-color'
+    " Plug 'ap/vim-css-color'
 
     " Search and get information about unicode chars
-    " Plugin 'chrisbra/unicode.vim'
+    " Plug 'chrisbra/unicode.vim'
 
     " Autocomplete, indentation and syntax for HTML5
-    " Plugin 'othree/html5.vim'
+    " Plug 'othree/html5.vim'
 
 
-call vundle#end()
+call plug#end()
 
 filetype on
 
@@ -267,8 +254,8 @@ let g:vim_markdown_folding_disabled=1
 
 nmap \ :NERDTreeToggle<CR>
 let NERDTreeHighlightCursorline=1
+let NERDTreeQuitOnOpen=1
 let NERDTreeIgnore = ['node_modules', 'bower_components']
-
 
 " ----------------------------------------------------------------------
 " | CtrlP                                                              |
@@ -276,6 +263,12 @@ let NERDTreeIgnore = ['node_modules', 'bower_components']
 
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+
+" ----------------------------------------------------------------------
+" | CtrlSF                                                             |
+" ----------------------------------------------------------------------
+
+let g:ctrlsf_ackprg = 'ag'
 
 " ----------------------------------------------------------------------
 " | Neocomplete                                                        |
@@ -306,11 +299,6 @@ if has('autocmd')
     " Autocommand Groups
     " http://learnvimscriptthehardway.stevelosh.com/chapters/14.html
 
-    " - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    " Automatically reload the configurations from the
-    " `~/.vimrc` and `~/.gvimrc` files whenever they are changed
-
     augroup auto_reload_vim_configs
         autocmd!
         autocmd BufWritePost vimrc source $MYVIMRC
@@ -320,7 +308,6 @@ if has('autocmd')
         autocmd!
         autocmd WinEnter,VimEnter * :silent! call matchadd('Todo', 'TODO\|ToDo\|Todo\|FIXME', -1)
     augroup END
-
 
 endif
 
@@ -359,11 +346,11 @@ cnoremap w!! %!sudo tee > /dev/null %
 " Split line
 nnoremap K i<CR><Esc>
 
-" [F4 ] Quit
+" [F4] Close buffer
 nnoremap <F4> :q<CR>
 inoremap <F4> <Esc>:q<CR>
 
-" [F5 ] Save changes
+" [F5] Save changes
 nnoremap <F5> :w<CR>
 inoremap <F5> <Esc>:w<CR>
 
@@ -374,10 +361,10 @@ nnoremap <C-S-tab> :bprev<CR>
 inoremap <C-tab> <Esc>:bnext<CR>
 inoremap <C-S-tab> <Esc>:bprev<CR>
 
-nnoremap <F1> :bnext<CR>
-nnoremap <F2> :bprev<CR>
-inoremap <F1> :bnext<CR>
-inoremap <F2> :bprev<CR>
+nnoremap <F2> :bnext<CR>
+nnoremap <F1> :bprev<CR>
+inoremap <F2> :bnext<CR>
+inoremap <F1> :bprev<CR>
 
 " Use ctrl-[hjkl] to select the active split
 nmap <silent> <c-k> :wincmd k<CR>
@@ -398,3 +385,14 @@ endfunction
 
 " [,n ] Toggle `set relativenumber`
 nmap <leader>n :call NumberToggle()<CR>
+
+" CtrlSF mappings
+
+nmap     <C-F>f <Plug>CtrlSFPrompt
+vmap     <C-F>f <Plug>CtrlSFVwordPath
+vmap     <C-F>F <Plug>CtrlSFVwordExec
+nmap     <C-F>n <Plug>CtrlSFCwordPath
+nmap     <C-F>p <Plug>CtrlSFPwordPath
+nnoremap <C-F>o :CtrlSFOpen<CR>
+nnoremap <C-F>t :CtrlSFToggle<CR>
+inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
