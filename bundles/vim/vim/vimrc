@@ -108,6 +108,8 @@ set updatetime=500             " better vim-gitgutter response
 
 set confirm                    " Ask to save files before quitting
 
+:silent !mkdir -p ~/.vim/swaps/
+
 " ----------------------------------------------------------------------
 " | Plugins                                                            |
 " ----------------------------------------------------------------------

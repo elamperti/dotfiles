@@ -24,9 +24,6 @@ after_installs() {
     # Black magic.
     local tty=`tty`
 
-    # Create necessary folders
-    mkdir -p ~/.vim/swaps
-
     # Stow 2.2 has a (confirmed) bug which makes it fail for this case
     [ -d ~/.vim ] && mv ~/.vim ../../backups/vim && mkdir -p ~/.vim
 
