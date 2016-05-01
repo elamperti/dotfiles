@@ -12,6 +12,7 @@ common_packages="
     moreutils: sponge, vipe, pee and other utilities
     mtr: network diagnostic tool
     ssh: OpenSSH client
+    sshfs: mount directories over SSH
     tmux: terminal multiplexer (similar to \`screen\`)
     dropbear: alternative SSH server
 "
