@@ -49,3 +49,4 @@ In case you want to use this fast without checking how it works, you may change 
   * **Kevin Hochhalter** for the simple and powerful [bashlog](https://github.com/klhochhalter/bashlog).
   * The [/r/vim](https://www.reddit.com/r/vim/) subreddit gave me good ideas and lots of information on how to config [.vimrc](./bundles/vim/vim/vimrc)
   * The [Git bundle](./bundles/git/) uses [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) :information_desk_person:
+  * I rely on [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) to make my prompt (and Vim) look ~~like there's an icon parade in my console~~ good.

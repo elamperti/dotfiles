@@ -6,12 +6,98 @@
 # and actually *saw* the colors, as if the script were licking my eyeballs with
 # a sparkling rainbow and drowning me in a bucket full of joy.
 
-complete_prompt_with_git() {
-    local branchName=''
-    local modifiers=''
-    local bgcolor=''
-    local fgcolor='\e[38;5;0m' # Black
-    local icon=''
+complete_dynamic_prompt() {
+    ################
+    # Path block ##
+    ##############
+
+    # Want to change maximum path length? Do so here.
+    # Try to set it somewhere around:
+    #     columns - rest of the prompt length - 4
+    local max_path_length=48
+
+    # Initialize the path resetting bold
+    local path_magical_string='\e[21m'
+
+    if [[ "$PWD" == "$HOME" ]]; then
+        # We are home. Piece of cake. Print a nice little house and get out.
+        path_magical_string+='\e[38;5;166m '
+    else # This isn't Kansas anymore
+        # Elegant solution from here: https://superuser.com/a/443862/136571
+        local the_dirname=${PWD%/*}/
+        local the_cwd=${PWD##*/}
+
+        # Replace home path part with the nice little house™
+        # It removes the trailing slash too so it doesn't look like root
+        the_dirname=${the_dirname/$HOME\// }
+
+        # Used to get current path length
+        local pwd_length="$the_dirname $the_cwd"
+
+        # Truncate path if it exceeds maximum length
+        if [[ ${#pwd_length} -gt $max_path_length ]]; then
+            if [[ ${#the_cwd} -gt $max_path_length ]]; then
+                the_dirname='' # It could be '…/', but doesn't look good
+                the_cwd="…${the_cwd:(-$max_path_length)}"
+            else
+                local tmpstr=''
+                local new_dirname=''
+                local tmp_prefix=''
+
+                # Save the nice little house™ for later if it is there
+                if [[ "$the_dirname" == " *" ]]; then
+                    tmp_prefix=' '
+                    the_dirname=${the_dirname##*$tmp_prefix}
+                fi
+
+                # Remove trailing slash so the following loop works as expected
+                the_dirname=${the_dirname%/}
+
+                # Reset max. path length to remaining chars (minus one to account for …/)
+                max_path_length=$(($max_path_length - ${#the_cwd} - 1 ))
+
+                # Process path upwards until its done
+                while [[ -n "$the_dirname" ]]; do
+                    # Get nearest directory name
+                    tmpstr="${the_dirname##*/}"
+
+                    # Truncate if tmpstr exceeds max. length
+                    if [ ${#tmpstr} -ge $(($max_path_length - ${#new_dirname})) ]; then
+                        new_dirname="…/${new_dirname}"
+                        # Alternative: truncate tmpstr where it reaches max_path_length
+                        #new_dirname="…${tmpstr:(-$((max_path_length - 2)))}/${new_dirname}"
+
+                        # Alternative: break here, instead of continuing up the tree,
+                        #              which may have smaller names that still fit
+                        break
+                    else
+                        # It fits, just prepend it
+                        new_dirname="${tmpstr}/${new_dirname}"
+                    fi
+
+                    # If path length already maxed, break the loop
+                    if [[ ${#new_dirname} -gt ${max_path_length} ]]; then
+                        break
+                    fi
+
+                    # Remove last directory
+                    the_dirname=${the_dirname%/*}
+                done
+                # Assign removing trailing slash
+                the_dirname=${tmp_prefix}${new_dirname}
+            fi
+        fi
+
+
+        # Light color, print dirname
+        path_magical_string+="\e[38;5;96m$the_dirname"
+        # Strong color, bold, print current directory, reset bold
+        path_magical_string+="\e[38;5;132m\e[1m$the_cwd\e[21m "
+    fi
+
+    ###############
+    # Git block ##
+    #############
 
     if [[
     # Check if the current directory is in a Git repository
@@ -21,11 +107,17 @@ complete_prompt_with_git() {
     ("$(git rev-parse --is-inside-git-dir)" == "true")
     ]]; then
         # A cool arrow is returned
-        echo -e "\e[0m\e[38;5;234m\e[1;37m "
+        echo -e "${path_magical_string}\e[0m\e[38;5;234m\e[1;37m"
         return
     fi
 
-    branchName="$( printf "$( git rev-parse --abbrev-ref HEAD 2> /dev/null \
+    local modifiers='\e[21m' # Reset bold for crispier icons!
+    local bgcolor=''
+    local fgcolor='\e[38;5;0m' # Black
+    local icon=''
+
+    local top_level_path=$(git rev-parse --show-toplevel)
+    local branchName="$( printf "$( git rev-parse --abbrev-ref HEAD 2> /dev/null \
         || git rev-parse --short HEAD 2> /dev/null \
         || printf " (unknown)" )" | tr -d "\n" )"
 
@@ -43,7 +135,7 @@ complete_prompt_with_git() {
         fi
 
         # Check for untracked files
-        if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+        if [ -n "$(git ls-files ${top_level_path} --others --exclude-standard)" ]; then
             modifiers="$modifiers ";
         fi
 
@@ -65,7 +157,6 @@ complete_prompt_with_git() {
 
 
     # Check if we are in the middle of a rebase
-    local top_level_path=$(git rev-parse --show-toplevel)
     if test -d "${top_level_path}/.git/rebase-merge" -o -d "${top_level_path}/.git/rebase-apply"; then
         icon=''
         bgcolor='\e[41m' # Red
@@ -73,14 +164,14 @@ complete_prompt_with_git() {
     fi
 
     local bgcolor_for_fg=${bgcolor/[4/[3}
-    echo -e "${bgcolor}\e[38;5;234m ${fgcolor}${icon} ${branchName}${modifiers} \e[0m${bgcolor_for_fg}"
+    echo -e "${path_magical_string}${bgcolor}\e[38;5;234m ${fgcolor}${icon} ${branchName}${modifiers} \e[0m${bgcolor_for_fg}"
 
 }
 
 set_prompts() {
     # Set terminal title to cwd
     PS1="\[\033]0;\w\007\]"
-    # Reset bold, reset, set username background color
+    # Reset, set username background color
     PS1+="\[\e[0m\]\[\e[48;5;237m\]"
     # Set username color, which will later be overriden if no SSH connection
     PS1+="\[\e[38;5;256m\]"
@@ -96,10 +187,11 @@ set_prompts() {
     fi
     # Reset, set color, set background color for path, print closing section
     PS1+="\[\e[0m\]\[\e[38;5;237m\]\[\e[48;5;234m\] "
-    # Set color, print path
-    PS1+="\[\e[1;35m\]\w "
+    # Set color
+    PS1+="\[\e[1;35m\]"
     # Dark magic. The slash before the $() is important to defer execution!
-    PS1+="\$(complete_prompt_with_git)"
+    # This prints the path, the repository name and finishes drawing the prompt.
+    PS1+="\[\$(complete_dynamic_prompt)\]"
     # Reset after whatever came out of the previous command, and add a space
     PS1+="\[\e[0m\] "
 
@@ -117,19 +209,13 @@ set_prompts() {
     export PS4
 }
 
-main() {
-    # Color theme
-    source ~/dotfiles/art/colors/base16-bespin.dark.sh
-    set_prompts
-}
+# Color theme, if it is just in this particular place
+# ToDo: make this more flexible
+[[ -s "$HOME/dotfiles/art/colors/base16-bespin.dark.sh" ]] &&
+    source "$HOME/dotfiles/art/colors/base16-bespin.dark.sh"
 
-main
+set_prompts
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # Unset anything that just pollutes the global space
-
-unset -f enable_color_support
-unset -f main
-unset -f set_ls_colors
 unset -f set_prompts
