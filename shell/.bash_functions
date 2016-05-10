@@ -15,6 +15,11 @@ hcd() {
     cd ~/$1
 }
 
+holiday() {
+    local countrycode=${1:-AR} # use AR by default
+    gcal -n -u -q "${countrycode}" $2
+}
+
 # Make directory and enter immediately
 mkd() {
     [ -n "$*" ] && mkdir -p "$@" && cd "$@"

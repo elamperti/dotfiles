@@ -6,6 +6,7 @@ common_packages="
     build-essential: packages required to compile C programs
     curl: tool to transfer data using several protocols
     dnsutils: contains dig, nslookup and other tools
+    gcal: the GNU calendar (useful to see holidays)
     git: popular distributed version control system
     htop: interactive process viewer
     mc: Midnight Commander file manager
