@@ -3,7 +3,8 @@
 # Shell Options
 # http://ss64.com/bash/shopt.html
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# If command is a valid directory, cd into it
+shopt -s autocd
 
 # Autocorrect typos in path names when using the `cd` command
 shopt -s cdspell
@@ -28,6 +29,6 @@ shopt -s histappend
 # completion is attempted on an empty line
 shopt -s no_empty_cmd_completion
 
-# Match filenames in a case-insensitive# fashion when performing
+# Match filenames in a case-insensitive fashion when performing
 # filename expansion
 shopt -s nocaseglob
