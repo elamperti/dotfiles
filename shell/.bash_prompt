@@ -6,7 +6,28 @@
 # and actually *saw* the colors, as if the script were licking my eyeballs with
 # a sparkling rainbow and drowning me in a bucket full of joy.
 
-complete_dynamic_prompt() {
+completely_dynamic_prompt() {
+    # Set terminal title to cwd
+    PS1="\[\033]0;\w\007\]"
+    # Reset, set username background color
+    PS1+="\[\e[0m\]\[\e[48;5;237m\]"
+    # Set username color, which will later be overriden if no SSH connection
+    PS1+="\[\e[38;5;256m\]"
+    # Show user icon only if not going through a SSH connection
+    # because I don't want my prompt to be an emoji parade
+    [ -z "$SSH_CONNECTION" ] && PS1+="\[\e[38;5;240m\]  \[\e[38;5;244m\]"
+    # Print username
+    PS1+="\u "
+    # Show hostname only when connected through SSH
+    if [ -n "$SSH_CONNECTION" ]; then
+        # Set color, print symbol, set bold, print hostname
+        PS1+="\[\e[34m\] \[\e[1m\]\h "
+    fi
+    # Reset, set color, set background color for path, print closing section
+    PS1+="\[\e[0m\]\[\e[38;5;237m\]\[\e[48;5;234m\] "
+    # Set color
+    PS1+="\[\e[1;35m\]"
+
     ################
     # Path block ##
     ##############
@@ -17,11 +38,11 @@ complete_dynamic_prompt() {
     local max_path_length=48
 
     # Initialize the path resetting bold
-    local path_magical_string='\e[21m'
+    local path_magical_string='\[\e[21m\]'
 
     if [[ "$PWD" == "$HOME" ]]; then
         # We are home. Piece of cake. Print a nice little house and get out.
-        path_magical_string+='\e[38;5;166m '
+        path_magical_string+='\[\e[38;5;166m\] '
     else # This isn't Kansas anymore
         # Elegant solution from here: https://superuser.com/a/443862/136571
         local the_dirname=${PWD%/*}/
@@ -45,7 +66,7 @@ complete_dynamic_prompt() {
                 local tmp_prefix=''
 
                 # Save the nice little house™ for later if it is there
-                if [[ "$the_dirname" == " *" ]]; then
+                if [[ "$the_dirname" == " "* ]]; then
                     tmp_prefix=' '
                     the_dirname=${the_dirname##*$tmp_prefix}
                 fi
@@ -54,7 +75,7 @@ complete_dynamic_prompt() {
                 the_dirname=${the_dirname%/}
 
                 # Reset max. path length to remaining chars (minus one to account for …/)
-                max_path_length=$(($max_path_length - ${#the_cwd} - 1 ))
+                max_path_length=$(($max_path_length - ${#the_cwd} - 1 - ${#tmp_prefix} ))
 
                 # Process path upwards until its done
                 while [[ -n "$the_dirname" ]]; do
@@ -90,114 +111,91 @@ complete_dynamic_prompt() {
 
 
         # Light color, print dirname
-        path_magical_string+="\e[38;5;96m$the_dirname"
+        path_magical_string+="\[\e[38;5;96m\]$the_dirname"
         # Strong color, bold, print current directory, reset bold
-        path_magical_string+="\e[38;5;132m\e[1m$the_cwd\e[21m "
+        path_magical_string+="\[\e[38;5;132m\]\[\e[1m\]$the_cwd\[\e[21m\] "
     fi
 
     ###############
     # Git block ##
     #############
 
-    if [[
     # Check if the current directory is in a Git repository
-    ("$(git rev-parse &>/dev/null; printf $?)" -ne 0) ||
-    # Check if in `.git/` directory (some of the following
-    # checks don't make sense/won't work in the `.git` directory)
-    ("$(git rev-parse --is-inside-git-dir)" == "true")
-    ]]; then
+    # or if in `.git/` directory (some of the following checks
+    # don't make sense/won't work in the `.git` directory)
+    if [[ ("$(git rev-parse &>/dev/null; printf $?)" -ne 0) ||
+          ("$(git rev-parse --is-inside-git-dir)" == "true") ]]; then
+
         # A cool arrow is returned
-        echo -e "${path_magical_string}\e[0m\e[38;5;234m\e[1;37m"
-        return
-    fi
+        PS1+="${path_magical_string}\[\e[0m\]\[\e[38;5;234m\]\[\e[1;37m\]"
 
-    local modifiers='\e[21m' # Reset bold for crispier icons!
-    local bgcolor=''
-    local fgcolor='\e[38;5;0m' # Black
-    local icon=''
+    else
 
-    local top_level_path=$(git rev-parse --show-toplevel)
-    local branchName="$( printf "$( git rev-parse --abbrev-ref HEAD 2> /dev/null \
-        || git rev-parse --short HEAD 2> /dev/null \
-        || printf " (unknown)" )" | tr -d "\n" )"
+        local modifiers='\[\e[21m\]' # Reset bold for crispier icons!
+        local bgcolor=''
+        local fgcolor='\[\e[38;5;0m\]' # Black
+        local icon=''
 
-    if [[ $(git status --porcelain) ]]; then
-        bgcolor='\e[43m' # Yellow
+        local top_level_path=$(git rev-parse --show-toplevel)
+        local branchName="$( printf "$( git rev-parse --abbrev-ref HEAD 2> /dev/null \
+            || git rev-parse --short HEAD 2> /dev/null \
+            || printf " (unknown)" )" | tr -d "\n" )"
 
-        # Check for uncommitted changes in the index
-        if ! $(git diff --quiet --ignore-submodules --cached); then
-          modifiers="$modifiers ";
+        if [[ $(git status --porcelain) ]]; then
+            bgcolor='\[\e[43m\]' # Yellow
+
+            # Check for uncommitted changes in the index
+            if ! $(git diff --quiet --ignore-submodules --cached); then
+              modifiers="$modifiers ";
+            fi
+
+            # Check for unstaged changes
+            if ! $(git diff-files --quiet --ignore-submodules --); then
+                modifiers="$modifiers ±";
+            fi
+
+            # Check for untracked files
+            if [ -n "$(git ls-files ${top_level_path} --others --exclude-standard)" ]; then
+                modifiers="$modifiers ";
+            fi
+
+        else # No changes
+            bgcolor='\[\e[42m\]' # Green
         fi
 
-        # Check for unstaged changes
-        if ! $(git diff-files --quiet --ignore-submodules --); then
-            modifiers="$modifiers ±";
+        # Try to guess branch status; `origin` is hardcoded because it works for me 99% of the time
+        git diff origin/${branchName}..${branchName} --quiet --exit-code 2>/dev/null
+        case $? in
+            1) # Branch has unpushed commits
+                modifiers=" $modifiers";
+                ;;
+
+            128) # Error, asume we are in a new branch (not present in origin)
+                icon="";
+                ;;
+        esac
+
+
+        # Check if we are in the middle of a rebase
+        if test -d "${top_level_path}/.git/rebase-merge" -o -d "${top_level_path}/.git/rebase-apply"; then
+            icon=''
+            bgcolor='\[\e[41m\]' # Red
+            fgcolor='\[\e[97m\]' # White
         fi
 
-        # Check for untracked files
-        if [ -n "$(git ls-files ${top_level_path} --others --exclude-standard)" ]; then
-            modifiers="$modifiers ";
-        fi
+        local bgcolor_for_fg=${bgcolor/[4/[3}
+        PS1+="${path_magical_string}${bgcolor}\[\e[38;5;234m\] ${fgcolor}${icon} ${branchName}${modifiers} \[\e[0m\]${bgcolor_for_fg}"
 
-    else # No changes
-        bgcolor='\e[42m' # Green
     fi
 
-    # Try to guess branch status; `origin` is hardcoded because it works for me 99% of the time
-    git diff origin/${branchName}..${branchName} --quiet --exit-code 2>/dev/null
-    case $? in
-        1) # Branch has unpushed commits
-            modifiers=" $modifiers";
-            ;;
-
-        128) # Error, asume we are in a new branch (not present in origin)
-            icon="";
-            ;;
-    esac
-
-
-    # Check if we are in the middle of a rebase
-    if test -d "${top_level_path}/.git/rebase-merge" -o -d "${top_level_path}/.git/rebase-apply"; then
-        icon=''
-        bgcolor='\e[41m' # Red
-        fgcolor='\e[97m' # White
-    fi
-
-    local bgcolor_for_fg=${bgcolor/[4/[3}
-    echo -e "${path_magical_string}${bgcolor}\e[38;5;234m ${fgcolor}${icon} ${branchName}${modifiers} \e[0m${bgcolor_for_fg}"
+    # Reset after whatever came out before this, and add a space
+    PS1+="\[\e[0m\] "
 
 }
 
 set_prompts() {
-    # Set terminal title to cwd
-    PS1="\[\033]0;\w\007\]"
-    # Reset, set username background color
-    PS1+="\[\e[0m\]\[\e[48;5;237m\]"
-    # Set username color, which will later be overriden if no SSH connection
-    PS1+="\[\e[38;5;256m\]"
-    # Show user icon only if not going through a SSH connection
-    # because I don't want my prompt to be an emoji parade
-    [ -z "$SSH_CONNECTION" ] && PS1+="\[\e[38;5;240m\]  \[\e[38;5;244m\]"
-    # Print username
-    PS1+="\u "
-    # Show hostname only when connected through SSH
-    if [ -n "$SSH_CONNECTION" ]; then
-        # Set color, print symbol, set bold, print hostname
-        PS1+="\[\e[34m\] \[\e[1m\]\h "
-    fi
-    # Reset, set color, set background color for path, print closing section
-    PS1+="\[\e[0m\]\[\e[38;5;237m\]\[\e[48;5;234m\] "
-    # Set color
-    PS1+="\[\e[1;35m\]"
-    # Dark magic. The slash before the $() is important to defer execution!
-    # This prints the path, the repository name and finishes drawing the prompt.
-    PS1+="\[\$(complete_dynamic_prompt)\]"
-    # Reset after whatever came out of the previous command, and add a space
-    PS1+="\[\e[0m\] "
-
-    # You made it!
-    export PS1
-
+    # The PS1 prompt is generated by a function
+    export PROMPT_COMMAND='completely_dynamic_prompt'
 
     # This is what is shown when the interactive prompt appears in a new line
     PS2='  '
