@@ -32,6 +32,7 @@ graphical_packages="
 
 xfce_packages="
     pavucontrol: a volume control for the Pulse audio server
+    thunar-archive-plugin: enables compression/extraction within Thunar
     xfce4-whiskermenu-plugin: better Start menu (with search)
 "
 
