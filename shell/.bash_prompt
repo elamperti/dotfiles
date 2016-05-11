@@ -43,14 +43,34 @@ completely_dynamic_prompt() {
     if [[ "$PWD" == "$HOME" ]]; then
         # We are home. Piece of cake. Print a nice little house and get out.
         path_magical_string+='\[\e[38;5;166m\] '
+
+    elif [[ "$PWD" == "/tmp" ]]; then
+        # Print a fancy trash can and call it a day.
+        path_magical_string+='\[\e[38;5;37m\] '
+
     else # This isn't Kansas anymore
         # Elegant solution from here: https://superuser.com/a/443862/136571
         local the_dirname=${PWD%/*}/
         local the_cwd=${PWD##*/}
 
+        # Default purplish colors
+        local dirname_color='\[\e[38;5;96m\]'
+        local the_cwd_color='\[\e[38;5;132m\]'
+
         # Replace home path part with the nice little house™
-        # It removes the trailing slash too so it doesn't look like root
-        the_dirname=${the_dirname/$HOME\// }
+        if [[ "$the_dirname" == "$HOME"* ]]; then
+            the_dirname=" ${the_dirname##*$HOME/}"
+            # Define orangish colors
+            #local dirname_color='\[\e[38;5;130m\]'
+            #local the_cwd_color='\[\e[38;5;166m\]'
+
+        # Does the same for `/tmp` with a fancy trash can
+        elif [[ "$the_dirname" == "/tmp/"* ]]; then
+            the_dirname=" ${the_dirname##*/tmp/}"
+            # Define cyanish colors
+            local dirname_color='\[\e[38;5;30m\]'
+            local the_cwd_color='\[\e[38;5;37m\]'
+        fi
 
         # Used to get current path length
         local pwd_length="$the_dirname $the_cwd"
@@ -66,8 +86,8 @@ completely_dynamic_prompt() {
                 local tmp_prefix=''
 
                 # Save the nice little house™ for later if it is there
-                if [[ "$the_dirname" == " "* ]]; then
-                    tmp_prefix=' '
+                if [[ "$the_dirname" == " "* || "$the_dirname" == " "* ]]; then
+                    tmp_prefix=${the_dirname::2}
                     the_dirname=${the_dirname##*$tmp_prefix}
                 fi
 
@@ -111,9 +131,9 @@ completely_dynamic_prompt() {
 
 
         # Light color, print dirname
-        path_magical_string+="\[\e[38;5;96m\]$the_dirname"
+        path_magical_string+="${dirname_color}$the_dirname"
         # Strong color, bold, print current directory, reset bold
-        path_magical_string+="\[\e[38;5;132m\]\[\e[1m\]$the_cwd\[\e[21m\] "
+        path_magical_string+="${the_cwd_color}\[\e[1m\]$the_cwd\[\e[21m\] "
     fi
 
     ###############
