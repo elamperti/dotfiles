@@ -6,8 +6,10 @@ source_bash_files() {
 
     declare -r -a FILES_TO_SOURCE=(
         'bash_aliases'
+        'bash_aliases.local'
         'bash_exports'
         'bash_functions'
+        'bash_functions.local'
         'bash_options'
         'bash_prompt'
     )

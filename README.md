@@ -42,6 +42,7 @@ In case you want to use this fast without checking how it works, you may change 
   * [Files in `shell/`](./shell/), which are most of the dotfiles
   * [Packages lists](./common/settings.sh)
   * [Bundles](./bundles/), for more details see [the guide](./bundles/about-bundles.md)
+  * `~/.bash_aliases.local` and `~/.bash_functions.local` will be sourced if they exist
 
 ## Acknowledgements
   * **Basharat Sialvi** for the [magnific tutorial](https://askubuntu.com/a/283909/198486) on setting up *powerline* everywhere.
