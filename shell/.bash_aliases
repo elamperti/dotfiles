@@ -17,6 +17,10 @@ alias map='xargs -n1'
 alias s='cd ..'
 alias sl='ls'
 
+# Turn Bash history on/off
+alias histoff='set +o history'
+alias histon='set -o history'
+
 # Short utilities
 alias cc='xclip -selection clip'
 alias tk='pkill'
