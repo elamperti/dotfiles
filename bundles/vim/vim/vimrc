@@ -108,7 +108,12 @@ set updatetime=500             " better vim-gitgutter response
 
 set confirm                    " Ask to save files before quitting
 
-:silent !mkdir -p ~/.vim/swaps/
+" This mkdir snippet was based on this comment:
+" https://www.reddit.com/r/vim/comments/2ib9au/_/cl1p3dq
+let s:vim_swaps = expand('$HOME/.vim/swaps')
+if filewritable(s:vim_swaps) == 0 && exists("*mkdir")
+    call mkdir(s:vim_swaps, "p")
+endif
 
 " ----------------------------------------------------------------------
 " | Plugins                                                            |
