@@ -38,6 +38,11 @@ ssh() {
     source ~/.bash_prompt
 }
 
+# Define a title for the current terminal
+title() {
+    echo -en "\033]0;$@\a"
+}
+
 # Go up $1 directories (and eventually enter $2)
 # https://stackoverflow.com/a/34090540/854076
 up() {
