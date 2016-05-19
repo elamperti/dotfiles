@@ -4,6 +4,7 @@ common_packages="
     alsa-utils: utilities to control the sound card
     bash-completion: command completion for Bash
     build-essential: packages required to compile C programs
+    cmus: CLI music player with last.fm support
     curl: tool to transfer data using several protocols
     dnsutils: contains dig, nslookup and other tools
     gcal: the GNU calendar (useful to see holidays)
@@ -33,6 +34,7 @@ graphical_packages="
 xfce_packages="
     pavucontrol: a volume control for the Pulse audio server
     thunar-archive-plugin: enables compression/extraction within Thunar
+    xfce4-genmon-plugin: add custom plugins to the panel
     xfce4-whiskermenu-plugin: better Start menu (with search)
 "
 
