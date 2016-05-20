@@ -21,7 +21,6 @@ common_packages="
 
 graphical_packages="
     arduino: Arduino IDE
-    deluge: BitTorrent client
     filezilla: FTP client
     gdebi: simple tool to install \`.deb\` files
     gnome-terminal: Gnome terminal emulator
