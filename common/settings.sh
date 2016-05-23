@@ -2,6 +2,7 @@
 
 common_packages="
     alsa-utils: utilities to control the sound card
+    autossh: starts and keeps alive a SSH connection
     bash-completion: command completion for Bash
     build-essential: packages required to compile C programs
     cmus: CLI music player with last.fm support
@@ -12,6 +13,7 @@ common_packages="
     htop: interactive process viewer
     mc: Midnight Commander file manager
     moreutils: sponge, vipe, pee and other utilities
+    mosh: utility for intermittent SSH conections
     mtr: network diagnostic tool
     ssh: OpenSSH client
     sshfs: mount directories over SSH
@@ -25,6 +27,7 @@ graphical_packages="
     gdebi: simple tool to install \`.deb\` files
     gnome-terminal: Gnome terminal emulator
     remmina: VNC and RDP client
+    shutter: feature-rich screenshot tool
     tilda: a simple dropdown terminal
     vlc: media player
     xclip: command line interface for clipboard
