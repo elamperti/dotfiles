@@ -137,7 +137,7 @@ pick_bundles() {
 
 show_bundle_picker() {
     local dialog_description="Select the bundles to be executed. Each bundle may run several tasks."
-
+    local bundle_list_height=8
 
     # This is so the $bundle_option_list separates were it should
     oIFS=$IFS
@@ -150,7 +150,7 @@ show_bundle_picker() {
         selected_bundles=$(dialog --keep-tite \
             --title "Pick your bundles" \
             --checklist "$dialog_description" \
-            12 80 5 \
+            $(( 7 + $bundle_list_height )) 80 $bundle_list_height \
             ${bundle_option_list[@]} \
             2>&1 1>&5 \
         )
