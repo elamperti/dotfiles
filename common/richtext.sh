@@ -2,6 +2,7 @@
 
 normal=$(tput sgr0)
 bold=$(tput bold)
+underline=$(tput smul)
 
 #Colors
 fg_black=$(tput setaf 0)

@@ -15,8 +15,13 @@ logger_level[CRITICAL]=50
 logger_level[ALERT]=60
 logger_level[EMERG]=70
 logger_level[EMERGENCY]=70
+# Only pretty_print() will use these values
+logger_level[INDENT]=100
+logger_level[TITLE]=100
 logger_level[OK]=100
 logger_level[FAIL]=100
+
+logger_indentation=0
 
 # Define this only if it wasn't defined before
 if [ -z "$BASHLOG_PRESENT" ]; then
@@ -36,7 +41,7 @@ log() {
         BASHLOG_PRESENT=$?
     fi
 
-    if [[ $BASHLOG_PRESENT -eq 0 && $1 != "OK" && $1 != "FAIL" ]]; then
+    if [[ $BASHLOG_PRESENT -eq 0 && ${logger_level[$1]} -lt 100 ]]; then
         _bashlog $1 "${@:2}"
     fi
     [ -n "$LOG_TO_STDOUT" ] && pretty_print $1 "${@:2}"
@@ -47,45 +52,69 @@ pretty_print() {
     if [[ -z "${logger_level[$1]}" || "${logger_level[$1]}" -lt "${logger_level[${STDOUT_LOG_LEVEL:-INFO}]}" ]]; then
         return
     fi
+
+    if [ $1 == "INDENT" ]; then
+        local delta=${3:-4} # defaults to 4
+        case $2 in
+            "RIGHT")
+                logger_indentation=$(( $logger_indentation + $delta ))
+                ;;
+            "LEFT")
+                logger_indentation=$(( $logger_indentation - $delta ))
+                ;;
+            "RESET")
+                # Resets to given absolute value (or zero by default)
+                logger_indentation=${3:-0}
+                ;;
+        esac
+        return
+    fi
+
     case $1 in
-        # These two levels are not meant to be used with log()
+        # These three levels are not meant to be used with log()
+        "TITLE")
+            msg_prefix="${fg_magenta}${underline}"
+            ;;
         "OK")
-            msg_prefix=" ${fg_green}✔${normal} "
+            msg_prefix=" ${fg_green}✔${normal}  "
             ;;
         "FAIL")
-            msg_prefix=" ${fg_red}✖${normal} "
+            msg_prefix=" ${fg_red}✖${normal}  "
             ;;
 
         # Standard logging levels
         "DEBUG")
-            msg_prefix="[${fg_cyan}D${normal}]"
+            msg_prefix="[${fg_cyan}D${normal}] "
             ;;
         "INFO")
-            msg_prefix="[i]"
+            msg_prefix="[i] "
             ;;
         "NOTICE")
-            msg_prefix="[${fg_white}i${normal}]"
+            msg_prefix="[${fg_white}i${normal}] "
             ;;
         "WARN"*)
-            msg_prefix="[${fg_yellow}!${normal}]${fg_yellow}"
+            msg_prefix="[${fg_yellow}!${normal}]${fg_yellow} "
             ;;
         "ERR"*)
-            msg_prefix=" ${fg_red}✖${normal} ${fg_red}"
+            msg_prefix=" ${fg_red}✖${normal} ${fg_red} "
             ;;
         "CRIT"*)
-            msg_prefix="[${fg_red}C${normal}]"
+            msg_prefix="[${fg_red}C${normal}] "
             ;;
         "ALERT")
-            msg_prefix="[${fg_red}A${normal}]${bold}"
+            msg_prefix="[${fg_red}A${normal}]${bold} "
             ;;
         "EMERG"*)
-            msg_prefix="[${bold}${fg_red}E${normal}]${bold}"
+            msg_prefix="[${bold}${fg_red}E${normal}]${bold} "
             ;;
 
         *)
-            msg_prefix="   "
+            msg_prefix="    "
             ;;
     esac
 
-    echo "  $msg_prefix ${@:2} ${normal}"
+    # Indentation
+    awk -v count="${logger_indentation}" 'BEGIN { while (c++ < count) printf " " }'
+    # Content (prefix + text + reset format)
+    echo "${msg_prefix}${@:2}${normal}"
 }

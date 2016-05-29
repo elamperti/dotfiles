@@ -30,7 +30,7 @@ create_bundle_list() {
     local friendly_name=
     pushd "$(dirname "${BASH_SOURCE[0]}")/../bundles/" &> /dev/null
 
-    log NOTICE "Looking for bundles..."
+    log INFO "Looking for bundles..."
     for bundle in $(ls -d */); do
         bundle=${bundle::-1} # remove trailing slash
 
@@ -69,7 +69,7 @@ call_bundle_function() {
         if [[ $3 == "EVAL_OUTPUT" ]]; then
             eval $(cat .tmpcommands)
         else
-            log DEBUG "$bundle produced no output for $2()"
+            log DEBUG "$bundle produced no output for ${2}()"
         fi
         rm .tmpcommands
     fi
@@ -85,22 +85,28 @@ execute_bundle_after_installs() {
     local bundle_name=""
     if [ ${#bundle_queue[@]} -gt 0 ]; then
         log INFO "Installing bundles..."
+        pretty_print INDENT RIGHT 6
         pushd "$(dirname "${BASH_SOURCE[0]}")/../bundles/" &> /dev/null
         for bundle in ${bundle_queue[@]}; do
             log DEBUG "Installing bundle $bundle"
-            bundle_name="${bundle_ids[$bundle]:-$bundle}"
 
+            bundle_name="${bundle_ids[$bundle]:-$bundle}"
+            pretty_print TITLE "${bundle_name}"
+
+            # pretty_print INDENT RIGHT 1
             call_bundle_function $bundle after_installs EVAL_OUTPUT
             local ret=$?
 
-            echo -ne "     " # Hacky indentation
             if [ $ret -eq 0 ]; then
-                pretty_print OK "${bundle_name}"
+                pretty_print OK "ok!"
             else
-                pretty_print FAIL "${bundle_name}"
+                pretty_print FAIL "FAILED"
             fi
+            # pretty_print INDENT LEFT 1
+            echo
         done
         popd &>/dev/null
+        pretty_print INDENT LEFT 6
     fi
 }
 
@@ -159,11 +165,12 @@ show_bundle_picker() {
 
     # Translate fancy name back to a bundle folder name
     IFS=" "
-    if [ ${#selected_bundles[@]} -gt 0 ]; then
+    if [ -n "${selected_bundles[@]}" ]; then
         for bundle in ${selected_bundles[@]}; do
             enqueue_bundle $(get_bundle_by_name $bundle)
         done
+    else
+        log INFO "No bundle was selected."
     fi
     IFS=$oIFS
 }
-

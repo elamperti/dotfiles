@@ -46,7 +46,7 @@ create_symlinks() {
         stow_and_verify ~/ shell/ 2>>setup.log \
             || return 1
     else
-        echo "Skiping symlink creation because stow is missing."
+        log WARN "Skiping symlink creation because stow is missing."
     fi
     return 0
 }
@@ -108,7 +108,7 @@ filter_args() {
 init_git_submodules() {
     git submodule init &>/dev/null
     if [ ! $? ]; then
-        log ERROR "Failed to init submodules."
+        log ERROR "Failed to init submodules"
         exit 1
     fi
     git submodule update &>/dev/null
@@ -135,14 +135,16 @@ main() {
         exit 1
     fi
 
+    pretty_print INDENT RIGHT 2
+
     filter_args $@
 
-    rm setup.log # For easier debugging
+    # rm setup.log
     print_splash
 
     ask_for_sudo
     if [[ -v NO_UPDATES ]]; then
-        log WARN "Skipping apt update."
+        log WARN "Skipping apt update"
     else
         log NOTICE "Updating apt package list"
         sudo apt-get update &> /dev/null ||

@@ -40,7 +40,7 @@ after_installs() {
 
     dpkg -i "$tixati_package"
     if [ $? ]; then
-        send_cmd log OK "Installation successfull"
+        send_cmd log OK "Installation successful"
         rm "$tixati_package"
     else
         exit 1
