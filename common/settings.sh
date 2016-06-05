@@ -2,6 +2,7 @@
 
 common_packages="
     alsa-utils: utilities to control the sound card
+    autoconf: configures source code packages
     autossh: starts and keeps alive a SSH connection
     bash-completion: command completion for Bash
     build-essential: packages required to compile C programs
@@ -23,6 +24,7 @@ common_packages="
 
 graphical_packages="
     arduino: Arduino IDE
+    bookletimposer: basic PDF document imposition
     filezilla: FTP client
     gdebi: simple tool to install \`.deb\` files
     gnome-terminal: Gnome terminal emulator
