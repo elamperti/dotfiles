@@ -70,7 +70,7 @@ install_queued_packages() {
         # Empty queue in case this is called again
         package_queue=()
     else
-        log NOTICE "No new packages installed."
+        log DEBUG "No new packages installed."
     fi
 
     return $install_outcome

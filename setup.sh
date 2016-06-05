@@ -204,6 +204,7 @@ main() {
     install_queued_packages
 
     execute_bundle_after_installs
+    install_queued_packages
 
     log DEBUG "Finished setup"
     pretty_print OK "Finished!"
