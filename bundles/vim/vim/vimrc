@@ -188,6 +188,9 @@ call plug#begin('~/.vim/plugins')
     " Multiple cursors
     Plug 'terryma/vim-multiple-cursors'
 
+    " Better repeat using .
+    Plug 'tpope/vim-repeat'
+
     " ------------
     " | Disabled |
     " ------------
