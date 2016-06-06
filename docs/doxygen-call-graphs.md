@@ -24,7 +24,7 @@ The resulting binary will be in `doxygen/build/bin/doxygen`.
 
 
 ## Installing GraphViz
-It should be as simple as `sudo apt-get graphviz`. Make sure `dotty` is in your PATH.
+It should be as simple as `sudo apt-get install graphviz`. Make sure `dotty` is in your PATH.
 
 
 ## Creating the call graph
