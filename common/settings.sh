@@ -12,6 +12,7 @@ common_packages="
     gcal: the GNU calendar (useful to see holidays)
     git: popular distributed version control system
     htop: interactive process viewer
+    libimage-exiftool-perl: EXIF metadata viewer (exiftool)
     mc: Midnight Commander file manager
     moreutils: sponge, vipe, pee and other utilities
     mosh: utility for intermittent SSH conections
