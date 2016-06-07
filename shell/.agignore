@@ -1,0 +1,7 @@
+.cache/
+.DS_Store/
+.git/
+.tmp/
+bower_components/
+node_modules/
+tmp/
