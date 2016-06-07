@@ -7,8 +7,13 @@
 # a sparkling rainbow and drowning me in a bucket full of joy.
 
 completely_dynamic_prompt() {
-    # Set terminal title to cwd
-    PS1="\[\033]0;\w\007\]"
+    # Set terminal title to cwd, including hostname when connected via SSH
+    if [ -n "$SSH_CONNECTION" ] && [ -n "$HOSTNAME" ]; then
+        PS1="\[\033]0;${HOSTNAME^^}: \w\007\]"
+    else
+        PS1="\[\033]0;\w\007\]"
+    fi
+
     # Reset, set username background color
     PS1+="\[\e[0m\]\[\e[48;5;237m\]"
     # Set username color, which will later be overriden if no SSH connection
