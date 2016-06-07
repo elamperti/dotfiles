@@ -191,6 +191,9 @@ call plug#begin('~/.vim/plugins')
     " Better repeat using .
     Plug 'tpope/vim-repeat'
 
+    " Easy handling of Git merges
+    Plug 'sjl/splice.vim'
+
     " ------------
     " | Disabled |
     " ------------
