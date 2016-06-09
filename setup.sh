@@ -61,6 +61,7 @@ filter_args() {
                 if [ -n "$2" ]; then
                     if bundle_exists $2; then
                         bundle_count=1
+                        create_bundle_list
                         enqueue_bundle $2
 
                         JUST_BUNDLES=1;
