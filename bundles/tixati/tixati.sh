@@ -20,10 +20,7 @@ verify_requirements() {
 }
 
 on_init() {
-    if ! cmd_exists "vim"; then
-        send_cmd enqueue_packages "vim"
-        send_cmd enqueue_packages "silversearcher-ag"
-    fi
+    exit 0
 }
 
 after_installs() {
@@ -34,13 +31,19 @@ after_installs() {
     local pkgurl=$(wget -qO- https://www.tixati.com/download/linux.html|grep -oP "http.*?_${arch}.deb"|awk '!_[$0]++')
     tixati_package="$(mktemp tixati-XXXXXX.deb --tmpdir=/tmp)"
 
+    send_cmd log INFO "Downloading Tixati..."
     send_cmd log DEBUG "Downloading Tixati from: $pkgurl"
     wget -qO "${tixati_package}" "$pkgurl"
     [ ! $? ] && send_cmd log ERROR "Error downloading Tixati package" && exit 1
 
-    dpkg -i "$tixati_package"
+    if cmd_exists "tixati"; then
+        send_cmd log INFO "Updating"
+    else
+        send_cmd log INFO "Installing"
+    fi
+    sudo dpkg -i "$tixati_package" &>/dev/null
     if [ $? ]; then
-        send_cmd log OK "Installation successful"
+        # send_cmd log OK "Installation successful"
         rm "$tixati_package"
     else
         exit 1
