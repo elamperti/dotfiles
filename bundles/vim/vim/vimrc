@@ -146,9 +146,6 @@ call plug#begin('~/.vim/plugins')
     " Easy-to-follow indentation guides
     Plug 'nathanaelkane/vim-indent-guides'
 
-    " Keyword completion system
-    Plug 'shougo/neocomplete.vim'
-
     " Syntax checking plugin for several languages
     Plug 'scrooloose/syntastic'
 
@@ -197,6 +194,9 @@ call plug#begin('~/.vim/plugins')
     " ------------
     " | Disabled |
     " ------------
+
+    " Keyword completion system
+    " Plug 'shougo/neocomplete.vim'
 
     " Preview CSS colors
     " Plug 'ap/vim-css-color'
@@ -289,10 +289,10 @@ let g:ctrlsf_ackprg = 'ag'
 " ----------------------------------------------------------------------
 
 " Enable `neocomplcache` by default
-let g:neocomplete#enable_at_startup=1
+"let g:neocomplete#enable_at_startup=1
 
 " Make `<TAB>` autocomplete
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 
 " ----------------------------------------------------------------------
