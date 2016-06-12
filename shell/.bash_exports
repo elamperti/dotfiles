@@ -8,14 +8,14 @@
 export EDITOR='vim'
 
 # Ignore commands that start with spaces and duplicates
-export HISTCONTROL=ignoreboth
+export HISTCONTROL="ignoreboth:erasedups"
 
 # Increase the maximum number of lines contained in the
 # history file (default value is 500)
 export HISTFILESIZE=10000
 
 # Don't add certain commands to the history file
-export HISTIGNORE='&:[bf]g:c:clear:history:exit:q:pwd:* --help'
+export HISTIGNORE='&:[bf]g:c:s:clear:history:exit:q:pwd:* --help:echo *;cd'
 
 # Increase the maximum number of commands recorded in the
 # command history (default value is 500)
@@ -32,7 +32,3 @@ export LESS_TERMCAP_me=$'\E[0m'      # end bold mode
 
 # Don't clear the screen after quitting a man page
 export MANPAGER='less -X'
-
-# Make new shells get the history lines from all previous
-# shells instead of the default "last window closed" history
-export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
