@@ -30,6 +30,11 @@ after_installs() {
 
     send_cmd log INFO "Installing Steam package..."
     sudo dpkg -i ${steam_package} &>/dev/null || exit 1
+
+    # Add HiDPI skin
+    send_cmd log INFO "Adding HiDPI skin..."
+    mkdir -p .local/share/Steam/skins && cd .local/share/Steam/skins && \
+    git clone https://github.com/MoriTanosuke/HiDPI-Steam-Skin.git --depth=1
 }
 
 # The following line is necessary.
