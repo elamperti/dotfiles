@@ -112,13 +112,13 @@ execute_bundle_after_installs() {
 
 execute_bundle_inits() {
     if [ ${#bundle_queue[@]} -gt 0 ]; then
-        log INFO "Initializing bundles..."
+        log INFO "Searching for bundles..."
         pushd "$(dirname "${BASH_SOURCE[0]}")/../bundles/" &> /dev/null
         for bundle in ${bundle_queue[@]}; do
             call_bundle_function $bundle on_init EVAL_OUTPUT
         done
         popd &>/dev/null
-        pretty_print OK "Done (${bundle_count} bundles)"
+        pretty_print OK "Done (${bundle_count} bundles found)"
     fi
 }
 
