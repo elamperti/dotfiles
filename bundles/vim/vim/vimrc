@@ -128,9 +128,6 @@ call plug#begin('~/.vim/plugins')
     " base16 color theme
     Plug 'chriskempson/base16-vim'
 
-    " Powerline-like status bar
-    Plug 'itchyny/lightline.vim'
-
     " Git wrapper
     Plug 'tpope/vim-fugitive'
 
@@ -176,9 +173,6 @@ call plug#begin('~/.vim/plugins')
     " Swag
     Plug 'ryanoasis/vim-devicons'
 
-    " Buffer tab line
-    Plug 'ap/vim-buftabline'
-
     " Search across multiple files
     Plug 'dyng/ctrlsf.vim'
 
@@ -190,6 +184,13 @@ call plug#begin('~/.vim/plugins')
 
     " Easy handling of Git merges
     Plug 'sjl/splice.vim'
+
+    " Tab/buffer manager
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+
+    " Useful mappings
+    Plug 'tpope/vim-unimpaired'
 
     " ------------
     " | Disabled |
@@ -225,31 +226,19 @@ try
 catch /^Vim\%((\a\+)\)\=:E185/
     " Color scheme not found. Normal on first run.
 endtry
-
+let g:airline_theme='base16_default'
 
 " ----------------------------------------------------------------------
-" | Lightline                                                          |
+" | Airline                                                            |
 " ----------------------------------------------------------------------
+" Show buffers as tabs
+let g:airline#extensions#tabline#enabled = 1
 
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component': {
-      \   'readonly': '%{&readonly?"":""}',
-      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}',
-      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}'
-      \ },
-      \ 'component_visible_condition': {
-      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())',
-      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))'
-      \ },
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '', 'right': '' }
-      \ }
+" Show only filename in tab
+let g:airline#extensions#tabline#fnamemod = ':t'
 
+" Use powerline fonts
+let g:airline_powerline_fonts = 1
 
 " ----------------------------------------------------------------------
 " | Markdown                                                           |
@@ -351,6 +340,9 @@ let mapleader = ','
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
+" use jk as <ESC>
+ino jk <esc>
+
 " [,cc] Toggle code comments
 map <leader>cc :Commentary<CR>
 
@@ -364,7 +356,7 @@ nmap <leader>ti <Plug>IndentGuidesToggle
 nmap <leader>ts :SyntasticToggleMode<CR>
 
 " [,v ] Make the opening of the `.vimrc` file easier
-nmap <leader>v :vsp $MYVIMRC<CR>
+nmap <leader>v :e $MYVIMRC<CR>
 
 " [,W ] Sudo write
 map <leader>W :w !sudo tee %<CR>
@@ -374,9 +366,16 @@ cnoremap w!! %!sudo tee > /dev/null %
 " Split line
 nnoremap K i<CR><Esc>
 
-" [F4] Close buffer
-nnoremap <F4> :q<CR>
-inoremap <F4> <Esc>:q<CR>
+" [F4] Close buffer or exit if last buffer
+nnoremap <F4> :call CloseIfLastBuffer()<CR>
+inoremap <F4> <ESC>:call CloseIfLastBuffer()<CR>
+function! CloseIfLastBuffer()
+  if ((len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1) && expand('%') == '')
+    quit
+  else
+    :bd
+  endif
+endfunction
 
 " [F5] Save changes
 nnoremap <F5> :w<CR>
@@ -394,20 +393,27 @@ nnoremap <F1> :bprev<CR>
 inoremap <F2> :bnext<CR>
 inoremap <F1> :bprev<CR>
 
-" Use ctrl-[hjkl] to select the active split
-nmap <silent> <c-k> :wincmd k<CR>
-nmap <silent> <c-j> :wincmd j<CR>
-nmap <silent> <c-h> :wincmd h<CR>
-nmap <silent> <c-l> :wincmd l<CR>
+" Use arrows to select the active split
+nnoremap <silent> <Right> <c-w>l
+nnoremap <silent> <Left> <c-w>h
+nnoremap <silent> <Up> <c-w>k
+nnoremap <silent> <Down> <c-w>j
+
+" Use ctrl + arrows to indent or move lines around
+nnoremap <silent> <C-Right> >>
+nnoremap <silent> <C-Left> <<
+nnoremap <silent> <C-Up> [e
+nnoremap <silent> <C-Down> ]e
+
 
 " Relative or absolute number lines
 function! NumberToggle()
-    if(&nu == 1)
-        set nu!
+    if(&rnu == 0)
+        " set nu!
         set rnu
     else
         set nornu
-        set nu
+        " set nu
     endif
 endfunction
 
