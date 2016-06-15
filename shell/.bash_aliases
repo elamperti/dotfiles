@@ -23,8 +23,7 @@ alias histon='set -o history'
 # Short utilities
 alias cc='xclip -selection clip'
 alias tk='pkill'
-
-alias nano='vim'
+alias ports='sudo netstat -tulpn'
 
 alias e='vim'
 alias o='xdg-open'
