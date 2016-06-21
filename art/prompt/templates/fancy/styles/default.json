@@ -1,0 +1,49 @@
+{
+    "options": {
+        "hide_hostname_locally": "yes",
+        "path_max_length": "48"
+    },
+
+    "strings": {
+        "username": "\\u",
+        "hostname": "\\h",
+        "custom_PS2": "  ",
+        "prompt": ""
+    },
+
+    "colors": {
+        "arrow_fg": "7",
+        "user_bg": "237",
+        "user_symbol_fg": "240",
+        "user_fg": "244",
+        "hostname_fg": "4",
+        "hostname_symbol_fg": "4",
+        "ssh_user_fg": "256",
+
+        "path_bg": "234",
+        "path_fg": "96",
+        "path_cwd_fg": "132",
+        "path_home_fg": "130",
+        "path_home_fg": "166",
+
+        "path_tmp_fg": "30",
+        "path_tmp_fg": "37"
+    },
+
+    "symbol": {
+        "user": "",
+        "ssh": "",
+        "home": "",
+        "tmp": "",
+
+        "git": {
+            "branch": "",
+            "staged": "",
+            "modified": "±",
+            "untracked": "",
+            "unpushed": "",
+            "new_branch": "",
+            "rebase": ""
+        }
+    }
+}

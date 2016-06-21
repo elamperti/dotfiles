@@ -1,13 +1,7 @@
 #!/bin/bash
 
-# Dear future me or whoever is wishing to modify the prompt:
-#
-# I'm so, so sorry. For a blisful moment I looked at escaped codes for colors
-# and actually *saw* the colors, as if the script were licking my eyeballs with
-# a sparkling rainbow and drowning me in a bucket full of joy.
-
 completely_dynamic_prompt() {
-    # Set terminal title to cwd, including hostname when connected via SSH
+    # Set terminal title to cwd, including hostname in caps when connected via SSH
     if [ -n "$SSH_CONNECTION" ] && [ -n "$HOSTNAME" ]; then
         PS1="\[\033]0;${HOSTNAME^^}: \w\007\]"
     else
@@ -15,23 +9,23 @@ completely_dynamic_prompt() {
     fi
 
     # Reset, set username background color
-    PS1+="\[\e[0m\]\[\e[48;5;237m\]"
-    # Set username color, which will later be overriden if no SSH connection
-    PS1+="\[\e[38;5;256m\]"
+    PS1+="\[\e[0m\]{{ colors.user_bg }}"
+    # Set username color for SSH connctions, overriden later if local
+    PS1+="{{ colors.ssh_user_fg }}"
     # Show user icon only if not going through a SSH connection
     # because I don't want my prompt to be an emoji parade
-    [ -z "$SSH_CONNECTION" ] && PS1+="\[\e[38;5;240m\]  \[\e[38;5;244m\]"
+    [ -z "$SSH_CONNECTION" ] && PS1+="{{ colors.user_symbol_fg }} {{ symbol.user }} {{ colors.user_fg }}"
     # Print username
-    PS1+="\u "
+    PS1+="{{ strings.username }} "
     # Show hostname only when connected through SSH
-    if [ -n "$SSH_CONNECTION" ]; then
-        # Set color, print symbol, set bold, print hostname
-        PS1+="\[\e[34m\] \[\e[1m\]\h "
-    fi
+    {~ hide_hostname_locally ~}if [ -n "$SSH_CONNECTION" ]; then{~ /hide_hostname_locally ~}
+        # Set color, print symbol
+        PS1+="{{ colors.hostname_symbol_fg }}{{ symbol.ssh }} "
+        # Set bold, print hostname
+        PS1+="\[\e[1m\]{{ colors.hostname_fg }}{{ strings.hostname }} "
+    {~ hide_hostname_locally ~}fi{~ /hide_hostname_locally ~}
     # Reset, set color, set background color for path, print closing section
-    PS1+="\[\e[0m\]\[\e[38;5;237m\]\[\e[48;5;234m\] "
-    # Set color
-    PS1+="\[\e[1;35m\]"
+    PS1+="\[\e[0m\]{{ fg(colors.user_bg) }}{{ colors.path_bg }} "
 
     ################
     # Path block ##
@@ -40,41 +34,41 @@ completely_dynamic_prompt() {
     # Want to change maximum path length? Do so here.
     # Try to set it somewhere around:
     #     columns - rest of the prompt length - 4
-    local max_path_length=48
+    local max_path_length={{ options.path_max_length }}
 
     # Initialize the path resetting bold
-    local path_magical_string='\[\e[21m\]'
+    local path_block_string='\[\e[21m\]'
 
     if [[ "$PWD" == "$HOME" ]]; then
         # We are home. Piece of cake. Print a nice little house and get out.
-        path_magical_string+='\[\e[38;5;166m\] '
+        path_block_string+='{{ colors.path_home_fg }}{{ symbol.home }} '
 
     elif [[ "$PWD" == "/tmp" ]]; then
         # Print a fancy trash can and call it a day.
-        path_magical_string+='\[\e[38;5;37m\] '
+        path_block_string+='{{ colors.path_tmp_fg }}{{ symbol.tmp }} '
 
     else # This isn't Kansas anymore
         # Elegant solution from here: https://superuser.com/a/443862/136571
         local the_dirname=${PWD%/*}/
         local the_cwd=${PWD##*/}
 
-        # Default purplish colors
-        local dirname_color='\[\e[38;5;96m\]'
-        local the_cwd_color='\[\e[38;5;132m\]'
+        # Default colors
+        local dirname_color='{{ colors.path_fg }}'
+        local the_cwd_color='{{ colors.path_cwd_fg }}'
 
         # Replace home path part with the nice little house™
         if [[ "$the_dirname" == "$HOME"* ]]; then
-            the_dirname=" ${the_dirname##*$HOME/}"
-            # Define orangish colors
-            #local dirname_color='\[\e[38;5;130m\]'
-            #local the_cwd_color='\[\e[38;5;166m\]'
+            the_dirname="{{ symbol.home }} ${the_dirname##*$HOME/}"
+            # Define homeish colors
+            #local dirname_color='{{ colors.path_home_fg }}'
+            #local the_cwd_color='{{ colors.path_home_fg }}'
 
         # Does the same for `/tmp` with a fancy trash can
         elif [[ "$the_dirname" == "/tmp/"* ]]; then
-            the_dirname=" ${the_dirname##*/tmp/}"
+            the_dirname="{{ symbol.tmp }} ${the_dirname##*/tmp/}"
             # Define cyanish colors
-            local dirname_color='\[\e[38;5;30m\]'
-            local the_cwd_color='\[\e[38;5;37m\]'
+            local dirname_color='{{ colors.path_tmp_fg }}'
+            local the_cwd_color='{{ colors.path_tmp_fg }}'
         fi
 
         # Used to get current path length
@@ -91,7 +85,7 @@ completely_dynamic_prompt() {
                 local tmp_prefix=''
 
                 # Save the nice little house™ for later if it is there
-                if [[ "$the_dirname" == " "* || "$the_dirname" == " "* ]]; then
+                if [[ "$the_dirname" == "{{ symbol.home }} "* || "$the_dirname" == "{{ symbol.tmp }} "* ]]; then
                     tmp_prefix=${the_dirname::2}
                     the_dirname=${the_dirname##*$tmp_prefix}
                 fi
@@ -136,9 +130,9 @@ completely_dynamic_prompt() {
 
 
         # Light color, print dirname
-        path_magical_string+="${dirname_color}$the_dirname"
+        path_block_string+="${dirname_color}$the_dirname"
         # Strong color, bold, print current directory, reset bold
-        path_magical_string+="${the_cwd_color}\[\e[1m\]$the_cwd\[\e[21m\] "
+        path_block_string+="${the_cwd_color}\[\e[1m\]$the_cwd\[\e[21m\] "
     fi
 
     ###############
@@ -152,14 +146,14 @@ completely_dynamic_prompt() {
           ("$(git rev-parse --is-inside-git-dir)" == "true") ]]; then
 
         # A cool arrow is returned
-        PS1+="${path_magical_string}\[\e[0m\]\[\e[38;5;234m\]\[\e[1;37m\]"
+        PS1+="${path_block_string}\[\e[0m\]{{ fg(colors.path_bg) }}{{ colors.arrow_fg }}{{ strings.prompt }}"
 
     else
 
         local modifiers='\[\e[21m\]' # Reset bold for crispier icons!
         local bgcolor=''
         local fgcolor='\[\e[38;5;0m\]' # Black
-        local icon=''
+        local icon='{{ symbol.git.branch }}'
 
         local top_level_path=$(git rev-parse --show-toplevel)
         local branchName="$( printf "$( git rev-parse --abbrev-ref HEAD 2> /dev/null \
@@ -171,17 +165,17 @@ completely_dynamic_prompt() {
 
             # Check for uncommitted changes in the index
             if ! $(git diff --quiet --ignore-submodules --cached); then
-              modifiers="$modifiers ";
+              modifiers="$modifiers {{ symbol.git.staged }}";
             fi
 
             # Check for unstaged changes
             if ! $(git diff-files --quiet --ignore-submodules --); then
-                modifiers="$modifiers ±";
+                modifiers="$modifiers {{ symbol.git.modified }}";
             fi
 
             # Check for untracked files
             if [ -n "$(git ls-files ${top_level_path} --others --exclude-standard)" ]; then
-                modifiers="$modifiers ";
+                modifiers="$modifiers {{ symbol.git.untracked }}";
             fi
 
         else # No changes
@@ -192,24 +186,25 @@ completely_dynamic_prompt() {
         git diff origin/${branchName}..${branchName} --quiet --exit-code 2>/dev/null
         case $? in
             1) # Branch has unpushed commits
-                modifiers=" $modifiers";
+                modifiers=" {{ symbol.git.unpushed }}$modifiers";
                 ;;
 
             128) # Error, asume we are in a new branch (not present in origin)
-                icon="";
+                icon="{{ symbol.git.new_branch }}";
                 ;;
         esac
 
 
         # Check if we are in the middle of a rebase
         if test -d "${top_level_path}/.git/rebase-merge" -o -d "${top_level_path}/.git/rebase-apply"; then
-            icon=''
+            icon='{{ symbol.git.rebase }}'
             bgcolor='\[\e[41m\]' # Red
             fgcolor='\[\e[97m\]' # White
         fi
 
         local bgcolor_for_fg=${bgcolor/[4/[3}
-        PS1+="${path_magical_string}${bgcolor}\[\e[38;5;234m\] ${fgcolor}${icon} ${branchName}${modifiers} \[\e[0m\]${bgcolor_for_fg}"
+        PS1+="${path_block_string}${bgcolor}{{ fg(colors.path_bg) }} "
+        PS1+="${fgcolor}${icon} ${branchName}${modifiers} \[\e[0m\]${bgcolor_for_fg}"
 
     fi
 
@@ -223,7 +218,7 @@ set_prompts() {
     export PROMPT_COMMAND='completely_dynamic_prompt'
 
     # This is what is shown when the interactive prompt appears in a new line
-    PS2='  '
+    PS2='{{ strings.custom_PS2 }}'
     export PS2
 
 

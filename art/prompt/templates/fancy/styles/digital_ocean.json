@@ -1,0 +1,16 @@
+{
+    "options": {
+        "hide_hostname_locally": "yes"
+    },
+
+    "colors": {
+        "user_bg": "24",
+        "user_fg": "256",
+        "user_symbol_fg": "256",
+        "ssh_user_fg": "256"
+    },
+
+    "symbol": {
+        "ssh": ""
+    }
+}
