@@ -9,6 +9,7 @@ alias ls='ls --color=auto'
 
 # Other useful aliases
 alias :q='exit'
+alias chx='chmod +x'
 alias df='df -h'
 alias du='du -h'
 alias la='ls -lAh'
