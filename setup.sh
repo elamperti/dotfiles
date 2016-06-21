@@ -167,24 +167,24 @@ main() {
 
     test_for "dialog" OR_ABORT
 
-    # Create a tarball of previous backup so ./backups folder is (almost) empty
-    local backup_postfix="dotfiles_backup.tar.gz"
-    local backup_files_count=$(ls -l -I "*${backup_postfix}" backups/|wc -l)
-    if [ ${backup_files_count} -gt 1 ]; then
-        pushd backups/ >/dev/null || exit 1 # Don't take any chances!
-        local backup_filename="$(date +%Y%m%d-%H%M%S)-${backup_postfix}"
-        tar -zcf ${backup_filename} --exclude="*${backup_postfix}" *
-        if [ $? ]; then
-            find . -mindepth 1 ! -name "*${backup_postfix}" -exec rm -rf {} +
-            log INFO "Backup files were stored in backups/${backup_filename}"
-        else
-            log ERROR "There was a problem creating a tarball of a previous backup"
-            exit 1
-        fi
-        popd >/dev/null
-    fi
-
     if [[ ! -v JUST_BUNDLES ]]; then
+        # Create a tarball of previous backup so ./backups folder is (almost) empty
+        local backup_postfix="dotfiles_backup.tar.gz"
+        local backup_files_count=$(ls -l -I "*${backup_postfix}" backups/|wc -l)
+        if [ ${backup_files_count} -gt 1 ]; then
+            pushd backups/ >/dev/null || exit 1 # Don't take any chances!
+            local backup_filename="$(date +%Y%m%d-%H%M%S)-${backup_postfix}"
+            tar -zcf ${backup_filename} --exclude="*${backup_postfix}" *
+            if [ $? ]; then
+                find . -mindepth 1 ! -name "*${backup_postfix}" -exec rm -rf {} +
+                log INFO "Backup files were stored in backups/${backup_filename}"
+            else
+                log ERROR "There was a problem creating a tarball of a previous backup"
+                exit 1
+            fi
+            popd >/dev/null
+        fi
+
         create_backup_folder
 
         test_for "stow" OR_WARN "Keep in mind bundles may need stow."
