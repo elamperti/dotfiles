@@ -1,0 +1,27 @@
+{
+    "options": {
+        "hide_hostname_locally": "no"
+    },
+
+    "strings": {
+        "username": "\\u",
+        "hostname": "Work",
+        "prompt": ""
+    },
+
+    "colors": {
+        "arrow_fg": "157",
+        "user_bg": "235",
+        "hostname_fg": "34",
+        "hostname_symbol_fg": "22",
+
+        "path_bg": "237",
+        "path_fg": "96",
+        "path_cwd_fg": "132"
+    },
+
+    "symbol": {
+        "user": "",
+        "ssh": ""
+    }
+}

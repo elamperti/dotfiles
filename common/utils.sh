@@ -37,8 +37,12 @@ clear_last_line() {
     tput cuu 1 && tput el
 }
 
-create_backup_folder() {
-    mkdir -p "$(dirname "${BASH_SOURCE[0]}")/../backups/"
+create_backup_directory() {
+    local backup_directory="$(dirname "${BASH_SOURCE[0]}")/../backups/"
+    if [ ! -d "${backup_directory}" ]; then
+        mkdir -p "${backup_directory}" && return 0
+    fi
+    return 1 # Already exists or error creating
 }
 
 function_exists() {

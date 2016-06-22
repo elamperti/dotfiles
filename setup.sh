@@ -5,6 +5,7 @@ source 'common/utils.sh'
 source 'common/packages.sh'
 source 'common/bundles.sh'
 source 'common/logger.sh'
+source 'common/prompt-wizard.sh'
 
 # Default config for bashlog
 LOG_FILE=`readlink -f "$(dirname $0)/setup.log"`
@@ -32,6 +33,9 @@ OPTIONS
         --no-updates
            Skip `apt-get update`. Not recommended unless you already updated.
 
+        -p, --prompt
+           Shows the prompt parser wizard
+
         -v, --verbose
            Makes setup more verbose, mostly useful for debugging.
 
@@ -58,6 +62,7 @@ filter_args() {
 
         case $arg in
             -b|--bundle)
+                NO_UPDATES=1;
                 if [ -n "$2" ]; then
                     if bundle_exists $2; then
                         bundle_count=1
@@ -90,7 +95,10 @@ filter_args() {
             --no-updates)
                 NO_UPDATES=1;
                 ;;
-
+            -p|--prompt)
+                NO_UPDATES=1;
+                JUST_PROMPT=1;
+                ;;
             -v|-vv|-vvv|--verbose)
                 STDOUT_LOG_LEVEL="DEBUG"
                 log NOTICE "Verbosity set to ${STDOUT_LOG_LEVEL}."
@@ -114,6 +122,22 @@ init_git_submodules() {
     fi
     git submodule update &>/dev/null
     # It won't check if update succeeds because setup may be run offline
+}
+
+pick_prompt() {
+    if cmd_exists "python"; then
+        log INFO "Changing Bash prompt"
+        pretty_print INDENT RIGHT 3
+        prompt_wizard
+        if [ $? -eq 0 ]; then
+            log OK "Done"
+        else
+            log FAIL "Failed"
+        fi
+        pretty_print INDENT LEFT 3
+    else
+        log WARN "Skipping custom Bash prompt creation"
+    fi
 }
 
 print_splash() {
@@ -167,25 +191,31 @@ main() {
 
     test_for "dialog" OR_ABORT
 
-    # Create a tarball of previous backup so ./backups folder is (almost) empty
-    local backup_postfix="dotfiles_backup.tar.gz"
-    local backup_files_count=$(ls -l -I "*${backup_postfix}" backups/|wc -l)
-    if [ ${backup_files_count} -gt 1 ]; then
-        pushd backups/ >/dev/null || exit 1 # Don't take any chances!
-        local backup_filename="$(date +%Y%m%d-%H%M%S)-${backup_postfix}"
-        tar -zcf ${backup_filename} --exclude="*${backup_postfix}" *
-        if [ $? ]; then
-            find . -mindepth 1 ! -name "*${backup_postfix}" -exec rm -rf {} +
-            log INFO "Backup files were stored in backups/${backup_filename}"
-        else
-            log ERROR "There was a problem creating a tarball of a previous backup"
-            exit 1
-        fi
-        popd >/dev/null
+    create_backup_directory && log INFO "Backup folder created"
+
+    if [[ -v JUST_PROMPT ]]; then
+        test_for "python" OR_ABORT
+        pick_prompt
+        exit
     fi
 
     if [[ ! -v JUST_BUNDLES ]]; then
-        create_backup_folder
+        # Create a tarball of previous backup so ./backups folder is (almost) empty
+        local backup_postfix="dotfiles_backup.tar.gz"
+        local backup_files_count=$(ls -l -I "*${backup_postfix}" backups/|wc -l)
+        if [ ${backup_files_count} -gt 1 ]; then
+            pushd backups/ >/dev/null || exit 1 # Don't take any chances!
+            local backup_filename="$(date +%Y%m%d-%H%M%S)-${backup_postfix}"
+            tar -zcf ${backup_filename} --exclude="*${backup_postfix}" *
+            if [ $? ]; then
+                find . -mindepth 1 ! -name "*${backup_postfix}" -exec rm -rf {} +
+                log INFO "Backup files were stored in backups/${backup_filename}"
+            else
+                log ERROR "There was a problem creating a tarball of a previous backup"
+                exit 1
+            fi
+            popd >/dev/null
+        fi
 
         test_for "stow" OR_WARN "Keep in mind bundles may need stow."
         create_symlinks &&
@@ -193,7 +223,10 @@ main() {
 
         set_keyboard_layout
 
+        test_for "python" OR_WARN "Python is needed to generate a custom Bash prompt."
+        pick_prompt
         #pick_motd
+
         pick_packages
     fi
 
