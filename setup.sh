@@ -167,6 +167,8 @@ main() {
 
     test_for "dialog" OR_ABORT
 
+    create_backup_directory && log INFO "Backup folder created"
+
     if [[ ! -v JUST_BUNDLES ]]; then
         # Create a tarball of previous backup so ./backups folder is (almost) empty
         local backup_postfix="dotfiles_backup.tar.gz"
@@ -184,8 +186,6 @@ main() {
             fi
             popd >/dev/null
         fi
-
-        create_backup_folder
 
         test_for "stow" OR_WARN "Keep in mind bundles may need stow."
         create_symlinks &&
