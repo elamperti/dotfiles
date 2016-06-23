@@ -48,6 +48,13 @@ CALLER_GRAPH           = YES
 
 Defining `DOT_NUM_THREADS` is optional but it will improve execution time.
 
+## Adding support for CUDA (`.cu`) files
+To add support for CUDA files:
+
+  * Modify `FILE_PATTERNS` to include `*.cu`
+  * Modify `EXTENSION_MAPPING`, adding `cu=c++` after the `=` sign
+
+
 ---
 Sources:
   * http://www.stack.nl/~dimitri/doxygen/download.html
