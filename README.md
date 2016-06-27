@@ -1,10 +1,10 @@
 # Enrico's dotfiles
-Hi, these are my dotfiles. I'm not sure if I'm proud or ashamed of the code you'll find in here.
+Hi, these are my dotfiles. 
 
 ## Requirements
 The setup file expects **Bash 4** or newer. User must be able to sudo.
 
-The setup will look for the following packages (and try to install them, if you want are ok with it):
+The setup will look for the following packages (and try to install them, if you want/are ok with it):
   * `git` to initialize submodules
   * `dialog` which is used for the setup process
   * `stow` to symlink several files
