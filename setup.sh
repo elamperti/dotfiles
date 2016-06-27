@@ -124,6 +124,18 @@ init_git_submodules() {
     # It won't check if update succeeds because setup may be run offline
 }
 
+install_custom_font() {
+    # Install Droid Sans Mono, patched with Nerd Font
+    mkdir -p ~/.local/share/fonts
+    pushd ~/.local/share/fonts &>/dev/null
+    if [ ! -f 'Droid Sans Mono Nerd Font Complete.otf' ]; then
+        curl --silent -kfLo "Droid Sans Mono Nerd Font Complete.otf" \
+            "https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20for%20Powerline%20Nerd%20Font%20Complete.otf"
+        log INFO "Downloaded Droid Sans Mono patched font"
+    fi
+    popd &>/dev/null
+}
+
 pick_prompt() {
     if cmd_exists "python"; then
         log INFO "Changing Bash prompt"
@@ -222,6 +234,7 @@ main() {
         log NOTICE "Symlinks created"
 
         set_keyboard_layout
+        install_custom_font
 
         test_for "python" OR_WARN "Python is needed to generate a custom Bash prompt."
         pick_prompt
@@ -252,6 +265,7 @@ unset -f init_git_submodules
 unset -f main
 unset -f print_help
 unset -f print_splash
+unset -f install_custom_font
 
 popd &>/dev/null
 echo
