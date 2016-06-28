@@ -4,10 +4,6 @@
 # To add or modify bundles go to the `bundles` folder.
 # The `about-bundles.md` document may help you.
 
-# pushd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null
-# source 'progressbar/progressbar.sh'
-# popd &> /dev/null
-
 # Used to find selected bundles
 declare -A bundle_ids
 # Stores options for bundle picker

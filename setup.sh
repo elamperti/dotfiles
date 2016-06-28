@@ -116,11 +116,21 @@ filter_args() {
 
 init_git_submodules() {
     git submodule init &>/dev/null
-    if [ ! $? ]; then
+    if [ $? -ne 0 ]; then
         log ERROR "Failed to init submodules"
         exit 1
     fi
-    git submodule update &>/dev/null
+
+    git submodule update &>/dev/null && \
+    log NOTICE "Submodules updated"
+
+    if [ -v PROGRESSBAR_MISSING ]; then
+        source 'common/progressbar/progressbar.sh' &>/dev/null
+        if [ $? -eq 0 ]; then
+            log DEBUG "Progressbar was missing. Sourced submodule."
+            unset PROGRESSBAR_MISSING
+        fi
+    fi
     # It won't check if update succeeds because setup may be run offline
 }
 
@@ -190,7 +200,6 @@ main() {
 
     test_for "git" OR_ABORT
     init_git_submodules
-    log NOTICE "Submodules updated"
 
     # Logger must be started here, would fail otherwise
     if [ -f ./common/bashlog/bashlog ]; then

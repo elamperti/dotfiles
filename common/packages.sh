@@ -6,7 +6,20 @@
 
 pushd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null
 source 'settings.sh'
-source 'progressbar/progressbar.sh'
+
+# Progressbar submodule may not be initialized yet
+if [ -f 'progressbar/progressbar.sh' ]; then
+    source 'progressbar/progressbar.sh'
+else
+    # This ugly thing over here acts as a placeholder until (hopefully)
+    # PROGRESSBAR_MISSING is detected (after initializing submodules)
+    progressbar() {
+        return 0
+    }
+    PROGRESSBAR_MISSING=1
+    log DEBUG "Progressbar not found"
+fi
+
 popd &> /dev/null
 
 # This array will hold packages to be installed
