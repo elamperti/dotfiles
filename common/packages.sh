@@ -100,6 +100,7 @@ query_packages() {
     local existing_packages=()
     local incompatible_packages=()
     local missing_packages=()
+    local package_list_height=12
     local i=0
 
     local ammount_of_packages=$(get_package_count $1)
@@ -131,7 +132,7 @@ query_packages() {
         exec 3>&1;
         selected_packages=$(dialog --keep-tite \
             --title ${dialog_title[$1]^} \
-            --checklist ${dialog_desc[$1]} 12 70 5 \
+            --checklist ${dialog_desc[$1]} $(( 7 + $package_list_height )) 70 $package_list_height \
             ${missing_packages[@]} \
             2>&1 1>&3 \
         )

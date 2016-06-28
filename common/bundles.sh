@@ -139,7 +139,7 @@ pick_bundles() {
 
 show_bundle_picker() {
     local dialog_description="Select the bundles to be executed. Each bundle may run several tasks."
-    local bundle_list_height=8
+    local bundle_list_height=12
 
     # This is so the $bundle_option_list separates were it should
     oIFS=$IFS
@@ -166,7 +166,7 @@ show_bundle_picker() {
             enqueue_bundle $(get_bundle_by_name $bundle)
         done
     else
-        log INFO "No bundle was selected."
+        log INFO "No bundle will be installed."
     fi
     IFS=$oIFS
 }
