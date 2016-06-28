@@ -173,6 +173,12 @@ set_keyboard_layout() {
     # My keyboard
     setxkbmap -layout 'us' -variant 'altgr-intl' -model 'pc105' -rules 'evdev'
 
+    # re-apply xmodmap rules if present
+    if [ -f "$HOME/.Xmodmap" ] && cmd_exists 'xmodmap'; then
+        xmodmap "$HOME/.Xmodmap"
+        log DEBUG "Xmodmap rules re-applied"
+    fi
+
     log NOTICE "Keyboard layout succesfully changed"
 }
 
