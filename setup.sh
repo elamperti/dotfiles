@@ -251,8 +251,11 @@ main() {
         set_keyboard_layout
         install_custom_font
 
-        test_for "python" OR_WARN "Python is needed to generate a custom Bash prompt."
-        pick_prompt
+        if [ ! -f "$HOME/.bash_prompt" ]; then
+            test_for "python" OR_WARN "Python is needed to generate a custom Bash prompt."
+            pick_prompt
+        fi
+
         #pick_motd
 
         pick_packages
