@@ -23,6 +23,7 @@ Just execute `setup.sh` and keep an eye on what happens :crystal_ball:
 | -h, --help            | Print the option list.                                                |
 | -B, --bundles         | Set up bundles only.                                                  |
 | -b, --bundle _BUNDLE_ | Install just one particular bundle.                                   |
+| -m, --motd            | Shows the MOTD picker                                                 |
 | -p, --prompt          | Runs the prompt parser wizard (creates a prompt a-la-carte).          |
 | --no-updates          | Skip `apt-get update`. Not recommended unless you've already updated. |
 | -v, --verbose         | Makes setup more verbose, mostly useful for debugging.                |
@@ -45,6 +46,7 @@ In case you want to use this fast without checking how it works, you may change 
   * [Bundles](./bundles/), for more details see [the guide](./bundles/about-bundles.md)
   * `~/.bash_aliases.local` and `~/.bash_functions.local` will be sourced if they exist
   * Edit the [prompt templates](./art/prompt/templates/), or create a style for an existing one (it's as easy as changing values in a JSON file)
+  * Add your own [ascii art](./art/motd/) to use it as MOTD
 
 ## Acknowledgements
   * **Basharat Sialvi** for the [magnific tutorial](https://askubuntu.com/a/283909/198486) on setting up *powerline* everywhere.

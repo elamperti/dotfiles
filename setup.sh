@@ -6,6 +6,7 @@ source 'common/packages.sh'
 source 'common/bundles.sh'
 source 'common/logger.sh'
 source 'common/prompt-wizard.sh'
+source 'common/motd-wizard.sh'
 
 # Default config for bashlog
 LOG_FILE=`readlink -f "$(dirname $0)/setup.log"`
@@ -24,19 +25,22 @@ OPTIONS
        -b, --bundle BUNDLE
            Install just one particular bundle.
 
-        -B, --bundles
+       -B, --bundles
            Set up bundles only.
 
-        -h, --help
+       -h, --help
            Print this help.
 
-        --no-updates
+       -m, --motd
+           Shows the MOTD picker
+
+       --no-updates
            Skip `apt-get update`. Not recommended unless you already updated.
 
-        -p, --prompt
+       -p, --prompt
            Shows the prompt parser wizard
 
-        -v, --verbose
+       -v, --verbose
            Makes setup more verbose, mostly useful for debugging.
 
 EOF
@@ -92,6 +96,11 @@ filter_args() {
                 exit 0
                 ;;
 
+            -m|--motd)
+                pick_motd
+                exit $?
+                ;;
+
             --no-updates)
                 NO_UPDATES=1;
                 ;;
@@ -144,6 +153,23 @@ install_custom_font() {
         log INFO "Downloaded Droid Sans Mono patched font"
     fi
     popd &>/dev/null
+}
+
+pick_motd() {
+    log INFO "Changing MOTD"
+    pretty_print INDENT RIGHT 3
+    motd_wizard
+    if [ $? -eq 0 ]; then
+        if [ -f '/etc/update-motd.d/10-help-text' ]; then
+            cp /etc/update-motd.d/10-help-text "backups/$(date +%Y%m%d-%H%M%S)-motd-help-text"
+            sudo rm /etc/update-motd.d/10-help-text
+            log INFO 'Removed original MOTD help text'
+        fi
+        log OK "Done"
+    else
+        log FAIL "Skipped"
+    fi
+    pretty_print INDENT LEFT 3
 }
 
 pick_prompt() {
@@ -256,7 +282,7 @@ main() {
             pick_prompt
         fi
 
-        #pick_motd
+        pick_motd
 
         pick_packages
     fi
