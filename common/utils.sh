@@ -70,52 +70,65 @@ pause() {
 }
 
 stow_and_verify() {
-    local backup_dest=""
-    local mv_flags=""
-    local backups_folder="$(dirname "${BASH_SOURCE[0]}")/../backups"
+    local backups_folder=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/../backups")
+    local dest_path="${1%/}"
+    local target_path="${2%/}"
+
+    # if target path is a directory, go into it and reset it
+    if [[ ${2%/} == *"/"* ]]; then
+        local new_path=${target_path%/*}
+        local target_name=${target_path##*/}
+        pushd "${new_path}" &>/dev/null
+        target_path="${target_name}"
+    fi
 
     # Define list of prospective files to be stowed
-    if [ -d "$2" ]; then
-        thing_about_to_be_stowed=$(find $2 -mindepth 1 -type f -exec basename {} \;)
+    if [ -d "${target_path}" ]; then
+        pushd "${target_path}" &>/dev/null
+        local thing_about_to_be_stowed=$(find . -mindepth 1 -type f|sed 's#^\./##')
+        popd &>/dev/null
     else
-        thing_about_to_be_stowed="$2"
+        local thing_about_to_be_stowed="${target_path}"
     fi
 
     # If they exist, make a backup
     for prospective_file in ${thing_about_to_be_stowed}; do
-        if [[ -f "$1/${prospective_file}" || -d "$1/${prospective_file}" ]]; then
+        if [[ -f "${dest_path}/${prospective_file}" || -d "${dest_path}/${prospective_file}" ]]; then
             # Log first to check if it's a symlink
-            if [ ! -L "$1/${prospective_file}" ]; then
-                log WARN "Creating backup of $1/${prospective_file}"
+            if [ ! -L "${dest_path}/${prospective_file}" ]; then
+                log WARN "Creating backup of ${dest_path}/${prospective_file}"
             else
-                log DEBUG "Backing up symlinked file $1/${prospective_file}"
+                log DEBUG "Backing up symlinked file ${dest_path}/${prospective_file}"
             fi
 
-            backup_dest="${backups_folder}/$2/${prospective_file}"
-            mv_flags="$([ -d "$1/${prospective_file}" ] && echo "-r")"
+            local backup_dest="${backups_folder}/${target_path}/${prospective_file}"
+            local mv_flags="$([ -d "${dest_path}/${prospective_file}" ] && echo "-r")"
 
             mkdir -p "$(dirname ${backup_dest})"
-            mv $mv_flags "$1/${prospective_file}" "${backup_dest}" &>/dev/null
+            mv $mv_flags "${dest_path}/${prospective_file}" "${backup_dest}"
             if [ "$?" -ne 0 ]; then
-                log ERROR "Failed to backup $1/${prospective_file}"
+                log ERROR "Failed to backup ${dest_path}/${prospective_file}"
+                [ -v new_path ] && popd &>/dev/null
                 return 1
             fi
         fi
     done
 
-    stow -R -t $1 $2
-    if [[ $? == 1 ]]; then
+    stow -R -t "${dest_path}" "${target_path}"
+    if [ $? -eq 1 ]; then
         echo -e "\nStow couldn't create the symlinks for files in ${fg_white}$(last_argument $@)${normal}"
         echo -e "You may verify the problem manually and try again."
         ask_yes_no "Try again?" $DEFAULT_YES
         if answer_was_no; then
+            [ -v new_path ] && popd &>/dev/null
             return 1
         else
             echo
             # Down the rabbit hole!
-            stow_and_verify $@ || return 1
+            stow_and_verify $@ || ([ -v new_path ] && popd &>/dev/null; return 1)
         fi
     fi
+    [ -v new_path ] && popd  &>/dev/null
     return 0
 }
 
@@ -145,5 +158,6 @@ test_for() {
         ask_for_sudo
         # ToDo: verify the installation succeeds or ask to try again
         install_package "$1"
+        return $?
     fi
 }

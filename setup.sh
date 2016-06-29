@@ -40,23 +40,13 @@ OPTIONS
        -p, --prompt
            Shows the prompt parser wizard
 
+       -u, --update
+           Updates all the symlinks as needed
+
        -v, --verbose
            Makes setup more verbose, mostly useful for debugging.
 
 EOF
-}
-
-create_symlinks() {
-    if cmd_exists "stow"; then
-        [ -d ~/bin ] || mkdir ~/bin
-
-        # stow_and_verify ~/bin bin/
-        stow_and_verify ~/ shell/ 2>>setup.log \
-            || return 1
-    else
-        log WARN "Skiping symlink creation because stow is missing."
-    fi
-    return 0
 }
 
 # See `print_help()` for a complete -and easier to read- option list
@@ -104,10 +94,18 @@ filter_args() {
             --no-updates)
                 NO_UPDATES=1;
                 ;;
+
             -p|--prompt)
                 NO_UPDATES=1;
                 JUST_PROMPT=1;
                 ;;
+
+            -u|--update)
+                test_for "stow" OR_ABORT "Stow is needed to create symlinks."
+                create_symlinks
+                exit $?
+                ;;
+
             -v|-vv|-vvv|--verbose)
                 STDOUT_LOG_LEVEL="DEBUG"
                 log NOTICE "Verbosity set to ${STDOUT_LOG_LEVEL}."
@@ -121,6 +119,51 @@ filter_args() {
         esac
         shift # past argument or value
     done
+}
+
+create_symlinks() {
+    if ! cmd_exists "stow"; then
+        log WARN "Skiping symlink creation because stow is missing."
+        return 1
+    fi
+
+    local retval=0
+    log NOTICE "Updating symlinks..."
+
+    # local function to pretty-print results
+    # params: retval
+    log_result_for() {
+        if [ $? -eq 0 ]; then
+            log OK "${1:-Done}"
+        else
+            log FAIL "${1:-Failed}"
+            retval=1
+        fi
+    }
+
+    # local function to stow and log result
+    # params: friendly_name to_path from_path
+    stow_and_log() {
+        pretty_print INDENT RIGHT 6
+        stow_and_verify "$2" "$3"
+        pretty_print INDENT LEFT 6
+        log_result_for "$1"
+    }
+
+    pretty_print INDENT RIGHT 3
+
+    # This is the actual list of things being stowed
+    stow_and_log "General dotfiles" ~/ shell/
+    stow_and_log ".config directory" ~/.config/ home/.config/
+
+    pretty_print INDENT LEFT 3
+
+    test $retval -eq 0
+    log_result_for #retval
+
+    unset -f stow_and_log
+    unset -f log_result_for
+    return $retval
 }
 
 init_git_submodules() {
@@ -271,8 +314,7 @@ main() {
         fi
 
         test_for "stow" OR_WARN "Keep in mind bundles may need stow."
-        create_symlinks &&
-        log NOTICE "Symlinks created"
+        create_symlinks
 
         set_keyboard_layout
         install_custom_font

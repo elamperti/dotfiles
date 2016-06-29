@@ -25,6 +25,7 @@ Just execute `setup.sh` and keep an eye on what happens :crystal_ball:
 | -b, --bundle _BUNDLE_ | Install just one particular bundle.                                   |
 | -m, --motd            | Shows the MOTD picker                                                 |
 | -p, --prompt          | Runs the prompt parser wizard (creates a prompt a-la-carte).          |
+| -u, --update          | Updates all the symlinks as needed.                                   |
 | --no-updates          | Skip `apt-get update`. Not recommended unless you've already updated. |
 | -v, --verbose         | Makes setup more verbose, mostly useful for debugging.                |
 
@@ -42,6 +43,7 @@ After installing all the required packages, bundle scripts will finish their ins
 ## How to customize this quickly
 In case you want to use this fast without checking how it works, you may change the following:
   * [Files in `shell/`](./shell/), which are most of the dotfiles
+  * [Files in `home/`](./home/), which will be symlinked to your home folder
   * [Packages lists](./common/settings.sh)
   * [Bundles](./bundles/), for more details see [the guide](./bundles/about-bundles.md)
   * `~/.bash_aliases.local` and `~/.bash_functions.local` will be sourced if they exist
