@@ -7,17 +7,21 @@ GtkWindow#Main .notebook {
 }
 
 GtkWindow#Main .notebook tab GtkLabel {
+    background-color: #0B0B0B;
     border-radius: 4px;
+    color: #9FAFBF;
     padding-left: 4px;
     padding-right: 4px;
 }
 
 GtkWindow#Main .notebook tab {
-  background-color: #101010;
+    background-color: #101010;
+    padding-left: 2px;
+    padding-right: 2px;
 }
 
 GtkWindow#Main .notebook tab:active {
-    background-color: #5EA6EA;
-    color: #28211C;
+    /*background-color: #5EA6EA;*/
+    background-color: #2E668A;
 }
 
