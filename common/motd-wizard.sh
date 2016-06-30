@@ -16,7 +16,11 @@ motd_wizard() {
     exec 3>&-
 
     # Return if none selected
-    [ -z "${selected_motd}" ] && return 1
+    if [ -z "${selected_motd}" ]; then
+        popd &>/dev/null
+        return 1
+    fi
+
     # Add extension back
     selected_motd="${selected_motd}.motd"
 
