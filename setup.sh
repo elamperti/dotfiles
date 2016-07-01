@@ -199,8 +199,6 @@ install_custom_font() {
 }
 
 pick_motd() {
-    log INFO "Changing MOTD"
-    pretty_print INDENT RIGHT 3
     motd_wizard
     if [ $? -eq 0 ]; then
         if [ -f '/etc/update-motd.d/10-help-text' ]; then
@@ -208,11 +206,10 @@ pick_motd() {
             sudo rm /etc/update-motd.d/10-help-text
             log INFO 'Removed original MOTD help text'
         fi
-        log OK "Done"
+        log OK "MOTD set"
     else
-        log FAIL "Skipped"
+        log INFO "Skipped MOTD modification"
     fi
-    pretty_print INDENT LEFT 3
 }
 
 pick_prompt() {

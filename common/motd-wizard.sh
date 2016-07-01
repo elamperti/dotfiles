@@ -10,13 +10,14 @@ motd_wizard() {
     exec 3>&1;
     local selected_motd=$(dialog --keep-tite --title 'MOTD' \
         --radiolist 'Pick a design to use as motd' 12 32 6\
+        None   on \
         ${artworks[@]} \
         2>&1 1>&3 \
     )
     exec 3>&-
 
     # Return if none selected
-    if [ -z "${selected_motd}" ]; then
+    if [ -z "${selected_motd}" ] || [[ "${selected_motd}" == "None" ]]; then
         popd &>/dev/null
         return 1
     fi
