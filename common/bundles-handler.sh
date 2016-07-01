@@ -41,7 +41,7 @@ create_bundle_list() {
 
                 bundle_ids[$bundle]="$friendly_name"
 
-                bundle_option_list+=("$friendly_name" "$description" on)
+                bundle_option_list+=("$friendly_name" "$description" "off")
 
                 log DEBUG "Bundle found: $bundle"
                 ((bundle_count++))

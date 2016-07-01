@@ -116,7 +116,7 @@ query_packages() {
             #log DEBUG "Package exists: $package"
         else
             if verify_package_availability "$package"; then
-                missing_packages+=("$package" "$description" on)
+                missing_packages+=("$package" "$description" "off")
                 log DEBUG "Package missing: $package"
             else
                 incompatible_packages+=("$package")
