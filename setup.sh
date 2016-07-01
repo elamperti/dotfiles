@@ -2,14 +2,14 @@
 
 pushd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null
 source 'common/utils.sh'
-source 'common/packages.sh'
-source 'common/bundles.sh'
+source 'common/packages-handler.sh'
+source 'common/bundles-handler.sh'
 source 'common/logger.sh'
 source 'common/prompt-wizard.sh'
 source 'common/motd-wizard.sh'
 
 # Default config for bashlog
-LOG_FILE=`readlink -f "$(dirname $0)/setup.log"`
+LOG_FILE=`readlink -f "$(dirname $0)/latest.log"`
 LOG_LEVEL="DEBUG"
 STDOUT_LOG_LEVEL="INFO"
 LOG_TO_STDOUT="YES"
@@ -261,7 +261,7 @@ main() {
 
     filter_args $@
 
-    # rm setup.log
+    rm -f latest.log
     print_splash
 
     ask_for_sudo

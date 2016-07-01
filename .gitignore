@@ -1,4 +1,4 @@
-setup.log
+*.log
 
 backups/
 bundles/**/.tmpcommands

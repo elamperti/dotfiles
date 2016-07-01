@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Hello!
-# To edit packages to be installed go to `settings.sh`
+# To edit packages to be installed go to `package-lists.sh`
 # These are not the droids you're looking for.
 
 pushd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null
-source 'settings.sh'
+source 'package-lists.sh'
 
 # Progressbar submodule may not be initialized yet
 if [ -f 'progressbar/progressbar.sh' ]; then
@@ -69,7 +69,7 @@ install_queued_packages() {
     if [ ${#package_queue[@]} -gt 0 ]; then
         log INFO "Installing ${#package_queue[@]} queued packages..."
         log DEBUG "Packages to install: ${package_queue[@]}"
-        sudo apt-get install -y --force-yes ${package_queue[@]} 2>>setup.log &> /dev/null \
+        sudo apt-get install -y --force-yes ${package_queue[@]} &> /dev/null \
         || install_outcome=1
 
         if [ $install_outcome -eq 0 ]; then

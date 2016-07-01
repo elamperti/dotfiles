@@ -44,7 +44,7 @@ After installing all the required packages, bundle scripts will finish their ins
 In case you want to use this fast without checking how it works, you may change the following:
   * [Files in `shell/`](./shell/), which are most of the dotfiles
   * [Files in `home/`](./home/), which will be symlinked to your home folder
-  * [Packages lists](./common/settings.sh)
+  * [Package lists](./common/package-lists.sh)
   * [Bundles](./bundles/), for more details see [the guide](./bundles/about-bundles.md)
   * `~/.bash_aliases.local` and `~/.bash_functions.local` will be sourced if they exist
   * Edit the [prompt templates](./art/prompt/templates/), or create a style for an existing one (it's as easy as changing values in a JSON file)
