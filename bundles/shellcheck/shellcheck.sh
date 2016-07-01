@@ -15,6 +15,7 @@ on_init() {
     if ! cmd_exists "cabal"; then
         send_cmd enqueue_packages "cabal-install"
     fi
+    mkdir -p "$HOME/bin"
 }
 
 after_installs() {
