@@ -35,5 +35,10 @@ fi
 [[ -s "$HOME/.local/share/marker/marker.sh" ]] \
     && source "$HOME/.local/share/marker/marker.sh"
 
+# Bind Ctrl+Left and Ctrl+Right to navigate by words easily
+# This may not work everywhere, see https://stackoverflow.com/a/5029155/854076
+bind '"\e[1;5C":forward-word'
+bind '"\e[1;5D":backward-word'
+
 # Unset anything that just pollutes the global space
 unset -f source_bash_files
