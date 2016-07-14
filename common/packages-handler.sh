@@ -38,28 +38,31 @@ get_package_count() {
     echo "${!1}"|  sed '/^\s*$/d' | wc -l
 }
 
-guess_desktop_manager() {
-    local dm=''
-    local possible_dm=''
-
-    possible_dm=$(pgrep -l "\-session" |
-        sed 's/[0-9]* \([^0-9\-]*\).*/\1/' |
-        awk '{print $1}'
-    )
-    dm=`echo ${XDG_CURRENT_DESKTOP,,}|grep -o $possible_dm ||
-        echo $supported_desktop_managers|grep -o $possible_dm`
-
-    printf "%s" "$dm"
-}
-
 pick_packages() {
     query_packages 'common_packages'
-    query_packages 'graphical_packages'
 
-    # ToDo: use `guess_desktop_manager()` and show
-    #       only the relevant DM here. Or ask.
-    # query_packages 'xfce_packages'
-    # query_packages 'gnome_packages'
+    local dm=$(guess_desktop_manager)
+    if [ -z "${dm}" ]; then
+        log NOTICE "No desktop manager detected"
+        dialog --keep-tite --title "No desktop manager detected" --yesno \
+               "The setup couldn't detect a desktop manager.\nDo you want to show graphical packages anyway?" 7 54
+        if [ $? -eq 0 ]; then
+            query_packages 'graphical_packages'
+
+        fi
+    else
+        query_packages 'graphical_packages'
+        case "${dm}" in
+            "xfce")
+                query_packages 'xfce_packages'
+                ;;
+            "gnome")
+                query_packages 'gnome_packages'
+                ;;
+            *)
+                log WARN "Unknown desktop environment: ${dm}"
+        esac
+    fi
     log DEBUG "Finished package selection"
 }
 
@@ -105,7 +108,8 @@ query_packages() {
 
     local ammount_of_packages=$(get_package_count $1)
 
-    log INFO "Verifying packages ($1)"
+    log DEBUG "Verifying packages for $1"
+    log INFO "Verifying ${dialog_title[$1]}"
     progressbar start
     oIFS=$IFS
     IFS=$'\n'

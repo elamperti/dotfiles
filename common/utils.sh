@@ -49,6 +49,25 @@ function_exists() {
     return $?
 }
 
+# Returns
+guess_desktop_manager() {
+    local dm=''
+    local possible_dm=''
+
+    possible_dm=$(pgrep -l "\-session" |
+        sed 's/[0-9]* \([^0-9\-]*\).*/\1/' |
+        awk '{print $1}'
+    )
+    log DEBUG "Possible DM: ${possible_dm}"
+
+    if [ -n "${possible_dm}" ]; then
+        dm=$(echo ${XDG_CURRENT_DESKTOP,,}|grep -o $possible_dm ||
+             echo $supported_desktop_managers|grep -o $possible_dm)
+    fi
+
+    echo "${dm}"
+}
+
 install_package() {
     sudo apt-get -qqy --force-yes install $@ > /dev/null
     return $?
