@@ -80,6 +80,12 @@ last_argument() {
     echo ${@: -1}
 }
 
+# Checks if a package can be upgraded; works best if used after apt-get update
+package_has_update() {
+    [ -n "$(sudo apt-get upgrade --just-print|grep 'Inst ${1,,} ')" ]
+    return $?
+}
+
 # I was born in MS-DOS.
 pause() {
     echo
