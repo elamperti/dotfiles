@@ -236,15 +236,18 @@ print_splash() {
 
 set_keyboard_layout() {
     # My keyboard
-    setxkbmap -layout 'us' -variant 'altgr-intl' -model 'pc105' -rules 'evdev'
+    if cmd_exists 'setxkbmap'; then
+        setxkbmap -layout 'us' -variant 'altgr-intl' -model 'pc105' -rules 'evdev' && \
+        log NOTICE "Keyboard layout succesfully changed"
+    else
+        log WARN "Couldn't change keyboard layout (setxkbmap not found)"
+    fi
 
     # re-apply xmodmap rules if present
     if [ -f "$HOME/.Xmodmap" ] && cmd_exists 'xmodmap'; then
         xmodmap "$HOME/.Xmodmap"
         log DEBUG "Xmodmap rules re-applied"
     fi
-
-    log NOTICE "Keyboard layout succesfully changed"
 }
 
 main() {
