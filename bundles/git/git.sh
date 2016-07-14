@@ -13,8 +13,13 @@ verify_requirements() {
 
 on_init() {
     # You should already have git at this point, but who knows
-    send_cmd enqueue_packages "git"
-    send_cmd enqueue_packages "tig"
+    if ! cmd_exists 'git' || package_has_update 'git'; then
+        send_cmd enqueue_packages 'git'
+    fi
+
+    if ! cmd_exists 'tig' || package_has_update 'tig'; then
+        send_cmd enqueue_packages 'tig'
+    fi
 
     mkdir -p ~/bin/lib/
 }
@@ -28,7 +33,7 @@ after_installs() {
 
     # Asume user name and e-mail aren't configured if e-mail is empty
     if [ -z "$(git config --get user.email)" ]; then
-        local default_user_name=`grep -P "^$(whoami):" /etc/passwd | cut -f5 -d: | cut -f1 -d,`
+        local default_user_name=$(grep -P "^$(whoami):" /etc/passwd | cut -f5 -d: | cut -f1 -d,)
 
         exec 4>&1
 
@@ -41,9 +46,12 @@ after_installs() {
             # Save user and e-mail in a local config file
             git config --file ${config_file} user.name "${user_name}"
             git config --file ${config_file} user.email "${user_email}"
+            send_cmd log OK "Defined user's name and email"
         fi
 
         exec 4>&-
+    else
+        send_cmd log OK "User info is already defined"
     fi
 
     #------------------------------------
@@ -68,6 +76,7 @@ after_installs() {
         chmod +x ~/bin/lib/diff-so-fancy.pl
 
         git config --file ${config_file} core.pager "diff-so-fancy | less --tabs=2 -RFX"
+        send_cmd log OK "diff-so-fancy enabled"
     else
         send_cmd log ERROR "Failed to install diff-so-fancy"
     fi
