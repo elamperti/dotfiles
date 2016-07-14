@@ -20,14 +20,14 @@ on_init() {
 }
 
 after_installs() {
+    local config_file=~/.gitconfig.local
+
     #------------------------------------
     # Set user and email                |
     #------------------------------------
 
     # Asume user name and e-mail aren't configured if e-mail is empty
     if [ -z "$(git config --get user.email)" ]; then
-
-        local config_file=~/.gitconfig.local
         local default_user_name=`grep -P "^$(whoami):" /etc/passwd | cut -f5 -d: | cut -f1 -d,`
 
         exec 4>&1
@@ -45,6 +45,13 @@ after_installs() {
 
         exec 4>&-
     fi
+
+    #------------------------------------
+    # Workaround for old Git versions   |
+    #------------------------------------
+
+    git config --file ${config_file} push.default "simple"
+
 
     #------------------------------------
     # Download and enable diff-so-fancy |
