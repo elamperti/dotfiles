@@ -4,7 +4,6 @@ pushd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null
 source 'common/utils.sh'
 source 'common/packages-handler.sh'
 source 'common/bundles-handler.sh'
-source 'common/logger.sh'
 source 'common/prompt-wizard.sh'
 source 'common/motd-wizard.sh'
 
