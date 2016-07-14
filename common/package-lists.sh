@@ -33,6 +33,7 @@ graphical_packages="
     shutter: feature-rich screenshot tool
     tilda: a simple dropdown terminal
     vlc: media player
+    wmctrl: interact with Extended Window Manager Hints
     xclip: command line interface for clipboard
 "
 
