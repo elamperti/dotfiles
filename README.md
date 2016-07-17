@@ -1,8 +1,10 @@
-# Enrico's dotfiles
-Hi, these are my dotfiles. 
+#﻿![](http://i.imgur.com/SY3I0M7.png?1) Enrico's dotfiles
+
+Hi, these are my dotfiles and a bunch of scripts to make new installations a breeze.
+See [requirements](#requirements), [setup instructions](#installing) and [how to customize](#customization) them.
 
 ## Requirements
-The setup file expects **Bash 4** or newer. User must be able to sudo.
+**Bash 4** or newer is expected. User must be able to sudo.
 
 The setup will look for the following packages (and try to install them, if you want/are ok with it):
   * `git` to initialize submodules
@@ -32,16 +34,16 @@ Just execute `setup.sh` and keep an eye on what happens :crystal_ball:
 ## How does it work?
 The setup will verify Bash version before starting. After updating `apt`'s package list and initializing the required [submodules](./.gitmodules), symlinks will be created and the installation section will start.
 
-Package/bundle selection is divided in four steps, and in each one the setup will ask wich packages/bundles to install:
+Package/bundle selection is divided in four steps, and in each one the setup will ask which packages/bundles to install:
   1. **Common packages** are used from terminal and usually found across different distributions.
   2. **Graphical packages** are programs that require a window manager to be used or are only useful in that context.
-  3. **Window manager packages** are packages related to specific window managers (XFCE and Gnome).
+  3. **Window manager packages** are packages related to specific window managers.
   4. :package: **Bundles**: are special scripts, read more about them in [the guide](./bundles/about-bundles.md).
 
 After installing all the required packages, bundle scripts will finish their installation and may ask for additional information.
 
-## How to customize this quickly
-In case you want to use this fast without checking how it works, you may change the following:
+## Customization
+You should really take a look at [`setup.sh`](./setup.sh) to see what it does. Apart from that, you may want to change the following to suit your needs:
   * [Files in `shell/`](./shell/), which are most of the dotfiles
   * [Files in `home/`](./home/), which will be symlinked to your home folder
   * [Package lists](./common/package-lists.sh)
@@ -51,9 +53,9 @@ In case you want to use this fast without checking how it works, you may change 
   * Add your own [ascii art](./art/motd/) to use it as MOTD
 
 ## Acknowledgements
-  * **Basharat Sialvi** for the [magnific tutorial](https://askubuntu.com/a/283909/198486) on setting up *powerline* everywhere.
   * **Cătălin Mariș**' [dotfiles](https://github.com/alrra/dotfiles) are very interesting and were great to learn when I started using dotfiles. My dotfiles take some functions and ideas from his work.
   * **Kevin Hochhalter** for the simple and powerful [bashlog](https://github.com/klhochhalter/bashlog).
-  * The [/r/vim](https://www.reddit.com/r/vim/) subreddit gave me good ideas and lots of information on how to config [.vimrc](./bundles/vim/vim/vimrc)
+  * I rely on [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) by **Ryan McIntyre** to make my prompt (and Vim) look ~~like there's an icon parade in my console~~ good.
+  * **Joel Glovier** for [the logo](https://github.com/jglovier/dotfiles-logo).
+  * [/r/vim](https://www.reddit.com/r/vim/) gave me good ideas and lots of information on how to config my [.vimrc](./bundles/vim/vim/vimrc)
   * The [Git bundle](./bundles/git/) uses [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) :information_desk_person:
-  * I rely on [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) to make my prompt (and Vim) look ~~like there's an icon parade in my console~~ good.
