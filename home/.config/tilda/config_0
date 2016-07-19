@@ -1,7 +1,7 @@
 tilda_config_version = "1.1.11"
 # image = ""
 # command = ""
-font = "Droid Sans Mono for Powerline 10"
+font = "DroidSansMonoForPowerline Nerd Font 10"
 key = "F9"
 addtab_key = "F3"
 fullscreen_key = "F11"
