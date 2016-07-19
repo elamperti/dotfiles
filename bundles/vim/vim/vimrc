@@ -192,6 +192,9 @@ call plug#begin('~/.vim/plugins')
     " Useful mappings
     Plug 'tpope/vim-unimpaired'
 
+    " Docker syntax highlighting
+    Plug 'ekalinin/Dockerfile.vim'
+
     " ------------
     " | Disabled |
     " ------------
@@ -363,6 +366,9 @@ map <leader>W :w !sudo tee %<CR>
 " [:w!!]
 cnoremap w!! %!sudo tee > /dev/null %
 
+" Open shell (return to Vim issuing Ctrl+D)
+nmap <leader>` :shell<CR>
+
 " Split line
 nnoremap K i<CR><Esc>
 
@@ -405,7 +411,6 @@ nnoremap <silent> <C-Left> <<
 nnoremap <silent> <C-Up> [e
 nnoremap <silent> <C-Down> ]e
 
-
 " Relative or absolute number lines
 function! NumberToggle()
     if(&rnu == 0)
@@ -421,7 +426,6 @@ endfunction
 nmap <leader>n :call NumberToggle()<CR>
 
 " CtrlSF mappings
-
 nmap     <C-F>f <Plug>CtrlSFPrompt
 vmap     <C-F>f <Plug>CtrlSFVwordPath
 vmap     <C-F>F <Plug>CtrlSFVwordExec
