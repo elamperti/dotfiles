@@ -60,6 +60,12 @@ after_installs() {
 
     git config --file ${config_file} push.default "simple"
 
+    #------------------------------------
+    # Enable Bash auto-completion       |
+    #------------------------------------
+
+    curl --silent -kfLo ~/.git-completion.bash "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash" \
+        && send_cmd log OK "Add Bash auto-completion for Git"
 
     #------------------------------------
     # Download and enable diff-so-fancy |

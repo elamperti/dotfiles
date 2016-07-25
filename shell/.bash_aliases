@@ -67,3 +67,36 @@ alias gsa='git stash apply'
 alias gsh='git stash save'
 alias gsl='git stash list'
 alias gsp='git stash pop'
+
+# Git completion for shortcuts
+if type __git_complete &>/dev/null; then 
+  __git_complete g __git_main
+  __git_complete ga _git_add
+  __git_complete gaa _git_add
+  __git_complete gac _git_commit
+  __git_complete gap _git_add
+  __git_complete gb _git_branch
+  __git_complete gc _git_commit
+  __git_complete gca _git_commit
+  __git_complete gd _git_diff
+  __git_complete gds _git_diff
+  __git_complete gfa _git_fetch
+  __git_complete gk _git_checkout
+  __git_complete gkb _git_checkout
+  __git_complete gkp _git_checkout
+  __git_complete gl _git_log
+  __git_complete gm _git_merge
+  __git_complete gmt _git_merge
+  __git_complete gmv _git_mv
+  __git_complete gol _git_log
+  __git_complete gpl _git_pull
+  __git_complete gps _git_push
+  __git_complete grb _git_rebase
+  __git_complete grm _git_rm
+  __git_complete grs _git_reset
+  __git_complete gs _git_statuse
+  __git_complete gsa _git_stash
+  __git_complete gsh _git_stash
+  __git_complete gsl _git_stash
+  __git_complete gsp _git_stash
+fi

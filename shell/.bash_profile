@@ -20,8 +20,6 @@ source_bash_files() {
     done
 }
 
-source_bash_files
-
 # Bash completion
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -30,6 +28,13 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+# Git completion
+if [ -f ~/.git-completion.bash ]; then
+  . ~/.git-completion.bash
+fi
+
+source_bash_files
 
 # Use marker if present
 [[ -s "$HOME/.local/share/marker/marker.sh" ]] \
