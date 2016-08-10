@@ -4,6 +4,7 @@ common_packages="
     alsa-utils: utilities to control the sound card
     autoconf: configures source code packages
     autossh: starts and keeps alive a SSH connection
+    aview: view images from CLI (requires imagemagick)
     bash-completion: command completion for Bash
     build-essential: packages required to compile C programs
     cmus: CLI music player with last.fm support
@@ -12,6 +13,7 @@ common_packages="
     gcal: the GNU calendar (useful to see holidays)
     git: popular distributed version control system
     htop: interactive process viewer
+    imagemagick: image manipulation tools
     libimage-exiftool-perl: EXIF metadata viewer (exiftool)
     mc: Midnight Commander file manager
     moreutils: sponge, vipe, pee and other utilities
