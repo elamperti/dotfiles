@@ -137,3 +137,16 @@ up() {
     done
     cd "$p$2" && pwd
 }
+
+# Opens a simple HTTP server in the current folder
+# Args: [ws_port=8000]
+webserver() {
+    if ! command -v python &>/dev/null; then
+       echo "Python is not installed."
+       exit 1
+    fi
+
+    ws_port=${1:-8000}
+
+    python -m SimpleHTTPServer $ws_port
+}
