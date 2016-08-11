@@ -20,7 +20,7 @@ hcd() {
     cd ~/$1
 }
 
-holiday() {
+holidays() {
     local countrycode=${1:-AR} # use AR by default
     gcal -n -u -q "${countrycode}" $2
 }
