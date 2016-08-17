@@ -22,7 +22,34 @@ hcd() {
 
 holidays() {
     local countrycode=${1:-AR} # use AR by default
-    gcal -n -u -q "${countrycode}" $2
+    countrycode=${countrycode^^}
+    if [[ ${countrycode} == "UK" ]]; then
+      countrycode="GB_EN"
+    fi
+
+    local color_gray=$(echo -e "\e[2m")
+    local color_reset=$(echo -e "\e[0m")
+
+    # Define time period
+    local months_ahead=6
+    local cal_range=$(date -d "today" +%m/%Y)
+    for i in $(seq 1 ${months_ahead}); do 
+      cal_range="${cal_range},$(date -d "today ${i} months" +%m/%Y)"
+    done
+
+    # Legal holidays only (use `-n` to include memorial days)
+    gcal -N --exclude-holiday-list-title --suppress-holiday-list-separator \
+      --date-format="DateBEGIN%1%D %<3#U%2: DateDayOfWeek%<3#K DateYear%>4#YDateEND" \
+         --suppress-calendar --disable-highlighting \
+         --cc-holidays="${countrycode}" ${cal_range} |
+    sed "s/(${countrycode})//" | # Remove country code from each line
+    # Format days ahead/behind
+    sed 's/ *= *\(.[0-9]*\) \(days\?\)/ (\1 \2)/' |
+    # Remove year and extra sign
+    sed 's/ DateYear[0-9]*//' |
+    # Sort items in a prettier? way
+    sed 's/\(.*\) \(.\) DateBEGIN\(.*\)\: DateDayOfWeek\(...\)DateEND\(.*\)/\3: \1 [\4] \5/' |
+    sed "s/\(.*\[\(Sat\|Sun\)\].*\)/${color_gray}\1${color_reset}/"
 }
 
 # Make directory and enter immediately
