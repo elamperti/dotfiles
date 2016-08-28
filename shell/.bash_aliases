@@ -31,10 +31,12 @@ alias o='xdg-open'
 alias q='exit'
 
 # apt shortcuts
+alias sapar='sudo apt-get auto-remove'
 alias sapi='sudo apt-get install'
 alias sapr='sudo apt-get remove'
 alias saps='sudo apt-cache search'
 alias sapu='sudo apt-get update'
+alias sapy='sudo apt-get install -y'
 
 # Git shortcut madness
 alias g='git'
