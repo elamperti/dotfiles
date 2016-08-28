@@ -22,6 +22,7 @@ common_packages="
     ssh: OpenSSH client
     sshfs: mount directories over SSH
     tmux: terminal multiplexer (similar to \`screen\`)
+    unrar: extracts RAR files
     dropbear: alternative SSH server
 "
 
@@ -31,6 +32,8 @@ graphical_packages="
     filezilla: FTP client
     gdebi: simple tool to install \`.deb\` files
     gnome-terminal: Gnome terminal emulator
+    openscad: Parametric solid 3D CAD modeller
+    poedit: a gettext translations editor (i18n)
     remmina: VNC and RDP client
     shutter: feature-rich screenshot tool
     tilda: a simple dropdown terminal
