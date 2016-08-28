@@ -125,8 +125,8 @@ endif
 " Initialize Plug and specify the path
 " where the plugins should be installed
 call plug#begin('~/.vim/plugins')
-    " base16 color theme
-    Plug 'chriskempson/base16-vim'
+    " PaperColor theme
+    Plug 'NLKNguyen/papercolor-theme'
 
     " Git wrapper
     Plug 'tpope/vim-fugitive'
@@ -223,13 +223,13 @@ filetype on
 set t_Co=256                   " Enable full-color support
 set background=dark
 
-let base16colorspace=256
 try
-    colorscheme base16-bespin
+    colorscheme PaperColor
 catch /^Vim\%((\a\+)\)\=:E185/
     " Color scheme not found. Normal on first run.
 endtry
-let g:airline_theme='base16_default'
+
+let g:airline_theme='papercolor'
 
 " ----------------------------------------------------------------------
 " | Airline                                                            |
