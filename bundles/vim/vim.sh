@@ -14,8 +14,10 @@ verify_requirements() {
 }
 
 on_init() {
-    if ! cmd_exists "vim"; then
+    if ! cmd_exists 'vim' || package_has_update 'vim'; then
         send_cmd enqueue_packages "vim"
+    fi
+    if ! cmd_exists 'ag'; then
         send_cmd enqueue_packages "silversearcher-ag"
     fi
 }
@@ -34,7 +36,7 @@ after_installs() {
 
     curl --silent -kfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     if [ $? ]; then
-        vim +PlugInstall +qall #<$tty >$tty
+        vim +PlugInstall +qall <$tty >$tty
     else
         send_cmd log ERROR "There was a problem installing Vim Plug"
     fi
