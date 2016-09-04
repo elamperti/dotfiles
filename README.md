@@ -48,7 +48,7 @@ You should really take a look at [`setup.sh`](./setup.sh) to see what it does. A
   * [Files in `home/`](./home/), which will be symlinked to your home folder
   * [Package lists](./common/package-lists.sh)
   * [Bundles](./bundles/), for more details see [the guide](./bundles/about-bundles.md)
-  * `~/.bash_aliases.local` and `~/.bash_functions.local` will be sourced if they exist
+  * `~/.bash*` files affixed with `.local` will be sourced (as long as they have their corresponding file in [`shell`](./shell/)
   * Edit the [prompt templates](./art/prompt/templates/), or create a style for an existing one (it's as easy as changing values in a JSON file)
   * Add your own [ascii art](./art/motd/) to use it as MOTD
 

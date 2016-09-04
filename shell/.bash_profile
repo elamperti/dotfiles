@@ -6,17 +6,16 @@ source_bash_files() {
 
     declare -r -a FILES_TO_SOURCE=(
         'bash_aliases'
-        'bash_aliases.local'
         'bash_exports'
         'bash_functions'
-        'bash_functions.local'
         'bash_options'
         'bash_prompt'
     )
 
     for i in ${!FILES_TO_SOURCE[*]}; do
         file="$HOME/.${FILES_TO_SOURCE[$i]}"
-        [ -r "$file" ] && source "$file"
+        [ -r "${file}" ] && source "${file}"
+        [ -r "${file}.local" ] && source "${file}.local"
     done
 }
 
