@@ -13,6 +13,7 @@ alias chx='chmod +x'
 alias df='df -h'
 alias du='du -h'
 alias la='ls -lAh'
+alias lad='ls -lAh --color=always|grep "^d" --color=never'
 alias map='xargs -n1'
 alias s='cd ..'
 alias sl='ls'
@@ -47,6 +48,7 @@ alias gap='git add --patch'
 alias gb='git branch -v'
 alias gc='git commit -m'
 alias gca='git commit --amend'
+alias gcan='git commit --amend --no-edit -n'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gfa='git fetch --all'
@@ -80,6 +82,7 @@ if type __git_complete &>/dev/null; then
   __git_complete gb _git_branch
   __git_complete gc _git_commit
   __git_complete gca _git_commit
+  __git_complete gcan _git_commit
   __git_complete gd _git_diff
   __git_complete gds _git_diff
   __git_complete gfa _git_fetch
