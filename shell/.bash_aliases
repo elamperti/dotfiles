@@ -32,7 +32,7 @@ alias o='xdg-open'
 alias q='exit'
 
 # apt shortcuts
-alias sapar='sudo apt-get auto-remove'
+alias sapar='sudo apt-get autoremove'
 alias sapi='sudo apt-get install'
 alias sapr='sudo apt-get remove'
 alias saps='sudo apt-cache search'
@@ -73,7 +73,7 @@ alias gsl='git stash list'
 alias gsp='git stash pop'
 
 # Git completion for shortcuts
-if type __git_complete &>/dev/null; then 
+if type __git_complete &>/dev/null; then
   __git_complete g __git_main
   __git_complete ga _git_add
   __git_complete gaa _git_add
