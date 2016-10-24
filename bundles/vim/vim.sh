@@ -33,6 +33,8 @@ after_installs() {
     ln -s "$(pwd)/vim/vimrc" ~/.vim/ \
         && send_cmd pretty_print OK "Created .vimrc symlink"
 
+    # Symlink syntax folder
+    ln -s "$(pwd)/syntax/" ~/.vim/syntax
 
     curl --silent -kfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     if [ $? ]; then

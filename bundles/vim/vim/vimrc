@@ -252,6 +252,12 @@ let g:airline_powerline_fonts = 1
 
 let g:vim_markdown_folding_disabled=1
 
+" ----------------------------------------------------------------------
+" | CUDA                                                               |
+" ----------------------------------------------------------------------
+
+au BufNewFile,BufRead *.cu set ft=cuda
+au BufNewFile,BufRead *.cuh set ft=cuda
 
 " ----------------------------------------------------------------------
 " | NERDTree                                                           |
