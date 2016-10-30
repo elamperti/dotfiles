@@ -39,6 +39,9 @@ source_bash_files
 [[ -s "$HOME/.local/share/marker/marker.sh" ]] \
     && source "$HOME/.local/share/marker/marker.sh"
 
+# fzf if present
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 # Bind Ctrl+Left and Ctrl+Right to navigate by words easily
 # This may not work everywhere, see https://stackoverflow.com/a/5029155/854076
 bind '"\e[1;5C":forward-word'
