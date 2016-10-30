@@ -15,8 +15,8 @@ set completion-ignore-case on
 set show-all-if-ambiguous off
 
 # Use vi mode <3
-set editing-mode vi
-set keymap vi-insert
+# set editing-mode vi
+# set keymap vi-insert
 
 $if mode=vi
 "\C-a": beginning-of-line
