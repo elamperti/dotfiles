@@ -31,6 +31,7 @@ graphical_packages="
     bookletimposer: basic PDF document imposition
     filezilla: FTP client
     gdebi: simple tool to install \`.deb\` files
+    gnome-font-viewer: Preview and install fonts
     gnome-terminal: Gnome terminal emulator
     openscad: Parametric solid 3D CAD modeller
     poedit: a gettext translations editor (i18n)
