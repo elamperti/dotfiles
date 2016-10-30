@@ -193,7 +193,10 @@ call plug#begin('~/.vim/plugins')
     Plug 'tpope/vim-unimpaired'
 
     " Docker syntax highlighting
-    Plug 'ekalinin/Dockerfile.vim'
+    Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
+
+    " Jinja2 templates syntax
+    Plug 'Glench/Vim-Jinja2-Syntax', {'for': 'jinja2'}
 
     " ------------
     " | Disabled |
