@@ -1,6 +1,40 @@
 #!/bin/bash
 
 completely_dynamic_prompt() {
+
+    ######################
+    # Measure terminal ##
+    ####################
+
+    local used_chars=0
+
+    # Use tput to get the correct size inside tmux panes.
+    # Otherwise, you can use stty to get the real size:
+    #   `read rows cols < <(stty size)`
+    read cols < <(tput cols)
+
+    # At this point we need to know if we are using Git to calculate console size
+    # This checks if the current directory is a Git repository
+    # but not in `.git/` directory (some of the checks won't work in there)
+    [[ ("$(git rev-parse &>/dev/null; printf $?)" -eq 0) && ("$(git rev-parse --is-inside-git-dir)" == "false") ]]
+    local inside_repo=$?
+
+    if [ ${inside_repo} -eq 0 ]; then
+        local branchName="$( printf "$( git rev-parse --abbrev-ref HEAD 2> /dev/null \
+            || git rev-parse --short HEAD 2> /dev/null \
+            || printf " (unknown)" )" | tr -d "\n" )"
+
+        # branch name + branch icon + 2 chars for each status icon (assume worst case)
+        used_chars=$(( $used_chars + ${#branchName} + 3 + 6 ))
+    fi
+
+    local max_path_length=$(( $cols - $used_chars - 5 ))
+
+    ################
+    # User block ##
+    ##############
+
+    # Terminal title
     # Set terminal title to cwd, including hostname in caps when connected via SSH
     if [ -n "$SSH_CONNECTION" ] && [ -n "$HOSTNAME" ]; then
         PS1="\[\033]0;${HOSTNAME^^}: \w\007\]"
@@ -8,6 +42,7 @@ completely_dynamic_prompt() {
         PS1="\[\033]0;\w\007\]"
     fi
 
+    # Username
     # Reset, set username background color
     PS1+="\[\e[0m\]{{ colors.user_bg }}"
     # Set username color for SSH connctions, overriden later if local
@@ -17,24 +52,26 @@ completely_dynamic_prompt() {
     [ -z "$SSH_CONNECTION" ] && PS1+="{{ colors.user_symbol_fg }} {{ symbol.user }} {{ colors.user_fg }}"
     # Print username
     PS1+="{{ strings.username }} "
-    # Show hostname only when connected through SSH
+
+    # username (assume "\u") + icon + space around
+    used_chars=$(( $used_chars + ${#USER} + 5 ))
+
+    # Hostname
     {~ hide_hostname_locally ~}if [ -n "$SSH_CONNECTION" ]; then{~ /hide_hostname_locally ~}
+        # Show hostname only when connected through SSH
         # Set color, print symbol
         PS1+="{{ colors.hostname_symbol_fg }}{{ symbol.ssh }} "
         # Set bold, print hostname
         PS1+="\[\e[1m\]{{ colors.hostname_fg }}{{ strings.hostname }} "
+        used_chars=$(( $used_chars + ${#HOSTNAME} ))
     {~ hide_hostname_locally ~}fi{~ /hide_hostname_locally ~}
+
     # Reset, set color, set background color for path, print closing section
     PS1+="\[\e[0m\]{{ fg(colors.user_bg) }}{{ colors.path_bg }} "
 
     ################
     # Path block ##
     ##############
-
-    # Want to change maximum path length? Do so here.
-    # Try to set it somewhere around:
-    #     columns - rest of the prompt length - 4
-    local max_path_length={{ options.path_max_length }}
 
     # Initialize the path resetting bold
     local path_block_string='\[\e[21m\]'
@@ -133,20 +170,18 @@ completely_dynamic_prompt() {
         path_block_string+="${dirname_color}$the_dirname"
         # Strong color, bold, print current directory, reset bold
         path_block_string+="${the_cwd_color}\[\e[1m\]$the_cwd\[\e[21m\] "
+
+        used_chars=$(( $used_chars + ${#the_dirname} + ${#the_cwd} ))
     fi
 
     ###############
     # Git block ##
     #############
 
-    # Check if the current directory is in a Git repository
-    # or if in `.git/` directory (some of the following checks
-    # don't make sense/won't work in the `.git` directory)
-    if [[ ("$(git rev-parse &>/dev/null; printf $?)" -ne 0) ||
-          ("$(git rev-parse --is-inside-git-dir)" == "true") ]]; then
+    if [ ${inside_repo} -ne 0 ]; then
 
         # A cool arrow is returned
-        PS1+="${path_block_string}\[\e[0m\]{{ fg(colors.path_bg) }}{{ colors.arrow_fg }}{{ strings.prompt }}"
+        PS1+="${path_block_string}\[\e[0m\]{{ fg(colors.path_bg) }}"
 
     else
 
@@ -156,9 +191,6 @@ completely_dynamic_prompt() {
         local icon='{{ symbol.git.branch }}'
 
         local top_level_path=$(git rev-parse --show-toplevel)
-        local branchName="$( printf "$( git rev-parse --abbrev-ref HEAD 2> /dev/null \
-            || git rev-parse --short HEAD 2> /dev/null \
-            || printf " (unknown)" )" | tr -d "\n" )"
 
         if [[ $(git status --porcelain) ]]; then
             bgcolor='\[\e[43m\]' # Yellow
@@ -206,6 +238,11 @@ completely_dynamic_prompt() {
         PS1+="${path_block_string}${bgcolor}{{ fg(colors.path_bg) }} "
         PS1+="${fgcolor}${icon} ${branchName}${modifiers} \[\e[0m\]${bgcolor_for_fg}"
 
+    fi
+
+    # After some research, 80% of the commands I type are below 28 chars
+    if [ ${used_chars} -gt $(( $cols - 28 )) ]; then
+        PS1+="\n{{ colors.arrow_fg }}{{ strings.prompt }}"
     fi
 
     # Reset after whatever came out before this, and add a space
