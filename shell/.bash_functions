@@ -70,7 +70,7 @@ holidays() {
     # Define time period
     local months_ahead=6
     local cal_range=$(date -d "today" +%m/%Y)
-    for i in $(seq 1 ${months_ahead}); do 
+    for i in $(seq 1 ${months_ahead}); do
       cal_range="${cal_range},$(date -d "today ${i} months" +%m/%Y)"
     done
 
@@ -87,6 +87,16 @@ holidays() {
     # Sort items in a prettier? way
     sed 's/\(.*\) \(.\) DateBEGIN\(.*\)\: DateDayOfWeek\(...\)DateEND\(.*\)/\3: \1 [\4] \5/' |
     sed "s/\(.*\[\(Sat\|Sun\)\].*\)/${color_gray}\1${color_reset}/"
+}
+
+# Return a fragment of lorem ipsum
+lipsum() {
+  lipsum_text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+  if command -v xclip &>/dev/null; then
+    echo -n ${lipsum_text}|xclip -selection clip
+  else
+    echo ${lipsum_text}
+  fi
 }
 
 # Make directory and enter immediately
