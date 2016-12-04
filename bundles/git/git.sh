@@ -74,7 +74,7 @@ after_installs() {
     # This is so close to just doing `git clone`, I feel dirty
     curl --silent -kfLo ~/bin/diff-highlight "https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/diff-highlight"
     curl --silent -kfLo ~/bin/diff-so-fancy "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/diff-so-fancy"
-    curl --silent -kfLo ~/bin/lib/diff-so-fancy.pl "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/lib/diff-so-fancy.pl"
+    curl --silent -kfLo ~/bin/lib/diff-so-fancy.pl "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/libexec/diff-so-fancy.pl"
 
     if [[ -f ~/bin/diff-highlight && -f ~/bin/diff-so-fancy ]]; then
         chmod +x ~/bin/diff-highlight
