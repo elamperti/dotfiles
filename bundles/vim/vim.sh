@@ -27,13 +27,15 @@ after_installs() {
     local tty=`tty`
 
     # Stow 2.2 has a (confirmed) bug which makes it fail for this case
-    [ -d ~/.vim ] && mv ~/.vim ../../backups/vim && mkdir -p ~/.vim
+    [ -d ~/.vim ] && mv ~/.vim ../../backups/vim
+    mkdir -p ~/.vim
 
     # Symlink vim folder
     ln -s "$(pwd)/vim/vimrc" ~/.vim/ \
         && send_cmd pretty_print OK "Created .vimrc symlink"
 
     # Symlink syntax folder
+    mkdir -p ~/.vim/syntax
     ln -s "$(pwd)/syntax/" ~/.vim/syntax
 
     curl --silent -kfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
