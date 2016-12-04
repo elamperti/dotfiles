@@ -1,2 +1,19 @@
-keycode  66 = quotedbl asterisk quotedbl asterisk Caps_Lock Caps_Lock
+! Custom keycodes
+
+! 1. Key
+! 2. Shift+Key
+! 3. mode_switch+Key
+! 4. mode_switch+Shift+Key
+! 5. AltGr+Key
+! 6. AltGr+Shift+Key
+!
+! mode_switch is not currently defined.
+!   See: https://wiki.archlinux.org/index.php/xmodmap
+
+! Bye bye caps lock
+keycode 66 = quotedbl asterisk quotedbl asterisk Caps_Lock Caps_Lock
 clear Lock
+
+! International chars
+keycode 39 = s S s S agrave Agrave agrave Agrave s S agrave Agrave
+keycode 54 = c C c C ccedilla Ccedilla ccedilla Ccedilla c C ccedilla Ccedilla
