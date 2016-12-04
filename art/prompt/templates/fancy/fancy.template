@@ -24,8 +24,8 @@ completely_dynamic_prompt() {
             || git rev-parse --short HEAD 2> /dev/null \
             || printf " (unknown)" )" | tr -d "\n" )"
 
-        # branch name + branch icon + 2 chars for each status icon (assume worst case)
-        used_chars=$(( $used_chars + ${#branchName} + 3 + 6 ))
+        # branch name + branch icon + 2 chars for each status icon (assume worst case) + spaces
+        used_chars=$(( $used_chars + ${#branchName} + 3 + 6 + 2 ))
     fi
 
     local max_path_length=$(( $cols - $used_chars - 5 ))
