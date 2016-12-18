@@ -21,7 +21,7 @@ on_init() {
         send_cmd enqueue_packages 'tig'
     fi
 
-    mkdir -p ~/bin/lib/
+    mkdir -p ~/bin/libexec/
 }
 
 after_installs() {
@@ -74,12 +74,12 @@ after_installs() {
     # This is so close to just doing `git clone`, I feel dirty
     curl --silent -kfLo ~/bin/diff-highlight "https://raw.githubusercontent.com/git/git/master/contrib/diff-highlight/diff-highlight"
     curl --silent -kfLo ~/bin/diff-so-fancy "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/diff-so-fancy"
-    curl --silent -kfLo ~/bin/lib/diff-so-fancy.pl "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/libexec/diff-so-fancy.pl"
+    curl --silent -kfLo ~/bin/libexec/diff-so-fancy.pl "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/libexec/diff-so-fancy.pl"
 
     if [[ -f ~/bin/diff-highlight && -f ~/bin/diff-so-fancy ]]; then
         chmod +x ~/bin/diff-highlight
         chmod +x ~/bin/diff-so-fancy
-        chmod +x ~/bin/lib/diff-so-fancy.pl
+        chmod +x ~/bin/libexec/diff-so-fancy.pl
 
         git config --file ${config_file} core.pager "diff-so-fancy | less --tabs=2 -RFX"
         send_cmd log OK "diff-so-fancy enabled"
