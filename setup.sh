@@ -149,6 +149,8 @@ create_symlinks() {
         log_result_for "$1"
     }
 
+    mkdir -p ~/.config
+
     pretty_print INDENT RIGHT 3
 
     # This is the actual list of things being stowed
