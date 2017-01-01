@@ -195,6 +195,16 @@ install_custom_font() {
         curl --silent -kfLo "Droid Sans Mono Nerd Font Complete.otf" \
             "https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20for%20Powerline%20Nerd%20Font%20Complete.otf"
         log INFO "Downloaded Droid Sans Mono patched font"
+
+        if cmd_exists "gsettings"; then
+            ask_yes_no "Set \[\e[1m\]Droid Sans Mono\[\e[0m\] as the default fixed width font?" $DEFAULT_YES
+            if answer_was_yes; then
+                gsettings set org.gnome.desktop.interface monospace-font-name "Droid Sans Mono 10"
+                log NOTICE "Default fixed width font changed"
+            fi
+        else
+            log WARN "gsettings missing, can't update default"
+        fi
     fi
     popd &>/dev/null
 }
