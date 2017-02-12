@@ -69,7 +69,7 @@ guess_desktop_manager() {
 }
 
 install_package() {
-    sudo apt-get -qqy --force-yes install $@ > /dev/null
+    sudo apt-get -qqy install $@ > /dev/null
     return $?
 }
 

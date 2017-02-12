@@ -72,7 +72,7 @@ install_queued_packages() {
     if [ ${#package_queue[@]} -gt 0 ]; then
         log INFO "Installing ${#package_queue[@]} queued packages..."
         log DEBUG "Packages to install: ${package_queue[@]}"
-        sudo apt-get install -y --force-yes ${package_queue[@]} &> /dev/null \
+        sudo apt-get install -y ${package_queue[@]} &> /dev/null \
         || install_outcome=1
 
         if [ $install_outcome -eq 0 ]; then
