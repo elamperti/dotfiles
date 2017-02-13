@@ -32,3 +32,6 @@ export LESS_TERMCAP_me=$'\E[0m'      # end bold mode
 
 # Don't clear the screen after quitting a man page
 export MANPAGER='less -X'
+
+# Use .bcrc file for bc
+export BC_ENV_ARGS=$HOME/.bcrc
