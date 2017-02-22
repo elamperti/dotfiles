@@ -198,6 +198,9 @@ call plug#begin('~/.vim/plugins')
     " Jinja2 templates syntax
     Plug 'Glench/Vim-Jinja2-Syntax', {'for': 'jinja2'}
 
+    " Golang support
+    Plug 'fatih/vim-go'
+
     " Session handling
     Plug 'tpope/vim-obsession'
     Plug 'dhruvasagar/vim-prosession'
