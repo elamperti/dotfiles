@@ -154,7 +154,7 @@ call plug#begin('~/.vim/plugins')
     Plug 'ctrlpvim/ctrlp.vim'
 
     " Zen coding
-    " Plug 'mattn/emmet-vim'
+    Plug 'mattn/emmet-vim'
 
     " Easier handling of comments
     Plug 'tpope/vim-commentary'
@@ -296,7 +296,9 @@ let g:ctrlsf_ackprg = 'ag'
 " ----------------------------------------------------------------------
 " | Emmet                                                              |
 " ----------------------------------------------------------------------
-" imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+let g:user_emmet_install_global = 0
+autocmd FileType html,tpl,css,sass EmmetInstall
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " ----------------------------------------------------------------------
 " | Neocomplete                                                        |
