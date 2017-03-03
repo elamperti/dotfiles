@@ -355,6 +355,9 @@ endif
 " Use a different mapleader (default is '\')
 let mapleader = ','
 
+" Invert : and ;
+noremap ; :
+
 " Keep search in the middle of the screen
 nnoremap n nzzzv
 nnoremap N Nzzzv
