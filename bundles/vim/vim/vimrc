@@ -363,7 +363,7 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 
 " use jk as <ESC>
-ino jk <esc>
+ino jk <esc>l
 
 " [,cc] Toggle code comments
 map <leader>cc :Commentary<CR>
