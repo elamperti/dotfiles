@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="usb", ENV{ID_VENDOR_ID}=="0d8c", ENV{ID_MODEL_ID}=="0014", RUN+="/opt/udev_scripts/cmedia-audio.sh"
