@@ -1,6 +1,6 @@
 # Mouse polling
 
-Mouse polling can be defined through he kernel module **usbhid**, using the `mousepoll` parameter with any of the following values:
+Mouse polling can be defined through the kernel module **usbhid**, using the `mousepoll` parameter with any of the following values:
 
 | Value | Polling rate     |
 |-------|------------------|
