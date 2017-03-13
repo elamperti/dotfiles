@@ -207,6 +207,9 @@ call plug#begin('~/.vim/plugins')
     Plug 'tpope/vim-obsession'
     Plug 'dhruvasagar/vim-prosession'
 
+    " Highlight yanks
+    Plug 'machakann/vim-highlightedyank'
+
     " ------------
     " | Disabled |
     " ------------
@@ -320,6 +323,13 @@ imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 let g:syntastic_html_checkers = [ 'jshint' ]
 let g:syntastic_javascript_checkers = [ 'jshint' ]
+
+
+" ----------------------------------------------------------------------
+" | Highlighted yanks                                                  |
+" ----------------------------------------------------------------------
+"
+map y <Plug>(highlightedyank)
 
 " ----------------------------------------------------------------------
 " | Automatic Commands                                                 |
