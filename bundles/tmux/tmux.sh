@@ -69,6 +69,9 @@ after_installs() {
 
         popd &>/dev/null
 
+        send_cmd log INFO "Downloading Tmux Plugin Manager..."
+        git clone "https://github.com/tmux-plugins/tpm" "$HOME/.tmux/plugins/tpm" --depth=1
+
         exit ${install_outcome}
     else
         send_cmd log NOTICE "Already up to date."
