@@ -43,6 +43,7 @@ set incsearch                  " Highlight search pattern as
 
 set laststatus=2               " Always show the status line
 
+set list
 set listchars=tab:▸\           " ┐
 set listchars+=trail:·         " │ Use custom symbols to
 set listchars+=eol:↴           " │ represent invisible characters
