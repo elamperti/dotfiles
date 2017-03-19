@@ -44,10 +44,13 @@ set incsearch                  " Highlight search pattern as
 set laststatus=2               " Always show the status line
 
 set list
+set showbreak=↪
 set listchars=tab:▸\           " ┐
-set listchars+=trail:·         " │ Use custom symbols to
-set listchars+=eol:↴           " │ represent invisible characters
-set listchars+=nbsp:_          " ┘
+set listchars+=trail:·         " │
+set listchars+=eol:↴           " │ Use custom symbols to
+set listchars+=nbsp:_          " │ represent invisible characters
+set listchars+=extends:›       " │
+set listchars+=precedes:‹      " ┘
 
 set magic                      " Enable extended regexp
 set mouse=a                    " Enable mouse functions
@@ -73,7 +76,6 @@ set scrolloff=5                " When scrolling, keep the cursor
 
 set shortmess=aAItW            " Avoid all the hit-enter prompts
 set showcmd                    " Show the command being typed
-"set showmode                   " Show current mode
 
 set smartcase                  " Override `ignorecase` option
                                " if the search pattern contains
@@ -110,6 +112,8 @@ set updatetime=500             " better vim-gitgutter response
 
 set confirm                    " Ask to save files before quitting
 
+set hidden                     " Don't unload hidden buffers
+
 " This mkdir snippet was based on this comment:
 " https://www.reddit.com/r/vim/comments/2ib9au/_/cl1p3dq
 let s:vim_swaps = expand('$HOME/.vim/swaps')
@@ -130,69 +134,77 @@ call plug#begin('~/.vim/plugins')
     " PaperColor theme
     Plug 'NLKNguyen/papercolor-theme'
 
-    " Git wrapper
-    Plug 'tpope/vim-fugitive'
-
-    " Follow editorconfig files
-    Plug 'editorconfig/editorconfig-vim'
-
-    " Tools for working with javascript. Requires node.
-    Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
-
-    " Markdown highlighting, matching rules and mappings
-    Plug 'plasticboy/vim-markdown'
-
-    " Easy-to-follow indentation guides
-    Plug 'nathanaelkane/vim-indent-guides'
-
-    " Syntax checking plugin for several languages
-    Plug 'scrooloose/syntastic'
-
-    " Awesome tree directories in a toggleable sidebar
-    Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-
-    " Fuzzy search of files
-    Plug 'ctrlpvim/ctrlp.vim'
-
-    " Zen coding
-    Plug 'mattn/emmet-vim'
-
-    " Easier handling of comments
-    Plug 'tpope/vim-commentary'
-
-    " Enhanced JavaScript syntax
-    Plug 'jelera/vim-javascript-syntax'
-
-    " Automatic closing of parenthesis, quotes, etc.
-    Plug 'raimondi/delimitmate'
-
-    " Surround text with tags, quotes, and more.
-    Plug 'tpope/vim-surround'
-
-    " Git gutter
-    Plug 'airblade/vim-gitgutter'
-
     " Swag
     Plug 'ryanoasis/vim-devicons'
-
-    " Search across multiple files
-    Plug 'dyng/ctrlsf.vim'
-
-    " Multiple cursors
-    Plug 'terryma/vim-multiple-cursors'
-
-    " Better repeat using .
-    Plug 'tpope/vim-repeat'
-
-    " Easy handling of Git merges
-    Plug 'sjl/splice.vim'
 
     " Tab/buffer manager
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
 
+    " Git wrapper
+    " Plug 'tpope/vim-fugitive'
+
+    " Git gutter
+    Plug 'airblade/vim-gitgutter'
+
+    " Easy handling of Git merges
+    " Plug 'sjl/splice.vim'
+
+    " Session handling
+    Plug 'tpope/vim-obsession'
+    Plug 'dhruvasagar/vim-prosession'
+
+    " Follow editorconfig files
+    Plug 'editorconfig/editorconfig-vim'
+
+    " Fuzzy search of files
+    Plug 'ctrlpvim/ctrlp.vim'
+
+    " Search across multiple files
+    " Plug 'dyng/ctrlsf.vim'
+
+    " Zen coding
+    " Plug 'mattn/emmet-vim'
+
+    " Keyword completion system
+    Plug 'shougo/neocomplete.vim'
+
+    " Easier handling of comments
+    Plug 'tpope/vim-commentary'
+
+    " Tools for javascript (requires node)
+    Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
+
+    " Automatic closing of parenthesis, quotes, etc.
+    Plug 'jiangmiao/auto-pairs'
+
+    " Surround text with tags, quotes, and more
+    Plug 'tpope/vim-surround'
+
+    " Highlight yanks
+    Plug 'machakann/vim-highlightedyank'
+
+    " Better repeat using .
+    Plug 'tpope/vim-repeat'
+
     " Useful mappings
     Plug 'tpope/vim-unimpaired'
+
+    " Search and get information about unicode chars
+    " Plug 'chrisbra/unicode.vim'
+
+    " -----------------------
+    " | Syntax highlighting |
+    " -----------------------
+
+    " Syntax checking plugin for several languages
+    Plug 'scrooloose/syntastic'
+
+    " Enhanced JavaScript syntax
+    Plug 'jelera/vim-javascript-syntax'
+
+    " Markdown highlighting, matching rules and mappings
+    Plug 'plasticboy/vim-markdown'
 
     " Docker syntax highlighting
     Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
@@ -203,29 +215,11 @@ call plug#begin('~/.vim/plugins')
     " Golang support
     Plug 'fatih/vim-go'
 
-    " Session handling
-    Plug 'tpope/vim-obsession'
-    Plug 'dhruvasagar/vim-prosession'
-
-    " Highlight yanks
-    Plug 'machakann/vim-highlightedyank'
-
-    " ------------
-    " | Disabled |
-    " ------------
-
-    " Keyword completion system
-    " Plug 'shougo/neocomplete.vim'
-
     " Preview CSS colors
     " Plug 'ap/vim-css-color'
 
-    " Search and get information about unicode chars
-    " Plug 'chrisbra/unicode.vim'
-
     " Autocomplete, indentation and syntax for HTML5
     " Plug 'othree/html5.vim'
-
 
 call plug#end()
 
@@ -244,7 +238,7 @@ catch /^Vim\%((\a\+)\)\=:E185/
     " Color scheme not found. Normal on first run.
 endtry
 
-let g:airline_theme='papercolor'
+let g:airline_theme='cool'
 
 " ----------------------------------------------------------------------
 " | Airline                                                            |
@@ -275,15 +269,6 @@ au BufNewFile,BufRead *.cu set ft=cuda
 au BufNewFile,BufRead *.cuh set ft=cuda
 
 " ----------------------------------------------------------------------
-" | NERDTree                                                           |
-" ----------------------------------------------------------------------
-
-nmap \ :NERDTreeToggle<CR>
-let NERDTreeHighlightCursorline=1
-let NERDTreeQuitOnOpen=1
-let NERDTreeIgnore = ['node_modules', 'bower_components']
-
-" ----------------------------------------------------------------------
 " | CtrlP                                                              |
 " ----------------------------------------------------------------------
 
@@ -292,27 +277,25 @@ let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
 " ----------------------------------------------------------------------
-" | CtrlSF                                                             |
-" ----------------------------------------------------------------------
-
-let g:ctrlsf_ackprg = 'ag'
-
-" ----------------------------------------------------------------------
 " | Emmet                                                              |
 " ----------------------------------------------------------------------
-let g:user_emmet_install_global = 0
-autocmd FileType html,tpl,css,sass EmmetInstall
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+
+" let g:user_emmet_install_global = 0
+" autocmd FileType html,tpl,css,sass EmmetInstall
+" imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " ----------------------------------------------------------------------
 " | Neocomplete                                                        |
 " ----------------------------------------------------------------------
 
 " Enable `neocomplcache` by default
-"let g:neocomplete#enable_at_startup=1
+let g:neocomplete#enable_at_startup=1
+
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
 
 " Make `<TAB>` autocomplete
-"inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 
 " ----------------------------------------------------------------------
@@ -369,9 +352,6 @@ endif
 " Use a different mapleader (default is '\')
 let mapleader = ','
 
-" Invert : and ;
-noremap ; :
-
 " Keep search in the middle of the screen
 nnoremap n nzzzv
 nnoremap N Nzzzv
@@ -385,8 +365,8 @@ map <leader>cc :Commentary<CR>
 " [,cs] Clear search
 map <leader>cs <Esc>:noh<CR>
 
-" [,ti] Toggle indent
-nmap <leader>ti <Plug>IndentGuidesToggle
+" [,p ] Paste from clipboard
+nmap <silent> <leader>p :set paste<CR>"*p:set nopaste<CR>
 
 " [,ts] Toggle Syntastic
 nmap <leader>ts :SyntasticToggleMode<CR>
@@ -405,32 +385,29 @@ nmap <leader>` :shell<CR>
 " Split line
 nnoremap K i<CR><Esc>
 
-" [F4] Close buffer or exit if last buffer
-nnoremap <F4> :call CloseIfLastBuffer()<CR>
-inoremap <F4> <ESC>:call CloseIfLastBuffer()<CR>
-function! CloseIfLastBuffer()
-  if ((len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1) && expand('%') == '')
-    quit
+" [F3] Opens a new file
+nnoremap <F3> :enew<CR>
+inoremap <F3> <Esc>:enew<CR>
+
+" [F4] Exit
+function! CloseIfLastOpenBuffer()
+  if len(filter(range(1,bufnr('$')), 'buflisted(v:val)')) == 1
+    q
   else
-    :bd
+    bd
   endif
 endfunction
+nnoremap <F4> :call CloseIfLastOpenBuffer()<CR>
 
-" [F5] Save changes
+" [F5] Save changes in current file
 nnoremap <F5> :w<CR>
 inoremap <F5> <Esc>:w<CR>
 
 " Buffer navigation:
-" I'm currently testing which shortcuts works best for me
-nnoremap <C-tab> :bnext<CR>
-nnoremap <C-S-tab> :bprev<CR>
-inoremap <C-tab> <Esc>:bnext<CR>
-inoremap <C-S-tab> <Esc>:bprev<CR>
-
 nnoremap <F2> :bnext<CR>
 nnoremap <F1> :bprev<CR>
-inoremap <F2> :bnext<CR>
-inoremap <F1> :bprev<CR>
+inoremap <F2> <ESC>:bnext<CR>
+inoremap <F1> <ESC>:bprev<CR>
 
 " Use arrows to select the active split
 nnoremap <silent> <Right> <c-w>l
@@ -438,11 +415,9 @@ nnoremap <silent> <Left> <c-w>h
 nnoremap <silent> <Up> <c-w>k
 nnoremap <silent> <Down> <c-w>j
 
-" Use ctrl + arrows to indent or move lines around
+" Use ctrl + arrows to indent
 nnoremap <silent> <C-Right> >>
 nnoremap <silent> <C-Left> <<
-nnoremap <silent> <C-Up> [e
-nnoremap <silent> <C-Down> ]e
 
 " Relative or absolute number lines
 function! NumberToggle()
@@ -457,13 +432,3 @@ endfunction
 
 " [,n ] Toggle `set relativenumber`
 nmap <leader>n :call NumberToggle()<CR>
-
-" CtrlSF mappings
-nmap     <C-F>f <Plug>CtrlSFPrompt
-vmap     <C-F>f <Plug>CtrlSFVwordPath
-vmap     <C-F>F <Plug>CtrlSFVwordExec
-nmap     <C-F>n <Plug>CtrlSFCwordPath
-nmap     <C-F>p <Plug>CtrlSFPwordPath
-nnoremap <C-F>o :CtrlSFOpen<CR>
-nnoremap <C-F>t :CtrlSFToggle<CR>
-inoremap <C-F>t <Esc>:CtrlSFToggle<CR>
