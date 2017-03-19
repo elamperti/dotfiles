@@ -34,7 +34,7 @@ OPTIONS
            Shows the MOTD picker
 
        --no-updates
-           Skip `apt-get update`. Not recommended unless you already updated.
+           Skip `apt-get update` even if it's needed.
 
        -p, --prompt
            Shows the prompt parser wizard
@@ -279,9 +279,13 @@ main() {
     if [[ -v NO_UPDATES ]]; then
         log WARN "Skipping apt update"
     else
-        log NOTICE "Updating apt package list"
-        sudo apt-get update &> /dev/null ||
+        if needs_apt_update; then
+            log NOTICE "Updating apt package list"
+            sudo apt-get update &> /dev/null ||
                 log ERROR "Couldn't update apt package list"
+        else
+            log OK "apt is already up to date"
+        fi
     fi
 
     test_for "git" OR_ABORT
