@@ -1,4 +1,4 @@
-#﻿![](http://i.imgur.com/SY3I0M7.png?1) Enrico's dotfiles
+# My dotfiles :sparkles:
 
 Hi, these are my dotfiles and a bunch of scripts to make new installations a breeze.
 See [requirements](#requirements), [setup instructions](#installing) and [how to customize](#customization) them.
@@ -56,6 +56,5 @@ You should really take a look at [`setup.sh`](./setup.sh) to see what it does. A
   * **Cătălin Mariș**' [dotfiles](https://github.com/alrra/dotfiles) are very interesting and were great to learn when I started using dotfiles. My dotfiles take some functions and ideas from his work.
   * **Kevin Hochhalter** for the simple and powerful [bashlog](https://github.com/klhochhalter/bashlog).
   * I rely on [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) by **Ryan McIntyre** to make my prompt (and Vim) look ~~like there's an icon parade in my console~~ good.
-  * **Joel Glovier** for [the logo](https://github.com/jglovier/dotfiles-logo).
   * [/r/vim](https://www.reddit.com/r/vim/) gave me good ideas and lots of information on how to config my [.vimrc](./bundles/vim/vim/vimrc)
   * The [Git bundle](./bundles/git/) uses [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) :information_desk_person:
