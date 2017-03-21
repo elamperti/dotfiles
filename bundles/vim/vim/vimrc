@@ -398,6 +398,7 @@ function! CloseIfLastOpenBuffer()
   endif
 endfunction
 nnoremap <F4> :call CloseIfLastOpenBuffer()<CR>
+inoremap <F4> <ESC>:call CloseIfLastOpenBuffer()<CR>
 
 " [F5] Save changes in current file
 nnoremap <F5> :w<CR>
