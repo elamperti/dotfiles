@@ -13,6 +13,7 @@ common_packages="
     gcal: the GNU calendar (useful to see holidays)
     git: popular distributed version control system
     htop: interactive process viewer
+    httpie: CLI user-friendly HTTP client
     imagemagick: image manipulation tools
     libimage-exiftool-perl: EXIF metadata viewer (exiftool)
     mc: Midnight Commander file manager

@@ -25,6 +25,7 @@ alias histon='set -o history'
 
 # Short utilities
 alias cc='xclip -selection clip'
+alias https='http --default-scheme=https'
 alias tk='pkill'
 alias ports='sudo netstat -tulpn'
 
