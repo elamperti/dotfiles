@@ -1,46 +1,44 @@
 [color]
-	ui = always
+  ui = always
 
 [color "branch"]
-    current = green bold
-    local = green
-    remote = yellow
+  current = green bold
+  local = green
+  remote = yellow
 
 [color "diff"]
-    frag = magenta bold
-    meta = yellow bold
-    new = green bold
-    old = red bold
+  frag = magenta bold
+  meta = yellow bold
+  new = green bold
+  old = red bold
 
 [color "status"]
-    added = green reverse
-    changed = yellow reverse
-    untracked = red reverse
+  added = green reverse
+  changed = yellow reverse
+  untracked = red reverse
 
 [core]
-    editor = vim
-    excludesfile = ~/.gitexcludes
+  editor = vim
+  excludesfile = ~/.gitexcludes
 
 [pretty]
-    custom = "%C(blue)%h%C(red)%d %C(magenta bold)%ar %C(white)%s %C(white dim)(%an)"
-    #                  │        │                  │            │                └─ author name
-    #                  │        │                  │            └─ message
-    #                  │        │                  └─ date (relative)
-    #                  │        └─ decorations (branch, heads or tags)
-    #                  └─ hash (abbreviated)
+  custom = "%C(blue)%h%C(red)%d %C(magenta bold)%ar %C(white)%s %C(white dim)(%an)"
+  #                  │        │                  │            │                └─ author name
+  #                  │        │                  │            └─ message
+  #                  │        │                  └─ date (relative)
+  #                  │        └─ decorations (branch, heads or tags)
+  #                  └─ hash (abbreviated)
 
+[transfer]
+  fsckobjects = true
 
 [push]
-    # Make `git push` automatically push relevant
-    # annotated tags when pushing branches out
-    followTags = true
+  # Make `git push` automatically push relevant
+  # annotated tags when pushing branches out
+  followTags = true
 
 [merge]
-    tool = splice
-
-[mergetool "splice"]
-    cmd = "vim -f $BASE $LOCAL $REMOTE $MERGED -c 'SpliceInit'"
-    trustExitCode = true
+  ff = only
 
 [include]
-    path = ~/.gitconfig.local
+  path = ~/.gitconfig.local
