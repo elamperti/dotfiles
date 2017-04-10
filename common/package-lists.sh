@@ -20,6 +20,7 @@ common_packages="
     moreutils: sponge, vipe, pee and other utilities
     mosh: utility for intermittent SSH conections
     mtr: network diagnostic tool
+    ntp: synchronize time using NTP
     ssh: OpenSSH client
     sshfs: mount directories over SSH
     tmux: terminal multiplexer (similar to \`screen\`)
