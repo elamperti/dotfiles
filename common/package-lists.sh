@@ -37,6 +37,7 @@ graphical_packages="
     gnome-terminal: Gnome terminal emulator
     openscad: Parametric solid 3D CAD modeller
     poedit: a gettext translations editor (i18n)
+    redshift: adjusts screen color at night
     remmina: VNC and RDP client
     shutter: feature-rich screenshot tool
     tilda: a simple dropdown terminal
