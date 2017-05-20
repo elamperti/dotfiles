@@ -5,6 +5,28 @@ cs() {
     cd "$@" && ls
 }
 
+# Extract the IP address of a Docker container
+dip() {
+  if command -v "docker" &>/dev/null; then
+    if [ -n "$1" ]; then
+      docker inspect "$1" --format '{{ .NetworkSettings.IPAddress }}'
+    else
+      local container_ids="$(docker ps -q)"
+      if [ -n "$container_ids" ]; then
+        {
+          echo "Image Name IP"  # Table heading
+          ## And the containers' data
+          echo "${container_ids}" | xargs -n 1 docker inspect --format '{{ .Config.Image }} {{ .Name }} {{ .NetworkSettings.IPAddress }}' | sed 's/ \// /'
+        } | column -t -s' '
+      else
+        echo "No running containers."
+      fi
+    fi
+  else
+    echo "Docker binary not found."
+  fi
+}
+
 # Extract archives - usage: extract <file>
 # Taken from https://github.com/paulirish/dotfiles
 function extract() {
