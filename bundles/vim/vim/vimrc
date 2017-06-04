@@ -212,6 +212,10 @@ call plug#begin('~/.vim/plugins')
     " Golang support
     Plug 'fatih/vim-go'
 
+    " Vue.js highlighting
+    Plug 'posva/vim-vue'
+    Plug 'sekel/vim-vue-syntastic'
+
     " Preview CSS colors
     " Plug 'ap/vim-css-color'
 
@@ -301,8 +305,8 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " Inform Syntastic which checkers to use based on file types
 
-let g:syntastic_html_checkers = [ 'jshint' ]
-let g:syntastic_javascript_checkers = [ 'jshint' ]
+" let g:syntastic_html_checkers = [ 'jshint' ]
+let g:syntastic_javascript_checkers = [ 'eslint' ]
 
 
 " ----------------------------------------------------------------------
