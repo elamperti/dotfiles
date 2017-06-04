@@ -45,7 +45,7 @@ set laststatus=2               " Always show the status line
 
 set list
 set showbreak=↪
-set listchars=tab:▸\           " ┐
+set listchars=tab:.\           " ┐
 set listchars+=trail:·         " │
 set listchars+=eol:↴           " │ Use custom symbols to
 set listchars+=nbsp:_          " │ represent invisible characters
@@ -174,9 +174,6 @@ call plug#begin('~/.vim/plugins')
 
     " Tools for javascript (requires node)
     Plug 'marijnh/tern_for_vim', {'do': 'npm install'}
-
-    " Automatic closing of parenthesis, quotes, etc.
-    Plug 'jiangmiao/auto-pairs'
 
     " Surround text with tags, quotes, and more
     Plug 'tpope/vim-surround'
