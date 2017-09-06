@@ -65,6 +65,7 @@ alias gpl='git pull'
 alias gplom='git pull origin master'
 alias gps='git push'
 alias gpsoh='git push origin HEAD'
+alias gpsohf='git push origin HEAD --force' # Yes, this makes sense to me
 alias gpsom='git push origin master'
 alias grb='git rebase'
 alias grm='git rm --cached'
