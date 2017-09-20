@@ -24,6 +24,7 @@ common_packages="
     ssh: OpenSSH client
     sshfs: mount directories over SSH
     tmux: terminal multiplexer (similar to \`screen\`)
+    units: perform unit conversion from CLI
     unrar: extracts RAR files
     dropbear: alternative SSH server
 "
