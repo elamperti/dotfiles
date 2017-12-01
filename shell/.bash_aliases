@@ -52,6 +52,9 @@ alias gb='git branch -v'
 alias gc='git commit -m'
 alias gca='git commit --amend'
 alias gcan='git commit --amend --no-edit -n'
+alias gcp='git cherry-pick'
+alias gcpc='git cherry-pick --continue'
+alias gcpa='git cherry-pick --abort'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gfa='git fetch --all'
@@ -69,6 +72,7 @@ alias gpsoh='git push origin HEAD'
 alias gpsohf='git push origin HEAD --force' # Yes, this makes sense to me
 alias gpsom='git push origin master'
 alias grb='git rebase'
+alias grbm='git rebase master'
 alias grm='git rm --cached'
 alias grs='git reset'
 alias gs='git status' # -sb
@@ -76,6 +80,7 @@ alias gsa='git stash apply'
 alias gsh='git stash save'
 alias gsl='git stash list'
 alias gsp='git stash pop'
+alias gsw='git show'
 
 # Git completion for shortcuts
 if type __git_complete &>/dev/null; then
