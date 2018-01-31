@@ -6,6 +6,7 @@ common_packages="
     autossh: starts and keeps alive a SSH connection
     aview: view images from CLI (requires imagemagick)
     bash-completion: command completion for Bash
+    bind9: DNS Server
     build-essential: packages required to compile C programs
     cmus: CLI music player with last.fm support
     curl: tool to transfer data using several protocols
