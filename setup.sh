@@ -122,7 +122,7 @@ filter_args() {
 
 create_symlinks() {
     if ! cmd_exists "stow"; then
-        log WARN "Skiping symlink creation because stow is missing."
+        log WARN "Skipping symlink creation because stow is missing."
         return 1
     fi
 
@@ -191,15 +191,15 @@ install_custom_font() {
     # Install Droid Sans Mono, patched with Nerd Font
     mkdir -p ~/.local/share/fonts
     pushd ~/.local/share/fonts &>/dev/null
-    if [ ! -f 'Droid Sans Mono Nerd Font Complete.otf' ]; then
-        curl --silent -kfLo "Droid Sans Mono Nerd Font Complete.otf" \
-            "https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20for%20Powerline%20Nerd%20Font%20Complete.otf"
-        log INFO "Downloaded Droid Sans Mono patched font"
+    if [ ! -f 'DejaVu Sans Mono Nerd Font Complete.otf' ]; then
+        curl --silent -kfLo "DejaVu Sans Mono Nerd Font Complete.otf" \
+            "https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/DejaVuSansMono/Regular/complete/DejaVu%20Sans%20Mono%20Nerd%20Font%20Complete.ttf"
+        log INFO "Downloaded DejaVu Sans Mono patched font"
 
         if cmd_exists "gsettings"; then
-            ask_yes_no "Set \[\e[1m\]Droid Sans Mono\[\e[0m\] as the default fixed width font?" $DEFAULT_YES
+            ask_yes_no "Set \[\e[1m\]DejaVu Sans Mono\[\e[0m\] as the default fixed width font?" $DEFAULT_YES
             if answer_was_yes; then
-                gsettings set org.gnome.desktop.interface monospace-font-name "Droid Sans Mono 10"
+                gsettings set org.gnome.desktop.interface monospace-font-name "DejaVu Sans Mono 10"
                 log NOTICE "Default fixed width font changed"
             fi
         else
@@ -332,7 +332,13 @@ main() {
         create_symlinks
 
         set_keyboard_layout
-        install_custom_font
+
+        local desktop_manager=$(guess_desktop_manager)
+        if [ -n "${desktop_manager}" ]; then
+            install_custom_font
+        else
+            log WARN "Skipped custom font install (no DM detected)"
+        fi
 
         if [ ! -f "$HOME/.bash_prompt" ]; then
             test_for "python" OR_WARN "Python is needed to generate a custom Bash prompt."
