@@ -1,4 +1,4 @@
-# My dotfiles :sparkles:
+# My dotfiles :sparkles: [![Build Status](https://travis-ci.org/elamperti/dotfiles.svg?branch=master)](https://travis-ci.org/elamperti/dotfiles)
 
 Hi, these are my dotfiles and a bunch of scripts to make new installations a breeze.
 See [requirements](#requirements), [setup instructions](#installing) and [how to customize](#customization) them.
@@ -51,6 +51,13 @@ You should really take a look at [`setup.sh`](./setup.sh) to see what it does. A
   * `~/.bash*` files affixed with `.local` will be sourced (as long as they have their corresponding file in [`shell`](./shell/)
   * Edit the [prompt templates](./art/prompt/templates/), or create a style for an existing one (it's as easy as changing values in a JSON file)
   * Add your own [ascii art](./art/motd/) to use it as MOTD
+
+## Testing
+Tests are written using [Bats](https://github.com/sstephenson/bats) and live in the [`test`](./test/) folder. To run them locally:
+
+```
+bats test
+```
 
 ## Acknowledgements
   * **Cătălin Mariș**' [dotfiles](https://github.com/alrra/dotfiles) are very interesting and were great to learn when I started using dotfiles. My dotfiles take some functions and ideas from his work.

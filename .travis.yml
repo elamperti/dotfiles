@@ -1,0 +1,14 @@
+language: bash
+sudo: false
+
+addons:
+  apt:
+    sources:
+    - debian-sid
+    - sourceline: 'ppa:duggan/bats'
+    packages:
+    - bats
+    - shellcheck
+
+script:
+  - bats test
