@@ -47,13 +47,16 @@ after_installs() {
 
     # Installs useful packages globally
     if cmd_exists "npm"; then
-        sudo npm install -g nodemon grunt grunt-cli node-sass &>/dev/null
+        sudo npm install -g nodemon yarn eslint &>/dev/null
         if [ $? -eq 0 ]; then
             send_cmd log OK "npm packages"
         else
             send_cmd log WARN "there was a problem installing npm packages"
         fi
     fi
+
+    # Expand inodes watch limit to avoid strange errors in the future
+    echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
     # Remove temp folders
     sudo rm -rf "${n_tmp}" "${npm_tmp}"  &>/dev/null
