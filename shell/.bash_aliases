@@ -18,7 +18,7 @@ alias lad='ls -lAh --color=always|grep "^d" --color=never'
 alias map='xargs -n1'
 alias s='cd ..'
 alias sl='ls'
-alias units='units -1 --compact'
+alias units='units -1 --compact -o '"'"'%.4g'"'"
 
 # Turn Bash history on/off
 alias histoff='set +o history'

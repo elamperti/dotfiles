@@ -9,14 +9,15 @@ cs() {
 dip() {
   if command -v "docker" &>/dev/null; then
     if [ -n "$1" ]; then
-      docker inspect "$1" --format '{{ .NetworkSettings.IPAddress }}'
+      docker inspect "$1" --format '{{range .NetworkSettings.Networks }}{{ .IPAddress }}{{ end }}'
+      # || inspect this -> docker container ls --format "{{.ID}} {{.Image}}"|grep -i "$1"|awk '{print($1)}'
     else
       local container_ids="$(docker ps -q)"
       if [ -n "$container_ids" ]; then
         {
           echo "Image Name IP"  # Table heading
           ## And the containers' data
-          echo "${container_ids}" | xargs -n 1 docker inspect --format '{{ .Config.Image }} {{ .Name }} {{ .NetworkSettings.IPAddress }}' | sed 's/ \// /'
+          echo "${container_ids}" | xargs -n 1 docker inspect --format '{{ .Config.Image }} {{ .Name }} {{range .NetworkSettings.Networks }}{{ .IPAddress }}{{ end }}' | sed 's/ \// /'
         } | column -t -s' '
       else
         echo "No running containers."

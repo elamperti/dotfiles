@@ -37,6 +37,10 @@
   # annotated tags when pushing branches out
   followTags = true
 
+[fetch]
+  # Remove remote branches that were deleted
+  prune = true
+
 [merge]
   ff = only
 
