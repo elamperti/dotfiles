@@ -77,6 +77,7 @@ install_package() {
 # Usual usage: `last_argument $@`
 # https://stackoverflow.com/questions/1853946/getting-the-last-argument-passed-to-a-shell-script
 last_argument() {
+    # The space is needed so the negative offset is not confused with :- expansion
     echo ${@: -1}
 }
 

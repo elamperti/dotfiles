@@ -26,7 +26,7 @@ create_bundle_list() {
     local friendly_name=
     pushd "$(dirname "${BASH_SOURCE[0]}")/../bundles/" &> /dev/null
 
-    log INFO "Looking for bundles..."
+    log INFO "Creating bundle list..."
     for bundle in $(ls -d */); do
         bundle=${bundle::-1} # remove trailing slash
 
@@ -108,7 +108,7 @@ execute_bundle_after_installs() {
 
 execute_bundle_inits() {
     if [ ${#bundle_queue[@]} -gt 0 ]; then
-        log INFO "Searching for bundles..."
+        log INFO "Initializing bundles..."
         pushd "$(dirname "${BASH_SOURCE[0]}")/../bundles/" &> /dev/null
         for bundle in ${bundle_queue[@]}; do
             call_bundle_function $bundle on_init EVAL_OUTPUT
