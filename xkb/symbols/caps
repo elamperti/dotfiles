@@ -1,0 +1,6 @@
+xkb_symbols "caps" {
+  key <CAPS> {
+    symbols = [ quotedbl, asterisk, Caps_Lock, Caps_Lock ],
+    actions[Group1] = [ NoAction(), NoAction(), LockMods(modifiers=Lock), LockMods(modifiers=Lock) ]
+  };
+};

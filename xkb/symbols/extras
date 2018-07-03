@@ -1,0 +1,16 @@
+xkb_symbols "extras" {
+  replace key <AB03> { [ c, C, ccedilla, Ccedilla ] };
+  replace key <AD04> { [ r, R, egrave, Egrave ] };
+  replace key <AC02> { [ s, S, agrave, Agrave ] };
+  replace key <AD10> { [ p, P, ocircumflex, Ocircumflex ] };
+  replace key <AD06> { [ y, Y, udiaeresis, Udiaeresis ] };
+  replace key <AB04> { [ v, V, copyright, copyright ] };
+  replace key <AB08> { [ comma, less, guillemotleft, less ] };
+  replace key <AB09> { [ period, greater, guillemotright, greater ] };
+  replace key <AC11> { [ apostrophe, quotedbl, degree, quotedbl ] };
+  replace key <AD05> { [ t, T, trademark, trademark ] };
+  replace key <AE05> { [ 5, percent, EuroSign, cent ] };
+  replace key <AE11> { [ minus, underscore, emdash, overline ] };
+  replace key <AE12> { [ equal, plus, notequal, plusminus ] };
+  replace key <BKSL> { [ backslash, bar, notsign, bar ] };
+};

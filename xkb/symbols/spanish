@@ -1,0 +1,10 @@
+xkb_symbols "spanish" {
+  replace key <AB06> { [ n, N, ntilde, Ntilde ] };
+  replace key <AC01> { [ a, A, aacute, Aacute ] };
+  replace key <AD03> { [ e, E, eacute, Eacute ] };
+  replace key <AD08> { [ i, I, iacute, Iacute ] };
+  replace key <AD09> { [ o, O, oacute, Oacute ] };
+  replace key <AD07> { [ u, U, uacute, Uacute ] };
+  replace key <AE01> { [ 1, exclam, exclamdown, exclam ] };
+  replace key <AB10> { [ slash, question, questiondown, U203D ] };
+};

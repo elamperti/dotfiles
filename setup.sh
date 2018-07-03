@@ -155,6 +155,7 @@ create_symlinks() {
 
     # This is the actual list of things being stowed
     stow_and_log "General dotfiles" ~/ shell/
+    stow_and_log "Keyboard configuration (xkb)" ~/.xkb/ xkb/
     stow_and_log ".config directory" ~/.config/ home/.config/
 
     pretty_print INDENT LEFT 3
