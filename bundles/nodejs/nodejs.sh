@@ -49,6 +49,7 @@ after_installs() {
     if cmd_exists "npm"; then
         sudo npm install -g nodemon yarn eslint &>/dev/null
         if [ $? -eq 0 ]; then
+            yarn config set -- --emoji true
             send_cmd log OK "npm packages"
         else
             send_cmd log WARN "there was a problem installing npm packages"
