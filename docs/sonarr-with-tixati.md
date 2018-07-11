@@ -1,8 +1,23 @@
 # Making Sonarr work with Tixati
 
-Sonarr is a wonderful tool to track series, but making it work with Tixati has several gotchas.
+Sonarr is a wonderful tool to track TV series, but making it work with Tixati has several gotchas.
 This is a rough guide through the setup process.
 
+<!-- TOC depthFrom:2 -->
+
+- [Sonarr installation](#sonarr-installation)
+  - [Sonarr setup](#sonarr-setup)
+    - [Indexer(s)](#indexers)
+    - [Download client](#download-client)
+- [Tixati installation](#tixati-installation)
+  - [Tixati setup](#tixati-setup)
+- [Connecting the dots](#connecting-the-dots)
+- [How things work](#how-things-work)
+- [How to make Radarr work with Tixati](#how-to-make-radarr-work-with-tixati)
+- [Troubleshooting](#troubleshooting)
+    - [If Sonarr doesn't generate `.magnet` files](#if-sonarr-doesnt-generate-magnet-files)
+
+<!-- /TOC -->
 
 ## Sonarr installation
 Install Sonarr following [the guide](https://github.com/Sonarr/Sonarr/wiki/Installation#linux).
@@ -27,7 +42,9 @@ Just use the [fantastic bundle](./../bundles/tixati/) that comes with these dotf
 
   * In **Settings > Transfers > Meta info** set it to open `.torrent` files created/moved in a folder you specify (e.g. `~/.sonarr/`). Check the "Load magnet URLs ..." box. If you are already using a particular folder for this you can keep it as it is, just remember to make it match when you configure Sonarr.
   * In **Settings > Transfers > Locations** check "Upon completion, move to this location" and point torrents to a folder that we'll later monitor with Sonarr (e.g. `~/torrents/sonarr-will-handle-this`).
-  * To avoid being prompted each time a `.torrent` file is found, go to **User interface > Behavior**, and click the **Configure...** button next to "Transfer loading priority/location prompt". Under "Contexts" make sure "Created from watched folder" is unchecked.
+  * To avoid being prompted each time a `.torrent` file is found, go to **User interface > Behavior**, uncheck "Activate main window when new transfers are loaded" and click the **Configure...** button next to "Transfer loading priority/location prompt". Under "Contexts" make sure "Created from watched folder" is unchecked.
+
+Note: Disabling the main window activation on new transfers will also affect the focusing behavior of _manually_ added torrents.
 
 
 ## Connecting the dots
@@ -35,7 +52,7 @@ Your indexer doesn't give you `.torrent` files. Tixati does nothing with `.magne
 
   * `sudo apt-get install python-libtorrent` (good luck installing it other way)
   * Clone, download or copy from a floppy disk the [Magnet2Torrent](https://github.com/elamperti/Magnet2Torrent) script -my version, as the original does something completely different-; I suggest you to put it in any folder present in your `PATH`.
-  * Save [this Gist](https://gist.github.com/elamperti/d1ced3a405090fc6e4805307a0dc78c1) wherever you want. Edit it so `magnet_folder` points to the folder where `.magnet` files are being created (which is also the folder Tixati monitors).
+  * Save [this Gist](https://gist.github.com/elamperti/d1ced3a405090fc6e4805307a0dc78c1) wherever you want. Edit it so `magnet_folder` points to the folder where `.magnet` files are being created (which is also the folder Tixati monitors). You may need to define `$USER` as well.
   * Create a crontab entry calling the script you just saved every 5 minutes.
 
 
@@ -48,6 +65,9 @@ Your indexer doesn't give you `.torrent` files. Tixati does nothing with `.magne
   * If you have set a connection in **Settings > Connect**, at this point it will tell you the file has been downloaded.
 
 ---
+
+## How to make Radarr work with Tixati
+It's almost the same as for Sonarr. Start with the [Radarr installation guide](https://github.com/Radarr/Radarr/wiki/Installation#debian--ubuntu) and follow this guide, replacing _Sonarr_ with _Radarr_ where necessary.
 
 ## Troubleshooting
 
