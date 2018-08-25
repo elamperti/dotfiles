@@ -1,7 +1,14 @@
 # My dotfiles :sparkles: [![Build Status](https://travis-ci.org/elamperti/dotfiles.svg?branch=master)](https://travis-ci.org/elamperti/dotfiles)
 
-Hi, these are my dotfiles and a bunch of scripts to make new installations a breeze.
-See [requirements](#requirements), [setup instructions](#installing) and [how to customize](#customization) them.
+Hi, these are my dotfiles and a bunch of scripts to make new deployments ~a breeze~ easier.
+See [requirements](#requirements), [setup instructions](#installing) and [how to customize](#customization).
+There's also some [unrelated documentation](./docs/).
+
+## Screenshots
+![tmux featuring vim and bash](https://user-images.githubusercontent.com/910672/44622666-921f8c00-a893-11e8-86a4-1b3355ada324.jpg)
+![bash prompt in a git repo](https://user-images.githubusercontent.com/910672/44622668-92b82280-a893-11e8-9b74-78e4693c179d.jpg)
+
+---
 
 ## Requirements
 
