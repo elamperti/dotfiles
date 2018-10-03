@@ -73,8 +73,8 @@ completely_dynamic_prompt() {
     # Path block ##
     ##############
 
-    # Initialize the path resetting bold
-    local path_block_string='\[\e[21m\]'
+    # Initialize the path resetting bold and re-adding background color
+    local path_block_string='\[\e[0m\]{{ colors.path_bg }}'
 
     if [[ "$PWD" == "$HOME" ]]; then
         # We are home. Piece of cake. Print a nice little house and get out.
@@ -168,8 +168,8 @@ completely_dynamic_prompt() {
 
         # Light color, print dirname
         path_block_string+="${dirname_color}$the_dirname"
-        # Strong color, bold, print current directory, reset bold
-        path_block_string+="${the_cwd_color}\[\e[1m\]$the_cwd\[\e[21m\] "
+        # Strong color, bold, print current directory, reset bold, re-define bg color
+        path_block_string+="${the_cwd_color}\[\e[1m\]$the_cwd\[\e[0m\]{{ colors.path_bg }} "
 
         used_chars=$(( $used_chars + ${#the_dirname} + ${#the_cwd} ))
     fi
@@ -185,7 +185,7 @@ completely_dynamic_prompt() {
 
     else
 
-        local modifiers='\[\e[21m\]' # Reset bold for crispier icons!
+        local modifiers=''
         local bgcolor=''
         local fgcolor='\[\e[38;5;0m\]' # Black
         local icon='{{ symbol.git.branch }}'
@@ -235,8 +235,8 @@ completely_dynamic_prompt() {
         fi
 
         local bgcolor_for_fg=${bgcolor/[4/[3}
-        PS1+="${path_block_string}${bgcolor}{{ fg(colors.path_bg) }} "
-        PS1+="${fgcolor}${icon} ${branchName}${modifiers} \[\e[0m\]${bgcolor_for_fg}"
+        PS1+="${path_block_string}\[\e[0m\]${bgcolor}{{ fg(colors.path_bg) }} "
+        PS1+="${fgcolor}${icon} ${branchName}\[\e[0m\]${bgcolor}${fgcolor}${modifiers} \[\e[0m\]${bgcolor_for_fg}"
 
     fi
 
