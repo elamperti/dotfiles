@@ -1,6 +1,6 @@
 # My dotfiles :sparkles: [![Build Status](https://travis-ci.org/elamperti/dotfiles.svg?branch=master)](https://travis-ci.org/elamperti/dotfiles)
 
-Hi, these are my dotfiles and a bunch of scripts to make new deployments ~a breeze~ easier.
+Hi, these are my dotfiles and a bunch of scripts to make new deployments easier.
 See [requirements](#requirements), [setup instructions](#installing) and [how to customize](#customization).
 There's also some [unrelated documentation](./docs/).
 
