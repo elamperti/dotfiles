@@ -55,7 +55,11 @@ xfce_packages="
     xfce4-whiskermenu-plugin: better Start menu (with search)
 "
 
-gnome_packages=""
+i3_packages="
+    arandr: graphical interface for xrandr
+    lxappearance: tool to customize look and feel of your desktop
+    pasystray: control the volume from the systray
+"
 
 declare -A dialog_title
 declare -A dialog_desc
@@ -69,7 +73,7 @@ dialog_desc[graphical_packages]="Programs that require a window manager to be us
 dialog_title[xfce_packages]="XFCE packages"
 dialog_desc[xfce_packages]=""
 
-dialog_title[gnome_packages]="Gnome packages"
-dialog_desc[gnome_packages]=""
+dialog_title[i3_packages]="i3 packages"
+dialog_desc[i3_packages]=""
 
-supported_desktop_managers=("xfce" "gnome")
+supported_desktop_managers=("xfce" "i3")

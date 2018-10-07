@@ -9,4 +9,4 @@ xkbcomp -w 0 -I"$HOME/.xkb" -R"$HOME/.xkb" "$HOME/.xkbrc" $DISPLAY
 # No bell
 xset -b
 
-touch /tmp/funcionaLALAA
+xrdb -merge ~/.Xresources

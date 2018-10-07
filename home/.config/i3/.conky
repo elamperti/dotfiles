@@ -1,0 +1,82 @@
+# Load helper functions
+lua_load ~/.config/i3/conky_helpers.lua
+
+#avoid flicker
+double_buffer yes
+
+#own window to run 2 or more conkys simultaneously
+own_window yes
+own_window_transparent yes
+own_window_type override
+own_window_hints undecorate,above,sticky,skip_taskbar,skip_pager
+
+#borders
+border_inner_margin 0
+border_outer_margin 10
+draw_borders no
+draw_graph_borders yes
+#shades
+draw_shades no
+#position
+alignment top_middle
+gap_y 8
+gap_x -1040
+#behaviour
+update_interval 1
+#colour
+default_color white
+#default_shade_color 000000
+#own_window_colour 303030
+#font
+use_xft yes
+xftfont System San Francisco Display:size=16
+
+# Force UTF8? note that UTF8 support required XFT
+override_utf8_locale yes
+#to prevent window from moving
+maximum_width 2200
+minimum_size 2200 44
+default_graph_size 20 200
+format_human_readable yes
+short_units yes
+
+TEXT
+${voffset 1}\
+${font System San Francisco Display:style=Bold:size=14}${color gray}${color}${time %H:%M}${color darkgray}:${time %S} \
+${voffset -7}\
+${font DejaVu Sans Mono:size=16}\
+${alignr}\
+${goto 400}${offset 0}\
+${voffset 4}${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
+${voffset -16}${color #454545}${memgraph 36,60 9AA863 9AB728 -t} \
+${voffset 14}${color darkgray}${font DejaVu Sans Mono:size=16}\
+${lua_parse pad 6 ${memperc}%}\
+${alignr}\
+${goto 400}${offset 210}\
+${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
+${voffset -16}${color #454545}${cpugraph cpu0 36,100 AA5500 CC7700 -t} \
+${voffset 14}${color darkgray}${font DejaVu Sans Mono:size=16}\
+${lua_parse pad 6 ${cpu}%}\
+${alignr}\
+${if_existing /sys/class/net/enp3s0/operstate up} \
+${goto 400}${offset 460}\
+${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
+${voffset -2}${font DejaVu Sans Mono:size=12}Network\
+${goto 400}${offset 620}\
+${voffset -17}\
+${color #454545}${downspeedgraph enp3s0 36,100 1F8729 1BC62C 2000 -t} \
+${color #454545}${upspeedgraph enp3s0 36,100 547D93 57AAD6 200 -t} \
+${voffset 15}\
+${goto 400}${offset 850}\
+${color #DFDFDF}${font Font Awesome 5 Free Solid:size=14} \
+${voffset -4}\
+${color #70b273}${font DejaVu Sans Mono:size=16}\
+${lua_parse pad 6 ${downspeedf enp3s0}Kb}\
+${goto 400}${offset 1050}\
+${voffset -2}\
+${color #DFDFDF}${font Font Awesome 5 Free Solid:size=14} \
+${voffset -40}\
+${color 7ca2ba}${font DejaVu Sans Mono:size=16}\
+${lua_parse pad 6 ${upspeedf enp3s0}Kb}\
+${endif}\
+

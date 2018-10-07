@@ -56,8 +56,8 @@ pick_packages() {
             "xfce")
                 query_packages 'xfce_packages'
                 ;;
-            "gnome")
-                query_packages 'gnome_packages'
+            "i3")
+                query_packages 'i3_packages'
                 ;;
             *)
                 log WARN "Unknown desktop environment: ${dm}"
