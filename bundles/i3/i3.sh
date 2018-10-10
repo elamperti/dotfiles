@@ -39,6 +39,7 @@ on_init() {
 
     # send_cmd enqueue_packages "i3blocks"
     send_cmd enqueue_packages "conky"
+    send_cmd enqueue_packages "python-dbus" # so conky can display currently played song
     send_cmd enqueue_packages "pasystray" # Volume control in tray
     send_cmd enqueue_packages "rofi"
 
