@@ -5,6 +5,7 @@ See [requirements](#requirements), [setup instructions](#installing) and [how to
 There's also some [unrelated documentation](./docs/).
 
 ## Screenshots
+![i3 desktop](https://user-images.githubusercontent.com/910672/46715151-2b80e280-cc35-11e8-99ee-d681e4e74ab5.jpg)
 ![tmux featuring vim and bash](https://user-images.githubusercontent.com/910672/44622666-921f8c00-a893-11e8-86a4-1b3355ada324.jpg)
 ![bash prompt in a git repo](https://user-images.githubusercontent.com/910672/44622668-92b82280-a893-11e8-9b74-78e4693c179d.jpg)
 
