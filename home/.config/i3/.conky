@@ -47,7 +47,7 @@ ${goto 810}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
 ${font System San Francisco Display:size=12}${color gray}\
 ${voffset -2}\
-${execi 6 ~/.config/i3/spotify_info.py}\
+${execi 2 ~/.config/i3/spotify_info.sh}\
 ${voffset -1}\
 ${endif}\
 ${endif}\
