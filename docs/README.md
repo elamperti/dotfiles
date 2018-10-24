@@ -4,6 +4,7 @@ These documents are quick walkthroughs or cheatsheets and they are probably inco
 
 | Title                                                                                        | Created on |
 |----------------------------------------------------------------------------------------------|------------|
+| [Setting up XFCE](./xfce.md)                                                                 | (Sep 2018) |
 | [XKB keyboard mappings](./xkb.md)                                                            | (Jul 2018) |
 | [Making Sonarr work with Tixati](./sonarr-with-tixati.md)                                    | (Apr 2017) |
 | [Run script on device connection using udev rules](./udev-rules.md)                          | (Mar 2017) |
