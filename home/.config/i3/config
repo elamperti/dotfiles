@@ -91,7 +91,6 @@ bindsym $mod+6 workspace $workspace6
 bindsym $mod+7 workspace $workspace7
 bindsym $mod+8 workspace $workspace8
 bindsym $mod+9 workspace $workspace9
-bindsym F9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
 
 bindsym $alt+Tab workspace next
@@ -192,6 +191,7 @@ hide_edge_borders smart
 # Floating windows
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Shutter"] floating enable
+for_window [class="Tilda"] floating enable
 for_window [class="Firefox" window_role="page-info"] floating enable
 #for_window [class="Firefox" window_role="toolbox"] floating enable # inspector
 for_window [title="Authy"] floating enable
@@ -205,7 +205,7 @@ assign [class="Minecraft.*"] $workspace6
 assign [class="TelegramDesktop"] $workspace7
 assign [class="discord"] $workspace7
 for_window [class="discord"] layout stacking
-assign [class="tixati"] move to workspace $workspace8
+assign [class="Tixati"] $workspace8
 for_window [class="Spotify"] move to workspace $workspace10
 
 # General shortcuts
@@ -234,6 +234,7 @@ exec --no-startup-id shutter --min_at_startup
 exec --no-startup-id spotify --force-device-scale-factor=1.5
 exec --no-startup-id discord
 exec --no-startup-id /opt/telegram/Telegram
+exec --no-startup-id tilda
 
 # On reloads
 exec_always --no-startup-id xrandr --output DP-0 --primary --dpi 144
