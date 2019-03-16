@@ -189,18 +189,30 @@ init_git_submodules() {
 }
 
 install_custom_font() {
-    # Install Droid Sans Mono, patched with Nerd Font
-    mkdir -p ~/.local/share/fonts
-    pushd ~/.local/share/fonts &>/dev/null
-    if [ ! -f 'DejaVu Sans Mono Nerd Font Complete.otf' ]; then
-        curl --silent -kfLo "DejaVu Sans Mono Nerd Font Complete.otf" \
-            "https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/DejaVuSansMono/Regular/complete/DejaVu%20Sans%20Mono%20Nerd%20Font%20Complete.ttf"
-        log INFO "Downloaded DejaVu Sans Mono patched font"
+    local font_name='DejaVu Sans Mono'
+    local font_file='DejaVu Sans Mono Nerd Font Complete.ttf'
+    local font_url='https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/DejaVuSansMono/Regular/complete/DejaVu%20Sans%20Mono%20Nerd%20Font%20Complete.ttf?raw=true'
+    # local font_type='truetype' # truetype | opentype (ToDo: autodetect)
+    local font_config='DejaVu Sans Mono 10'
+
+    mkdir ~/.fonts
+
+    if [ ! -d ~/.local/share/fonts ]; then
+        mkdir -p ~/.local/share
+        ln -s ~/.fonts ~/.local/share/fonts
+    fi
+
+    pushd ~/.fonts &>/dev/null
+    if [ ! -f "${font_file}" ]; then
+        curl --silent -kfLo "${font_file}" "${font_url}"
+        log INFO "Downloaded ${font_name}"
 
         if cmd_exists "gsettings"; then
-            ask_yes_no "Set \[\e[1m\]DejaVu Sans Mono\[\e[0m\] as the default fixed width font?" $DEFAULT_YES
+            ask_yes_no "Set \e[1m${font_name}\e[0m as the default fixed width font?" $DEFAULT_YES
             if answer_was_yes; then
-                gsettings set org.gnome.desktop.interface monospace-font-name "DejaVu Sans Mono 10"
+                # sudo mkdir -p /usr/share/fonts/${font_type}
+                # sudo cp "${font_file}" /usr/share/fonts/${font_type}/
+                gsettings set org.gnome.desktop.interface monospace-font-name "${font_config}"
                 log NOTICE "Default fixed width font changed"
             fi
         else
