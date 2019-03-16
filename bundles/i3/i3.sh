@@ -47,7 +47,7 @@ on_init() {
     send_cmd enqueue_packages "moka-icon-theme"
 
     # All this to compile i3gaps
-    send_cmd enqueue_packages "libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev libxcb-icccm4-dev libyajl-dev libstartup-notification0-dev libxcb-randr0-dev libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev autoconf libxcb-xrm-dev"
+    send_cmd enqueue_packages "libxcb1-dev libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev libxcb-icccm4-dev libyajl-dev libstartup-notification0-dev libxcb-randr0-dev libev-dev libxcb-cursor-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev autoconf libxcb-xrm-dev libxcb-shape0-dev"
 }
 
 after_installs() {
@@ -59,7 +59,7 @@ after_installs() {
         mkdir -p /tmp/i3gaps/build/ &&
         pushd /tmp/i3gaps/build &>/dev/null
             ../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers &>/dev/null && \
-            make &>/dev/null &&
+            make &>/dev/null && \
             sudo make install &>/dev/null || send_cmd log WARN "Failed to compile i3-gaps"
         popd &>/dev/null
     popd &>/dev/null
