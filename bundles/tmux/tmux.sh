@@ -19,7 +19,7 @@ verify_requirements() {
 needs_update() {
     cmd_exists "tmux" || return 0
 
-    local remote_ver=$(wget -qO- https://tmux.github.io/|grep -osP -m1 "http.*\.tar\.gz"|grep -osP "(?<=\/)\d[^/]+")
+    local remote_ver=$(wget -qO- "https://github.com/tmux/tmux/wiki"|grep -osP -m1 "http.*\.tar\.gz"|grep -osP "(?<=\/)\d[^/]+")
     local local_ver=$(tmux -V|grep -osP "[0-9].*")
 
     dpkg --compare-versions "${remote_ver}" "gt" "${local_ver}"
@@ -40,7 +40,7 @@ after_installs() {
     send_cmd log INFO "Verifying tmux version"
     if needs_update; then
         # Fetches tmux download page and greps the latest package URL
-        local pkgurl=$(wget -qO- https://tmux.github.io/|grep -osP -m1 "http.*\.tar\.gz")
+        local pkgurl=$(wget -qO- "https://github.com/tmux/tmux/wiki"|grep -osP -m1 "http.*tmux.*\.tar\.gz")
         local tmux_package="$(mktemp tmux-XXXXXX.tar.gz --tmpdir=/tmp)"
         local tmux_path="$(mktemp -d tmux-XXXXXX --tmpdir=/tmp)"
         local install_outcome=0 # Assume it's all good. Trust me, I'm a programmer.
