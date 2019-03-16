@@ -61,8 +61,8 @@ guess_desktop_manager() {
     log DEBUG "Possible DM: ${possible_dm}"
 
     if [ -n "${possible_dm}" ]; then
-        dm=$(echo ${XDG_CURRENT_DESKTOP,,}|grep -o $possible_dm ||
-             echo $supported_desktop_managers|grep -o $possible_dm)
+        dm=$(echo ${XDG_CURRENT_DESKTOP,,}|grep -o "$possible_dm" ||
+             echo $supported_desktop_managers|grep -o "$possible_dm")
     fi
 
     echo "${dm}"
