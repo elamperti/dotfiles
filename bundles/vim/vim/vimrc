@@ -221,6 +221,9 @@ call plug#begin('~/.vim/plugins')
 
     " Autocomplete, indentation and syntax for HTML5
     " Plug 'othree/html5.vim'
+    "
+    " ledger-cli
+    Plug 'ledger/vim-ledger'
 
 call plug#end()
 
@@ -297,6 +300,13 @@ let g:neocomplete#enable_smart_case = 1
 
 " Make `<TAB>` autocomplete
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
+
+" ----------------------------------------------------------------------
+" | Ledger                                                              |
+" ----------------------------------------------------------------------
+
+au BufNewFile,BufRead *.ldg,*.ledger setf ledger | comp ledger | set colorcolumn=50
 
 
 " ----------------------------------------------------------------------

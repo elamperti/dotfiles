@@ -118,3 +118,5 @@ if type __git_complete &>/dev/null; then
   __git_complete gsl _git_stash
   __git_complete gsp _git_stash
 fi
+
+alias led='ledger'

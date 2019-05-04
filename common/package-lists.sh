@@ -17,6 +17,7 @@ common_packages="
     htop: interactive process viewer
     httpie: CLI user-friendly HTTP client
     imagemagick: image manipulation tools
+    ledger: double-entry accounting system
     libimage-exiftool-perl: EXIF metadata viewer (exiftool)
     mc: Midnight Commander file manager
     moreutils: sponge, vipe, pee and other utilities
