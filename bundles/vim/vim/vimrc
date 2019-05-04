@@ -207,7 +207,7 @@ call plug#begin('~/.vim/plugins')
     Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
 
     " Jinja2 templates syntax
-    Plug 'Glench/Vim-Jinja2-Syntax', {'for': 'jinja2'}
+    " Plug 'Glench/Vim-Jinja2-Syntax', {'for': 'jinja2'}
 
     " Golang support
     Plug 'fatih/vim-go'

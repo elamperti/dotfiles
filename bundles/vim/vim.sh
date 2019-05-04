@@ -20,6 +20,9 @@ on_init() {
     if ! cmd_exists 'ag'; then
         send_cmd enqueue_packages "silversearcher-ag"
     fi
+
+    # This package is required to have Lua (neocomplete requires it)
+    send_cmd enqueue_packages "vim-nox"
 }
 
 after_installs() {
