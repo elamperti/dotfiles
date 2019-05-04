@@ -266,8 +266,8 @@ set_prompts() {
 
 # Color theme, if it is just in this particular place
 # ToDo: make this more flexible
-[[ -s "$HOME/dotfiles/art/colors/base16-bespin.dark.sh" ]] &&
-    source "$HOME/dotfiles/art/colors/base16-bespin.dark.sh"
+[[ -s "$HOME/dotfiles/art/colors/{{ strings.palette }}.sh" ]] &&
+    source "$HOME/dotfiles/art/colors/{{ strings.palette }}.sh"
 
 set_prompts
 

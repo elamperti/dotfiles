@@ -73,6 +73,7 @@ def main():
 
     args_parser = argparse.ArgumentParser(description='Parses a Bash prompt from a template using variables')
     args_parser.add_argument('--template', '-t', nargs='?', default='fancy', help='Template name')
+    args_parser.add_argument('--palette', '-p', nargs='?', default='base16-bespin.dark', help='Color palette to use')
     args_parser.add_argument('--style', '-s', nargs='?', default='default', help='Variation of the default style')
     args_parser.add_argument('--hostname', '-w', nargs='?', default='', help='Override hostname with given value')
     args = args_parser.parse_args()
@@ -101,6 +102,9 @@ def main():
     # Override hostname if defined
     if len(args.hostname) > 0:
         variables['strings']['hostname'] = args.hostname
+
+    if len(args.palette) > 0:
+        variables['strings']['palette'] = args.palette
 
     result = re.sub(r"\{\{\s?(.+?)\s?\}\}", process_variable_match, template)
     result = re.sub(r"\{~\s?(.+?)\s?~\}(.*?)\{~\s?/\1\s?~\}", process_option_match, result, flags=re.DOTALL)
