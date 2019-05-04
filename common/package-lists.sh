@@ -11,6 +11,7 @@ common_packages="
     cmus: CLI music player with last.fm support
     curl: tool to transfer data using several protocols
     dnsutils: contains dig, nslookup and other tools
+    ethtool: enable Wake On LAN and more
     gcal: the GNU calendar (useful to see holidays)
     git: popular distributed version control system
     htop: interactive process viewer
