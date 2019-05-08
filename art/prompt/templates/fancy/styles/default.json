@@ -1,7 +1,8 @@
 {
     "options": {
         "hide_hostname_locally": "yes",
-        "path_max_length": "48"
+        "time_for_long_commands": "yes",
+        "seconds_to_consider_long_time": "2"
     },
 
     "strings": {
@@ -16,6 +17,7 @@
         "user_bg": "237",
         "user_symbol_fg": "240",
         "user_fg": "244",
+        "timing_fg": "244",
         "hostname_fg": "4",
         "hostname_symbol_fg": "4",
         "ssh_user_fg": "256",
@@ -35,6 +37,7 @@
         "ssh": "",
         "home": "",
         "tmp": "",
+        "timing": "祥",
 
         "git": {
             "branch": "",
