@@ -93,8 +93,10 @@ bindsym $mod+8 workspace $workspace8
 bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
 
-bindsym $alt+Tab workspace next
-bindsym $alt+Shift+Tab workspace prev
+bindsym $alt+Tab workspace back_and_forth
+bindsym $alt+Shift+Tab workspace back_and_forth
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $workspace1
@@ -192,9 +194,13 @@ hide_edge_borders smart
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Shutter"] floating enable
 for_window [class="Tilda"] floating enable
+for_window [class="Simplescreenrecorder"] floating enable
+for_window [class="Firefox"] border pixel 1
+for_window [class="Firefox" window_role="page-info"] border normal 1
 for_window [class="Firefox" window_role="page-info"] floating enable
 #for_window [class="Firefox" window_role="toolbox"] floating enable # inspector
 for_window [title="Authy"] floating enable
+for_window [title="Loading Tixati..."] floating enable
 
 # Default workspaces (use xprop to inspect windows)
 assign [class="Firefox"] $workspace1
@@ -217,8 +223,11 @@ bindsym --release $alt+Sys_Req exec --no-startup-id shutter -s # This is alt + P
 bindsym XF86AudioMute exec amixer -D pulse set 'Master' 1+ toggle
 bindsym XF86AudioLowerVolume exec amixer sset 'Master' 2%-
 bindsym XF86AudioRaiseVolume exec amixer sset 'Master' 2%+
+bindsym XF86AudioPlay exec $HOME/.config/i3/spotify_playPause.sh
 bindsym $ctrl+$alt+Home exec $HOME/.config/i3/spotify_playPause.sh
+bindsym XF86AudioPrev exec $HOME/.config/i3/spotify_prev.sh
 bindsym $ctrl+$alt+Prior exec $HOME/.config/i3/spotify_prev.sh
+bindsym XF86AudioNext exec $HOME/.config/i3/spotify_next.sh
 bindsym $ctrl+$alt+Next exec $HOME/.config/i3/spotify_next.sh
 
 # Startup
@@ -227,6 +236,7 @@ exec --no-startup-id conky -c $HOME/.config/i3/.conky
 exec --no-startup-id redshift-gtk
 exec --no-startup-id xrandr --dpi 144
 exec --no-startup-id xset dpms 0 0 3600
+exec --no-startup-id start-pulseaudio-x11
 exec --no-startup-id pasystray
 exec --no-startup-id shutter --min_at_startup
 
