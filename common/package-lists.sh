@@ -14,6 +14,7 @@ common_packages="
     ethtool: enable Wake On LAN and more
     gcal: the GNU calendar (useful to see holidays)
     git: popular distributed version control system
+    git-crypt: transparent encryption for repositories
     htop: interactive process viewer
     httpie: CLI user-friendly HTTP client
     imagemagick: image manipulation tools
