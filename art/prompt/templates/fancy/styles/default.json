@@ -25,10 +25,7 @@
         "path_bg": "234",
         "path_fg": "96",
         "path_cwd_fg": "132",
-        "path_home_fg": "130",
         "path_home_fg": "166",
-
-        "path_tmp_fg": "30",
         "path_tmp_fg": "37"
     },
 
