@@ -1,7 +1,8 @@
 #!/bin/bash
 
+source "$(dirname "${BASH_SOURCE[0]}")/../common/questions.sh"
+
 motd_wizard() {
-    local retval=1
     pushd "$(dirname "${BASH_SOURCE[0]}")/../art/motd" &> /dev/null
 
     # This avoids filling a description for each item using a invisible space char here v
@@ -35,17 +36,82 @@ motd_wizard() {
     dialog --keep-tite --title 'Your motd' --msgbox "${motd}" \
            $(( $t_height - 12 )) $(( $t_width - 4 ))
 
-    if [ -f /etc/motd ]; then
-        cp /etc/motd "$(dirname "${BASH_SOURCE[0]}")/../backups/$(date +%Y%m%d-%H%M%S)-motd"
-        log NOTICE "Backed up previous MOTD"
-    fi
+    create_local_motd_dir
 
-    sudo cp "${selected_motd}" /etc/motd
-    retval=$?
+    ask_yes_no "Apply MOTD art for all users?" $DEFAULT_YES
+    if answer_was_no; then
+        # Tries to remove previous art (if dialog is canceled it will still be there)
+        find "$HOME/.config/motd/" -type l -name '00-art.motd' -delete
+        ln -s "$(pwd)/${selected_motd}" "$HOME/.config/motd/00-art.motd"
+    else
+        # ToDo: fix relative paths
+        if [ -f /etc/motd ]; then
+            cp /etc/motd "../../backups/$(date +%Y%m%d-%H%M%S)-motd"
+            log INFO "Backed up previous MOTD"
+        fi
+
+        sudo cp "${selected_motd}" /etc/motd
+
+        if [ -f '/etc/update-motd.d/10-help-text' ]; then
+            cp /etc/update-motd.d/10-help-text "../../backups/$(date +%Y%m%d-%H%M%S)-motd-help-text"
+            sudo rm /etc/update-motd.d/10-help-text
+            log INFO 'Removed original MOTD help text'
+        fi
+    fi
 
     # Out of artworks folder
     popd &>/dev/null
 
-    return $retval
+    pick_motd_bits
+    return 0
 }
 
+create_local_motd_dir() {
+    mkdir -p "$HOME/.config/motd"
+}
+
+pick_motd_bits() {
+    local package_list_height=12
+    local motd_bits=()
+    local motd_repo_path="$(dirname "${BASH_SOURCE[0]}")/../motd"
+
+    pushd "${motd_repo_path}" &> /dev/null
+
+    for MOTD_FILE in *; do
+        bit_description=$(head -n3 ${MOTD_FILE}|grep -Ei "# ?desc"|sed -rn 's/# ?[Dd]esc(ription)?: ?//p')
+        bit_name=$(echo -n "${MOTD_FILE}"|sed -rn 's/([0-9]+\-)(.*)\..+/\2/p')
+
+        motd_bits+=("$bit_name" "$bit_description" "off")
+    done
+
+    exec 3>&1
+    selected_bits=$(dialog --keep-tite \
+           --title "Dynamic bits for the MOTD" \
+           --checklist "Pick bits of information and alerts to display below your MOTD art" $(( 7 + $package_list_height )) 70 $package_list_height \
+           "${motd_bits[@]}" 2>&1 1>&3
+    )
+    dialog_retval=$?
+    exec 3>&-
+
+    if [ "${dialog_retval}" -eq 0 ]; then
+        # Clear previous bits (only symlinks)
+        find "$HOME/.config/motd/" -type l -not -name '00-art.motd' -delete
+
+        for motd_bit in ${selected_bits}; do
+            path_to_bit="$(find "$(pwd)" -name '*-'${motd_bit}'.*')"
+
+            if [ $? -eq 0 ] && [ -n "${path_to_bit}" ]; then
+                ln -s "${path_to_bit}" "$HOME/.config/motd/"
+            else
+                log ERROR "There was an error trying to reach bit «${motd_bit}»"
+            fi
+        done
+    else
+        log INFO "Canceled selection of MOTD bits."
+    fi
+
+    # Out of motd folder
+    popd &>/dev/null
+
+    return $dialog_retval
+}

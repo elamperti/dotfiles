@@ -1,0 +1,18 @@
+#!/bin/bash
+
+MOTD_CONFIG_PATH="$HOME/.config/motd"
+
+if [ -d "${MOTD_CONFIG_PATH}" ]; then
+  for MOTD_FILE in "${MOTD_CONFIG_PATH}/"*; do
+    FILE_EXT=$(echo "${MOTD_FILE}" | sed 's/.*\.//')
+
+    if [[ "${FILE_EXT}" == "motd" ]]; then
+      cat "${MOTD_FILE}"
+    else
+      source "${MOTD_FILE}"
+    fi
+
+    # Adds a new line after each one
+    echo
+  done
+fi

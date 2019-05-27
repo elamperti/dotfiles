@@ -64,7 +64,7 @@ You should really take a look at [`setup.sh`](./setup.sh) to see what it does. A
   * [Bundles](./bundles/), for more details see [the guide](./bundles/about-bundles.md)
   * `~/.bash*` files affixed with `.local` will be sourced (as long as they have their corresponding file in [`shell`](./shell/)
   * Edit the [prompt templates](./art/prompt/templates/), or create a style for an existing one (it's as easy as changing values in a JSON file)
-  * Add your own [ascii art](./art/motd/) to use it as MOTD
+  * Add your own [ascii art](./art/motd/) to use it as MOTD, or custom scripts in [`motd/`](./motd/); the MOTD wizard will let you pick which ones to use.
 
 ## Testing
 

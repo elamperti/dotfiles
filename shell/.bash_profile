@@ -56,3 +56,8 @@ bind '"\e[1;5D":backward-word'
 
 # Unset anything that just pollutes the global space
 unset -f source_bash_files
+
+# Customized MOTD
+if [ -f "$HOME/.motdrc" ]; then
+  source "$HOME/.motdrc"
+fi

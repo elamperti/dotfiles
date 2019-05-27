@@ -225,14 +225,9 @@ install_custom_font() {
 pick_motd() {
     motd_wizard
     if [ $? -eq 0 ]; then
-        if [ -f '/etc/update-motd.d/10-help-text' ]; then
-            cp /etc/update-motd.d/10-help-text "backups/$(date +%Y%m%d-%H%M%S)-motd-help-text"
-            sudo rm /etc/update-motd.d/10-help-text
-            log INFO 'Removed original MOTD help text'
-        fi
-        log OK "MOTD set"
+        log OK "MOTD configured"
     else
-        log INFO "Skipped MOTD modification"
+        log WARN "MOTD not selected, configuration incomplete"
     fi
 }
 
