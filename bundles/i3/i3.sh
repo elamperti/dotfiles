@@ -42,6 +42,9 @@ on_init() {
     send_cmd enqueue_packages "python-dbus" # so conky can display currently played song
     send_cmd enqueue_packages "pasystray" # Volume control in tray
     send_cmd enqueue_packages "rofi"
+    send_cmd enqueue_packages "feh" # To change background
+    send_cmd enqueue_packages "scrot" # To take screenshots
+    send_cmd enqueue_packages "sox" # To make screenshot sound
 
     send_cmd enqueue_packages "arc-theme"
     send_cmd enqueue_packages "moka-icon-theme"
