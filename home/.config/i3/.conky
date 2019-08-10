@@ -12,14 +12,14 @@ own_window_hints undecorate,above,sticky,skip_taskbar,skip_pager
 
 #borders
 border_inner_margin 0
-border_outer_margin 10
+border_outer_margin 5
 draw_borders no
 draw_graph_borders yes
 #shades
 draw_shades no
 #position
 alignment top_middle
-gap_y 8
+gap_y 4
 gap_x 0
 #behaviour
 update_interval 1
@@ -34,16 +34,16 @@ xftfont System San Francisco Display:size=16
 # Force UTF8? note that UTF8 support required XFT
 override_utf8_locale yes
 #to prevent window from moving
-maximum_width 3840
-minimum_size 3840 44
-default_graph_size 20 200
+maximum_width 1920
+minimum_size 1920 22
+default_graph_size 20 100
 format_human_readable yes
 short_units yes
 
 TEXT
 ${if_running spotify}\
 ${if_match "0" == "${exec ~/.config/i3/spotify_playing.sh}"}\
-${goto 810}\
+${goto 410}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
 ${font System San Francisco Display:size=12}${color gray}\
 ${voffset -2}\
@@ -51,42 +51,42 @@ ${execi 2 ~/.config/i3/spotify_info.sh}\
 ${voffset -1}\
 ${endif}\
 ${endif}\
-${goto 1860}\
+${goto 930}\
 ${voffset 1}\
 ${font System San Francisco Display:style=Bold:size=14}${color gray}${color}${time %H:%M}${color darkgray}:${time %S} \
-${voffset -7}\
+${voffset -4}\
 ${font DejaVu Sans Mono:size=16}\
 ${alignr}\
-${goto 2200}${offset 0}\
-${voffset 4}${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
-${voffset -16}${color #454545}${memgraph 36,60 9AA863 9AB728 -t} \
-${voffset 14}${color darkgray}${font DejaVu Sans Mono:size=16}\
+${goto 1100}${offset -20}\
+${voffset 2}${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
+${voffset 0}${color #454545}${memgraph 18,30 9AA863 9AB728 -t} \
+${voffset -1}${color darkgray}${font DejaVu Sans Mono:size=16}\
 ${lua_parse pad 6 ${memperc}%}\
 ${alignr}\
-${goto 2200}${offset 210}\
+${goto 1100}${offset 105}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
-${voffset -16}${color #454545}${cpugraph cpu0 36,100 AA5500 CC7700 -t} \
-${voffset 14}${color darkgray}${font DejaVu Sans Mono:size=16}\
+${voffset 0}${color #454545}${cpugraph cpu0 18,50 AA5500 CC7700 -t} \
+${voffset -1}${color darkgray}${font DejaVu Sans Mono:size=16}\
 ${lua_parse pad 6 ${cpu}%}\
 ${alignr}\
 ${if_existing /sys/class/net/enp3s0/operstate up} \
-${goto 2200}${offset 460}\
+${goto 1100}${offset 235}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
-${voffset -2}${font DejaVu Sans Mono:size=12}Network\
-${goto 2200}${offset 620}\
-${voffset -17}\
-${color #454545}${downspeedgraph enp3s0 36,100 1F8729 1BC62C 2000 -t} \
-${color #454545}${upspeedgraph enp3s0 36,100 547D93 57AAD6 200 -t} \
-${voffset 15}\
-${goto 2200}${offset 850}\
+${voffset -1}${font DejaVu Sans Mono:size=12}Eth\
+${goto 1100}${offset 300}\
+${voffset 0}\
+${color #454545}${downspeedgraph enp3s0 18,50 1F8729 1BC62C 2000 -t} \
+${color #454545}${upspeedgraph enp3s0 18,50 547D93 57AAD6 200 -t} \
+${voffset -2}\
+${goto 1100}${offset 425}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=14} \
-${voffset -4}\
+${voffset -2}\
 ${color #70b273}${font DejaVu Sans Mono:size=16}\
 ${lua_parse pad 6 ${downspeedf enp3s0}Kb}\
-${goto 2200}${offset 1050}\
+${goto 1100}${offset 535}\
 ${voffset -2}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=14} \
-${voffset -40}\
+${voffset -2}\
 ${color 7ca2ba}${font DejaVu Sans Mono:size=16}\
 ${lua_parse pad 6 ${upspeedf enp3s0}Kb}\
 ${endif}\

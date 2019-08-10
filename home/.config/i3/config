@@ -93,10 +93,8 @@ bindsym $mod+8 workspace $workspace8
 bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
 
-bindsym $alt+Tab workspace back_and_forth
-bindsym $alt+Shift+Tab workspace back_and_forth
-bindsym $mod+Tab workspace next
-bindsym $mod+Shift+Tab workspace prev
+bindsym $alt+Tab workspace next
+bindsym $alt+Shift+Tab workspace prev
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $workspace1
@@ -234,22 +232,19 @@ bindsym $ctrl+$alt+Next exec $HOME/.config/i3/spotify_next.sh
 exec --no-startup-id compton --config $HOME/.config/i3/compton.config
 exec --no-startup-id conky -c $HOME/.config/i3/.conky
 exec --no-startup-id redshift-gtk
-exec --no-startup-id xrandr --dpi 144
-exec --no-startup-id xset dpms 0 0 3600
 exec --no-startup-id start-pulseaudio-x11
 exec --no-startup-id pasystray
 exec --no-startup-id shutter --min_at_startup
 
 # + Applications
-exec --no-startup-id spotify --force-device-scale-factor=1.5
+exec --no-startup-id spotify
 exec --no-startup-id discord
 exec --no-startup-id /opt/telegram/Telegram
 exec --no-startup-id tilda
 
 # On reloads
-exec_always --no-startup-id xrandr --output DP-0 --primary --dpi 144
 exec_always --no-startup-id xrdb -merge $HOME/.Xresources
-exec_always --no-startup-id xkbcomp -I$HOME/.xkb -R$HOME/.xkb $HOME/.xkbrc :1
+exec_always --no-startup-id xkbcomp -I$HOME/.xkb -R$HOME/.xkb $HOME/.xkbrc $DISPLAY
 exec_always --no-startup-id feh --bg-scale $HOME/.config/i3/wallpaper.jpg
 
 # + Applications
