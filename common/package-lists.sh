@@ -26,6 +26,7 @@ common_packages="
     mtr: network diagnostic tool
     ncdu: pretty disk space analyzer
     ntp: synchronize time using NTP
+    rename: modify file names using complex expressions
     ssh: OpenSSH client
     sshfs: mount directories over SSH
     tmux: terminal multiplexer (similar to \`screen\`)
@@ -37,11 +38,13 @@ common_packages="
 graphical_packages="
     arduino: Arduino IDE
     bookletimposer: basic PDF document imposition
+    compton: compositor for Xorg
     filezilla: FTP client
     gdebi: simple tool to install \`.deb\` files
     gnome-font-viewer: Preview and install fonts
     gnome-terminal: Gnome terminal emulator
     openscad: Parametric solid 3D CAD modeller
+    pavucontrol: a volume control for the Pulse audio server
     poedit: a gettext translations editor (i18n)
     redshift: adjusts screen color at night
     remmina: VNC and RDP client
@@ -53,7 +56,6 @@ graphical_packages="
 "
 
 xfce_packages="
-    pavucontrol: a volume control for the Pulse audio server
     thunar-archive-plugin: enables compression/extraction within Thunar
     xfce4-genmon-plugin: add custom plugins to the panel
     xfce4-whiskermenu-plugin: better Start menu (with search)
