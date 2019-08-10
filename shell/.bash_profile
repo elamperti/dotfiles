@@ -49,6 +49,18 @@ if [ -d /usr/local/go/bin ]; then
   PATH="$PATH:/usr/local/go/bin"
 fi
 
+# Android paths
+ANDROID_HOME="$HOME/Android/Sdk"
+if [ -d "${ANDROID_HOME}" ]; then
+  PATH="${PATH}:${ANDROID_HOME}/emulator"
+  PATH="${PATH}:${ANDROID_HOME}/tools"
+  PATH="${PATH}:${ANDROID_HOME}/tools/bin"
+  PATH="${PATH}:${ANDROID_HOME}/platform-tools"
+  export ANDROID_SDK_ROOT="${ANDROID_HOME}"
+fi
+
+export PATH
+
 # Bind Ctrl+Left and Ctrl+Right to navigate by words easily
 # This may not work everywhere, see https://stackoverflow.com/a/5029155/854076
 bind '"\e[1;5C":forward-word'
