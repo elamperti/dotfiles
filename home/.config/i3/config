@@ -221,6 +221,8 @@ bindsym --release $alt+Sys_Req exec --no-startup-id shutter -s # This is alt + P
 bindsym XF86AudioMute exec amixer -D pulse set 'Master' 1+ toggle
 bindsym XF86AudioLowerVolume exec amixer sset 'Master' 2%-
 bindsym XF86AudioRaiseVolume exec amixer sset 'Master' 2%+
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10
 bindsym XF86AudioPlay exec $HOME/.config/i3/spotify_playPause.sh
 bindsym $ctrl+$alt+Home exec $HOME/.config/i3/spotify_playPause.sh
 bindsym XF86AudioPrev exec $HOME/.config/i3/spotify_prev.sh
