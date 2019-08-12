@@ -80,6 +80,9 @@ bind '"\e[1;5D":backward-word'
 # Unset anything that just pollutes the global space
 unset -f source_bash_files
 
+# Change background color when the current session is through SSH
+[ -n "$SSH_CONNECTION" ] && echo -e "\033]11;#202033\a"
+
 # Customized MOTD
 if [ -f "$HOME/.motdrc" ]; then
   source "$HOME/.motdrc"
