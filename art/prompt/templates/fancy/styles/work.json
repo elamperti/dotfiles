@@ -1,5 +1,6 @@
 {
     "options": {
+        "show_battery_level": "yes",
         "hide_hostname_locally": "no"
     },
 

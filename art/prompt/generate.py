@@ -53,10 +53,10 @@ def process_variable_match(match):
 # Matches:
 # {~ option ~} thing to be toggled {~ /option ~}
 def process_option_match(match):
-    if parse_keyword(variables['options'], match.group(1)) == 'yes':
-        return match.group(2)
-    else:
-        return ''
+    if parse_keyword(variables['options'], match.group(2)) == 'yes':
+        if match.group(1) is None:
+            return match.group(3)
+    return ''
 
 # https://stackoverflow.com/a/3233356/854076
 def update_style(d, u):
@@ -107,8 +107,9 @@ def main():
         variables['strings']['palette'] = args.palette
 
     result = re.sub(r"\{\{\s?(.+?)\s?\}\}", process_variable_match, template)
-    result = re.sub(r"\{~\s?(.+?)\s?~\}(.*?)\{~\s?/\1\s?~\}", process_option_match, result, flags=re.DOTALL)
+    result = re.sub(r"\{~\s?(!)?(.+?)\s?~\}(.*?)\{~\s?/\1?\2\s?~\}", process_option_match, result, flags=re.DOTALL)
 
+    # ToDo: Allow custom filenames, what was I thinking here?
     the_output = codecs.open('bash_prompt', 'w', encoding='utf8')
     the_output.write(result)
 

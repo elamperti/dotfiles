@@ -76,9 +76,8 @@ prompt_wizard() {
     # Get into the generator's folder
     pushd ".." &>/dev/null
 
-    python generate.py ${generator_args} &>/dev/null
+    python generate.py ${generator_args}
     if [ $? -eq 0 ] && [ -f bash_prompt ]; then
-        # Already exists -- back it up!
         if [ -f "$HOME/.bash_prompt" ]; then
             mv "$HOME/.bash_prompt" "../../backups/$(date +%Y%m%d-%H%M%S)-bash_prompt"
             log NOTICE "Backed up previous .bash_prompt"
