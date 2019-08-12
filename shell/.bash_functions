@@ -213,7 +213,15 @@ qt() {
     #     └─ ignore case
 }
 
+# Sets the background color to $SSH_TERM_BG when connected through SSH interactively
+reset_term_bg_color() {
+  if [ -n "${SSH_CONNECTION}" ] && [[ $- == *i* ]] && [ -n "${SSH_TERM_BG}" ]; then
+    [ -n "${TMUX}" ] && /usr/bin/tmux select-pane -P "bg=#${SSH_TERM_BG}" || echo -e "\033]11;#${SSH_TERM_BG}\a"
+  fi
+}
+
 # SSH breaks my terminal colors, so I reset them using this
+# ToDo: improve this by just doing a reset of colors
 ssh() {
     /usr/bin/ssh $@
     source ~/.bash_prompt
@@ -222,6 +230,11 @@ ssh() {
 # Define a title for the current terminal
 title() {
     echo -en "\033]0;$@\a"
+}
+
+# Overrides tmux to restore background color after using it through SSH
+tmux() {
+  /usr/bin/tmux -2 $@ && reset_term_bg_color
 }
 
 # Go up $1 directories (and eventually enter $2)

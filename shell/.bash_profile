@@ -81,7 +81,17 @@ bind '"\e[1;5D":backward-word'
 unset -f source_bash_files
 
 # Change background color when the current session is through SSH
-[ -n "$SSH_CONNECTION" ] && echo -e "\033]11;#202033\a"
+if [ -n "$SSH_CONNECTION" ]; then
+  [ -z "$SSH_TERM_BG" ] && export SSH_TERM_BG=202033
+  reset_term_bg_color
+fi
+
+# Run tmux automatically for interactive SSH connections
+if [ -z "$TMUX" ] && [[ $- == *i* ]] && [ -n "$SSH_CONNECTION" ]; then
+  tmux new -A -s ssh_client && \
+  echo "Will disconnect in 10 seconds... (Ctrl+C to abort)" && \
+  sleep 10 && exit
+fi
 
 # Customized MOTD
 if [ -f "$HOME/.motdrc" ]; then

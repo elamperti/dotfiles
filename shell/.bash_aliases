@@ -6,7 +6,6 @@ alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
 alias ls='ls --color=auto'
-alias tmux='tmux -2'
 
 # Other useful aliases
 alias :q='exit'
