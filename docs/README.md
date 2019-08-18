@@ -4,6 +4,7 @@ These documents are quick walkthroughs or cheatsheets and they are probably inco
 
 | Title                                                                                        | Created on |
 |----------------------------------------------------------------------------------------------|------------|
+| [Controlling display brightness](./brightness-control.md)                                    | (Aug 2019) |
 | [Using GPG](./using-gpg.md) (incomplete)                                                     | (Jul 2019) |
 | [How to enable Wake On LAN](./enable-wol.md)                                                 | (May 2019) |
 | [Setting up XFCE](./xfce.md)                                                                 | (Sep 2018) |
