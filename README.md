@@ -1,4 +1,4 @@
-# My dotfiles :sparkles: [![Build Status](https://travis-ci.org/elamperti/dotfiles.svg?branch=master)](https://travis-ci.org/elamperti/dotfiles)
+# My dotfiles :sparkles: [![Build Status](https://github.com/elamperti/dotfiles/workflows/verify/badge.svg)](https://github.com/elamperti/dotfiles/actions?workflow=Verify)
 
 Hi, these are my dotfiles and a bunch of scripts to make new deployments easier.
 See [requirements](#requirements), [setup instructions](#installing) and [how to customize](#customization).

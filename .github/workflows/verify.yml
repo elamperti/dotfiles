@@ -1,0 +1,27 @@
+name: Verify
+
+on: [push]
+
+branding:
+  icon: check-circle
+  color: green
+
+jobs:
+  shellcheck:
+    name: Shellcheck
+    steps:
+      - uses: zbeekman/ShellCheck-Linter-Action@v1.0.1
+
+  bats:
+    name: Bats
+    needs:
+      - shellcheck
+    container:
+      image: bats/bats:latest
+      volumes:
+        - $GITHUB_WORKSPACE:/dotfiles
+    steps:
+    - uses: actions/checkout@v1
+    - name: BATS
+      with:
+        args: --tap /dotfiles/test
