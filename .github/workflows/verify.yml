@@ -2,18 +2,16 @@ name: Verify
 
 on: [push]
 
-branding:
-  icon: check-circle
-  color: green
-
 jobs:
   shellcheck:
     name: Shellcheck
+    runs-on: ubuntu-latest
     steps:
-      - uses: zbeekman/ShellCheck-Linter-Action@v1.0.1
+    - uses: zbeekman/ShellCheck-Linter-Action@v1.0.1
 
   bats:
     name: Bats
+    runs-on: ubuntu-latest
     needs:
       - shellcheck
     container:
@@ -23,5 +21,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: BATS
+      uses: docker://bats/bats:latest
       with:
         args: --tap /dotfiles/test
