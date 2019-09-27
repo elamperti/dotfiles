@@ -65,6 +65,12 @@ function extract() {
   fi
 }
 
+# Git clone + cd
+gcl() {
+  # shellcheck disable=SC2068,SC2164
+  git clone $@ && cd "$(basename "${2:-$1}" .git)"
+}
+
 # Git fetch new branch + checkout
 gfb() {
     git fetch origin $1:$1 && git checkout $1
