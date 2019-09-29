@@ -1,0 +1,19 @@
+name: Tests
+
+on: [push]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v1
+    - name: Install dependencies
+      run: |
+        sudo add-apt-repository ppa:duggan/bats
+        sudo apt-get install shellcheck bats
+    - name: Shellcheck
+      run: shellcheck **/*.sh || exit 0
+    - name: Bats
+      run: bats test
