@@ -1,14 +1,25 @@
 #!/bin/bash
 
-MOTD_CONFIG_PATH="$HOME/.config/motd"
+export MOTD_CONFIG_PATH="$HOME/.config/motd"
+
+# Scripts can call get_motd_config to source their config files
+get_motd_config() {
+  local motd_config_file="${MOTD_CONFIG_PATH}/${MOTD_BASE_NAME}.config"
+  if [ -f "${motd_config_file}" ]; then
+    source "${motd_config_file}"
+  fi
+}
 
 if [ -d "${MOTD_CONFIG_PATH}" ]; then
-  for MOTD_FILE in "${MOTD_CONFIG_PATH}/"*; do
+  for MOTD_FILE in "${MOTD_CONFIG_PATH}/"*.{sh,motd}; do
+    [ ! -f "$MOTD_FILE" ] && continue
+
     FILE_EXT=$(echo "${MOTD_FILE}" | sed 's/.*\.//')
 
     if [[ "${FILE_EXT}" == "motd" ]]; then
       cat "${MOTD_FILE}"
     else
+      export MOTD_BASE_NAME=$(echo -n "${MOTD_FILE}"|sed -rn 's/.*[-/](.+)\.sh/\1/p')
       source "${MOTD_FILE}"
     fi
 
@@ -16,3 +27,8 @@ if [ -d "${MOTD_CONFIG_PATH}" ]; then
     echo
   done
 fi
+
+unset MOTD_CONFIG_PATH
+unset MOTD_BASE_NAME
+unset get_motd_config
+

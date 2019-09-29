@@ -227,7 +227,7 @@ pick_motd() {
     if [ $? -eq 0 ]; then
         log OK "MOTD configured"
     else
-        log WARN "MOTD not selected, configuration incomplete"
+        log WARN "MOTD art not selected"
     fi
 }
 

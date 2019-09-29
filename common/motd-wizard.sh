@@ -3,6 +3,8 @@
 source "$(dirname "${BASH_SOURCE[0]}")/../common/questions.sh"
 
 motd_wizard() {
+    local exit_status=0
+
     pushd "$(dirname "${BASH_SOURCE[0]}")/../art/motd" &> /dev/null
 
     # This avoids filling a description for each item using a invisible space char here v
@@ -19,51 +21,50 @@ motd_wizard() {
 
     # Return if none selected
     if [ -z "${selected_motd}" ] || [[ "${selected_motd}" == "None" ]]; then
-        popd &>/dev/null
-        return 1
-    fi
-
-    # Add extension back
-    selected_motd="${selected_motd}.motd"
-
-    # Shows the picked design in a dialog message
-    # (replaces spaces by unicode spaces to avoid broken art)
-    motd=$(cat ${selected_motd}|sed 's/ / /g')
-    t_width=$(tput cols)
-    t_height=$(tput lines)
-    [ $t_height -ge 24 ] || t_height=24
-
-    dialog --keep-tite --title 'Your motd' --msgbox "${motd}" \
-           $(( $t_height - 12 )) $(( $t_width - 4 ))
-
-    create_local_motd_dir
-
-    ask_yes_no "Apply MOTD art for all users?" $DEFAULT_YES
-    if answer_was_no; then
-        # Tries to remove previous art (if dialog is canceled it will still be there)
-        find "$HOME/.config/motd/" -type l -name '00-art.motd' -delete
-        ln -s "$(pwd)/${selected_motd}" "$HOME/.config/motd/00-art.motd"
+        exit_status=1
     else
-        # ToDo: fix relative paths
-        if [ -f /etc/motd ]; then
-            cp /etc/motd "../../backups/$(date +%Y%m%d-%H%M%S)-motd"
-            log INFO "Backed up previous MOTD"
-        fi
+      # Add extension back
+      selected_motd="${selected_motd}.motd"
 
-        sudo cp "${selected_motd}" /etc/motd
+      # Shows the picked design in a dialog message
+      # (replaces spaces by unicode spaces to avoid broken art)
+      motd=$(cat ${selected_motd}|sed 's/ / /g')
+      t_width=$(tput cols)
+      t_height=$(tput lines)
+      [ $t_height -ge 24 ] || t_height=24
 
-        if [ -f '/etc/update-motd.d/10-help-text' ]; then
-            cp /etc/update-motd.d/10-help-text "../../backups/$(date +%Y%m%d-%H%M%S)-motd-help-text"
-            sudo rm /etc/update-motd.d/10-help-text
-            log INFO 'Removed original MOTD help text'
-        fi
+      dialog --keep-tite --title 'Your motd' --msgbox "${motd}" \
+            $(( $t_height - 12 )) $(( $t_width - 4 ))
+
+      create_local_motd_dir
+
+      ask_yes_no "Apply MOTD art for all users?" $DEFAULT_YES
+      if answer_was_no; then
+          # Tries to remove previous art (if dialog is canceled it will still be there)
+          find "$HOME/.config/motd/" -type l -name '00-art.motd' -delete
+          ln -s "$(pwd)/${selected_motd}" "$HOME/.config/motd/00-art.motd"
+      else
+          # ToDo: fix relative paths
+          if [ -f /etc/motd ]; then
+              cp /etc/motd "../../backups/$(date +%Y%m%d-%H%M%S)-motd"
+              log INFO "Backed up previous MOTD"
+          fi
+
+          sudo cp "${selected_motd}" /etc/motd
+
+          if [ -f '/etc/update-motd.d/10-help-text' ]; then
+              cp /etc/update-motd.d/10-help-text "../../backups/$(date +%Y%m%d-%H%M%S)-motd-help-text"
+              sudo rm /etc/update-motd.d/10-help-text
+              log INFO 'Removed original MOTD help text'
+          fi
+      fi
     fi
 
     # Out of artworks folder
     popd &>/dev/null
 
     pick_motd_bits
-    return 0
+    return $exit_status
 }
 
 create_local_motd_dir() {
@@ -94,7 +95,10 @@ pick_motd_bits() {
     exec 3>&-
 
     if [ "${dialog_retval}" -eq 0 ]; then
-        # Clear previous bits (only symlinks)
+        # Just in case it doesn't exist
+        create_local_motd_dir
+
+        # Clear previous bits (only symlinks), leaving art untouched
         find "$HOME/.config/motd/" -type l -not -name '00-art.motd' -delete
 
         for motd_bit in ${selected_bits}; do
