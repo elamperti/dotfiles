@@ -1,26 +1,60 @@
 #!/bin/bash
 
-export MOTD_CONFIG_PATH="$HOME/.config/motd"
+MOTD_CONFIG_PATH="$HOME/.config/motd"
 
 # Scripts can call get_motd_config to source their config files
 get_motd_config() {
   local motd_config_file="${MOTD_CONFIG_PATH}/${MOTD_BASE_NAME}.config"
   if [ -f "${motd_config_file}" ]; then
+    # shellcheck source=/dev/null
     source "${motd_config_file}"
   fi
 }
 
+# Shows a cached version or caches a copy of the called script
+# Args: [cacheTime=5]
+keep_in_cache() {
+  local cacheTime=${1:-5}
+  local motdCache="/tmp/motd_cache_${MOTD_BASE_NAME}"
+
+  if [ -f "${motdCache}" ]; then
+    local cacheAge=$(( (CURRENT_TIMESTAMP - $(date +%s -r "${motdCache}")) / 60 ))
+
+    # Serves cached version if valid
+    if [ $cacheAge -lt "$cacheTime" ]; then
+      cat "${motdCache}"
+      return 0
+    fi
+  fi
+
+  # Opens a file descriptor pointing to the cache file and keeps a reference to stdout in &4
+  exec 3>"${motdCache}" 4>&1
+  # Then stdout gets copied into &3 (the cache file) while the user sees it in stdout
+  exec 1> >(tee /dev/fd/3)
+  REDIRECTING_STREAM=0
+  return 1
+}
+
 if [ -d "${MOTD_CONFIG_PATH}" ]; then
+  CURRENT_TIMESTAMP=$(date +%s)
+
   for MOTD_FILE in "${MOTD_CONFIG_PATH}/"*.{sh,motd}; do
     [ ! -f "$MOTD_FILE" ] && continue
 
+    # shellcheck disable=SC2001
     FILE_EXT=$(echo "${MOTD_FILE}" | sed 's/.*\.//')
 
     if [[ "${FILE_EXT}" == "motd" ]]; then
       cat "${MOTD_FILE}"
     else
-      export MOTD_BASE_NAME=$(echo -n "${MOTD_FILE}"|sed -rn 's/.*[-/](.+)\.sh/\1/p')
+      MOTD_BASE_NAME=$(echo -n "${MOTD_FILE}"|sed -rn 's/.*[-/](.+)\.sh/\1/p')
+      REDIRECTING_STREAM=1
+
+      # shellcheck source=/dev/null
       source "${MOTD_FILE}"
+
+      # If file descriptors were used, restore them after executing the script
+      [ $REDIRECTING_STREAM -eq 0 ] && exec 1>&4 3>&-
     fi
 
     # Adds a new line after each one
@@ -29,6 +63,11 @@ if [ -d "${MOTD_CONFIG_PATH}" ]; then
 fi
 
 unset MOTD_CONFIG_PATH
+unset CURRENT_TIMESTAMP
+unset REDIRECTING_STREAM
+unset FILE_EXT
+unset MOTD_FILE
 unset MOTD_BASE_NAME
 unset get_motd_config
+unset keep_in_cache
 
