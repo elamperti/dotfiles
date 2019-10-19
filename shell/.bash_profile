@@ -76,6 +76,10 @@ fi
 # This may not work everywhere, see https://stackoverflow.com/a/5029155/854076
 bind '"\e[1;5C":forward-word'
 bind '"\e[1;5D":backward-word'
+# Binds for Ctrl+Del and Ctrl+Backspace
+# Thanks to https://unix.stackexchange.com/a/264871/95310
+bind '"\C-h":backward-kill-word'
+bind '"\e[3;5~":kill-word'
 
 # Unset anything that just pollutes the global space
 unset -f source_bash_files
