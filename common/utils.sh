@@ -17,7 +17,7 @@ ask_for_sudo() {
         exit 1
     fi
 
-    # Update existing `sudo` time stamp until this script has finished
+    # Update existing `sudo` timestamp until this script has finished
     # https://gist.github.com/cowboy/3118588
     while true; do
         sudo -n true

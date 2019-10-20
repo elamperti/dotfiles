@@ -86,4 +86,4 @@ I use this repository to hold documentation and findings on my Linux ventures. [
   * [/r/vim](https://www.reddit.com/r/vim/) gave me good ideas and lots of information on how to config my [.vimrc](./bundles/vim/vim/vimrc)
   * The [Git bundle](./bundles/git/) uses [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) :information_desk_person:
   * The i3 theme was based on [videos by Alex Booker](https://www.youtube.com/watch?v=j1I63wGcvU4&list=PL5ze0DjYv5DbCv9vNEzFmP6sU7ZmkGzcf) and customizations from [/r/i3wm](https://www.reddit.com/r/i3wm/), while the theme for rofi was adapted from the work of Benjamin Stauss' [One Dark](https://github.com/DaveDavenport/rofi-themes).
-  * My [`.motdrc](./shell/.motdrc) was inspired on [FalconStats](https://github.com/Heholord/FalconStats), from which I also took some lines of code to bootstrap part of my MOTD scripts.
+  * My [`.motdrc`](./shell/.motdrc) was inspired on [FalconStats](https://github.com/Heholord/FalconStats), from which I also took some lines of code to bootstrap part of my MOTD scripts.
