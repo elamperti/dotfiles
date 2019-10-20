@@ -70,11 +70,12 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
+set $workspace0 "﵁"
 set $workspace1 "1 "
 set $workspace2 "2 "
 set $workspace3 "3 "
 set $workspace4 "4 "
-set $workspace5 "5 "
+set $workspace5 "5 "
 set $workspace6 "6 "
 set $workspace7 "7 "
 set $workspace8 "8 "
@@ -82,6 +83,7 @@ set $workspace9 "9 "
 set $workspace10 "10 "
 
 # switch to workspace
+bindsym $mod+grave workspace $workspace0
 bindsym $mod+1 workspace $workspace1
 bindsym $mod+2 workspace $workspace2
 bindsym $mod+3 workspace $workspace3
@@ -97,6 +99,7 @@ bindsym $alt+Tab workspace next
 bindsym $alt+Shift+Tab workspace prev
 
 # move focused container to workspace
+bindsym $mod+Shift+grave move container to workspace $workspace0
 bindsym $mod+Shift+1 move container to workspace $workspace1
 bindsym $mod+Shift+2 move container to workspace $workspace2
 bindsym $mod+Shift+3 move container to workspace $workspace3
@@ -112,16 +115,10 @@ bindsym $mod+Shift+0 move container to workspace $workspace10
 set $resizeMode "Resize"
 mode $resizeMode {
         # These bindings trigger as soon as you enter the resize mode
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Right resize shrink width 10 px or 10 ppt
+        bindsym Up resize grow height 10 px or 10 ppt
+        bindsym Down resize shrink height 10 px or 10 ppt
+        bindsym Left resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -137,7 +134,7 @@ bindsym $mod+Shift+r restart
 set $systemMode System (S for shutdown, Z for sleep, L for lock, Q to logout)
 bindsym $mod+Scroll_Lock mode "$systemMode"
 mode "$systemMode" {
-    bindsym l exec i3lock -c 0f090c -f -i "$HOME/.config/i3/locked.png" &; mode "default"
+    bindsym l exec i3lock -c 0f090c -f -i "$HOME/.config/i3/locked-1080p.png" &; mode "default"
     bindsym s exec shutdown -hP now; mode "default"
     bindsym r exec systemctl reboot &; mode "default"
     bindsym z exec systemctl suspend &; mode "default"
@@ -187,6 +184,7 @@ smart_gaps on
 gaps inner 40
 # gaps outer 10
 hide_edge_borders smart
+# border_radius 4
 
 # Floating windows
 for_window [class="Pavucontrol"] floating enable
@@ -201,10 +199,17 @@ for_window [title="Authy"] floating enable
 for_window [title="Loading Tixati..."] floating enable
 
 # Default workspaces (use xprop to inspect windows)
+assign [class="ClickUp"] $workspace0
 assign [class="Firefox"] $workspace1
 assign [class="Code"] $workspace2
+assign [class="jetbrains-studio"] $workspace2
+assign [class="processing-app-Base"] $workspace2
 assign [class="Thunar"] $workspace3
+assign [class="Nemo"] $workspace3
+assign [class="Steam"] $workspace5
 assign [class="net-minecraft-bootstrap-Bootstrap"] $workspace6
+for_window [class="minecraft-launcher"] move to workspace $workspace6
+assign [class="FML early loading progress"] $workspace6
 assign [class="Minecraft.*"] $workspace6
 assign [class="TelegramDesktop"] $workspace7
 assign [class="discord"] $workspace7
