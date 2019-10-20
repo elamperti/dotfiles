@@ -51,10 +51,13 @@ ${execi 2 ~/.config/i3/spotify_info.sh}\
 ${voffset -1}\
 ${endif}\
 ${endif}\
+${goto 945}\
+${voffset 8}\
+${font System San Francisco Display:style=Bold:size=8}${color gray}${time %a} ${color}${time %d %b} \
 ${goto 930}\
-${voffset 1}\
-${font System San Francisco Display:style=Bold:size=14}${color gray}${color}${time %H:%M}${color darkgray}:${time %S} \
-${voffset -4}\
+${voffset -20}\
+${font System San Francisco Display:style=Bold:size=14}${color}${time %H:%M}${color darkgray}:${time %S} \
+${voffset 4}\
 ${font DejaVu Sans Mono:size=16}\
 ${alignr}\
 ${goto 1100}${offset -20}\
@@ -90,4 +93,3 @@ ${voffset -2}\
 ${color 7ca2ba}${font DejaVu Sans Mono:size=16}\
 ${lua_parse pad 6 ${upspeedf enp3s0}Kb}\
 ${endif}\
-
