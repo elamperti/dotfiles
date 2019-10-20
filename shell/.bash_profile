@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC1090
 
 source_bash_files() {
     local file=''
@@ -51,7 +52,7 @@ if [ -d /usr/local/go/bin ]; then
 fi
 
 # Android paths
-ANDROID_HOME="$HOME/Android/Sdk"
+[ -z "${ANDROID_HOME}" ] && export ANDROID_HOME="$HOME/Android/Sdk"
 if [ -d "${ANDROID_HOME}" ]; then
   PATH="${PATH}:${ANDROID_HOME}/emulator"
   PATH="${PATH}:${ANDROID_HOME}/tools"
@@ -59,8 +60,6 @@ if [ -d "${ANDROID_HOME}" ]; then
   PATH="${PATH}:${ANDROID_HOME}/platform-tools"
   export ANDROID_SDK_ROOT="${ANDROID_HOME}"
 fi
-
-export PATH
 
 # CUDA binaries + libs
 if [ -d /usr/local/cuda ]; then
@@ -71,6 +70,22 @@ if [ -d /usr/local/cuda ]; then
     LD_LIBRARY_PATH=/usr/local/cuda/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
   fi
 fi
+
+# Node.js global packages
+[ -z "${NPM_PACKAGES}" ] && [ ! -f "$NVM_DIR/nvm.sh" ] && export NPM_PACKAGES="${HOME}/.npm-packages"
+if [ -d "${NPM_PACKAGES}" ]; then
+  PATH="${NPM_PACKAGES}/bin:$PATH"
+  export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
+  # shellcheck disable=2155
+  export MANPATH="${NPM_PACKAGES}/share/man:$(manpath -q)"
+fi
+
+# ESP-IDF
+if [ -f "${HOME}/esp/esp-idf/export.sh" ]; then
+  source "${HOME}/esp/esp-idf/export.sh" >/dev/null
+fi
+
+export PATH
 
 # Bind Ctrl+Left and Ctrl+Right to navigate by words easily
 # This may not work everywhere, see https://stackoverflow.com/a/5029155/854076
