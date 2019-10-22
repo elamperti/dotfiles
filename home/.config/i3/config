@@ -256,7 +256,7 @@ exec --no-startup-id tilda
 # On reloads
 exec_always --no-startup-id xrdb -merge $HOME/.Xresources
 exec_always --no-startup-id xkbcomp -I$HOME/.xkb -R$HOME/.xkb $HOME/.xkbrc $DISPLAY
-exec_always --no-startup-id feh --bg-scale $HOME/.config/i3/wallpaper.jpg
+exec_always --no-startup-id feh --bg-scale $HOME/dotfiles/wallpapers/sunset.jpg
 
 # + Applications
 exec_always --no-startup-id powermated
