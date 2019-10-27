@@ -187,8 +187,21 @@ call plug#begin('~/.vim/plugins')
     " Useful mappings
     Plug 'tpope/vim-unimpaired'
 
+    " Increment/decrement dates
+    Plug 'tpope/vim-speeddating'
+
     " Search and get information about unicode chars
     " Plug 'chrisbra/unicode.vim'
+
+    if has('python3')
+        if has('nvim')
+            Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+        else
+            Plug 'Shougo/deoplete.nvim'
+            Plug 'roxma/nvim-yarp'
+            Plug 'roxma/vim-hug-neovim-rpc'
+        endif
+    endif
 
     " -----------------------
     " | Syntax highlighting |
@@ -201,7 +214,7 @@ call plug#begin('~/.vim/plugins')
     Plug 'jelera/vim-javascript-syntax'
 
     " Markdown highlighting, matching rules and mappings
-    Plug 'plasticboy/vim-markdown'
+    Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 
     " Docker syntax highlighting
     Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
@@ -210,20 +223,22 @@ call plug#begin('~/.vim/plugins')
     " Plug 'Glench/Vim-Jinja2-Syntax', {'for': 'jinja2'}
 
     " Golang support
-    Plug 'fatih/vim-go'
+    Plug 'fatih/vim-go', {'for': 'go'}
 
     " Vue.js highlighting
     Plug 'posva/vim-vue'
     Plug 'sekel/vim-vue-syntastic'
 
     " Preview CSS colors
-    " Plug 'ap/vim-css-color'
+    " Plug 'ap/vim-css-color', {'for': ['css', 'scss', 'less']}
 
     " Autocomplete, indentation and syntax for HTML5
+    " ToDo: Remove or replace (dead plugin)
     " Plug 'othree/html5.vim'
-    "
+
     " ledger-cli
-    Plug 'ledger/vim-ledger'
+    Plug 'ledger/vim-ledger', {'for': 'ledger'}
+
 
 call plug#end()
 
@@ -276,9 +291,14 @@ au BufNewFile,BufRead *.cuh set ft=cuda
 " | CtrlP                                                              |
 " ----------------------------------------------------------------------
 
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+if executable('ag')
+    let g:ctrlp_map = '<c-p>'
+    let g:ctrlp_cmd = 'CtrlP'
+    let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+
+    " Use ag instead of grep
+    "set grepprg=ag\ --nogroup\ --nocolor
+endif
 
 " ----------------------------------------------------------------------
 " | Emmet                                                              |
@@ -289,17 +309,33 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 " imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " ----------------------------------------------------------------------
-" | Neocomplete                                                        |
+" | Deoplete                                                           |
 " ----------------------------------------------------------------------
 
-" Enable `neocomplcache` by default
-let g:neocomplete#enable_at_startup=1
 
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
+function! s:check_backspace() abort
+    let l:column = col('.') - 1
+    return !l:column || getline('.')[l:column - 1] =~ '\s'
+endfunction
+
+let g:deoplete#enable_at_startup = 1
+"let g:deoplete#auto_complete = 0
+call deoplete#custom#option('auto_complete', v:false)
+" call deoplete#custom#set('buffer', 'min_pattern_length', 3)
+
+inoremap <silent><expr> <Tab>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_backspace() ? "\<Tab>" :
+        \ deoplete#manual_complete()
+inoremap <expr> <C-h>
+        \ deoplete#smart_close_popup() . "\<C-h>"
+inoremap <expr> <BS>
+        \ deoplete#smart_close_popup() . "\<C-h>"
+inoremap <expr> <C-g> deoplete#undo_completion()
+
 
 " Make `<TAB>` autocomplete
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 
 " ----------------------------------------------------------------------
@@ -307,7 +343,30 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " ----------------------------------------------------------------------
 
 au BufNewFile,BufRead *.ldg,*.ledger setf ledger | comp ledger | set colorcolumn=50
+au FileType ledger noremap { ?^\d<CR>
+au FileType ledger noremap } /^\d<CR>
 
+let g:ledger_align_at = 50
+let g:ledger_commodity_before = 0
+let g:ledger_commodity_sep = ' '
+let g:ledger_default_commodity = 'ARS'
+let g:ledger_date_format = '%m-%d'
+let g:ledger_detailed_first = 1
+let g:ledger_extra_options = '--pedantic --explicit --check-payees'
+let g:ledger_maxwidth = 80
+
+highlight LedgerNumber ctermfg=2
+highlight LedgerNegativeNumber ctermfg=1
+
+if has('autocmd')
+    autocmd FileType ledger SpeedDatingFormat %m-%d
+    autocmd FileType ledger setlocal sts=0 vartabstop=2,44,2
+    autocmd FileType ledger map <leader>a :LedgerAlign<CR>
+    autocmd FileType ledger vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>
+    autocmd FileType ledger inoremap <silent> <leader><Tab> <C-r>=ledger#autocomplete_and_align()<CR>
+endif
+
+noremap <silent><buffer> <2-LeftMouse> :call ledger#transaction_state_toggle(line('.'), '*?!')<CR>
 
 " ----------------------------------------------------------------------
 " | Syntastic                                                          |
@@ -317,7 +376,6 @@ au BufNewFile,BufRead *.ldg,*.ledger setf ledger | comp ledger | set colorcolumn
 
 " let g:syntastic_html_checkers = [ 'jshint' ]
 let g:syntastic_javascript_checkers = [ 'eslint' ]
-
 
 " ----------------------------------------------------------------------
 " | Highlighted yanks                                                  |
