@@ -8,9 +8,7 @@ source "bundle-tools.sh"
 popd &>/dev/null
 
 verify_requirements() {
-    if ! cmd_exists "stow"; then
-        exit 1
-    fi
+  return 0
 }
 
 on_init() {
@@ -40,6 +38,13 @@ after_installs() {
     # Symlink syntax folder
     mkdir -p ~/.vim/syntax
     ln -s "$(pwd)/syntax/" ~/.vim/syntax
+
+    # Deoplete requires pynvim
+    if type -p pip3 >/dev/null 2>&1; then
+      pip3 install --user pynvim >/dev/null
+    else
+      send_cmd log WARN "Python 3 is required for Deoplete"
+    fi
 
     curl --silent -kfLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     if [ $? ]; then

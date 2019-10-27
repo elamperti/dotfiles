@@ -16,3 +16,6 @@ trim_trailing_whitespace = true
 # https://daringfireball.net/projects/markdown/syntax#block
 indent_size = 2
 trim_trailing_whitespace = false
+
+[vimrc]
+indent_size = 4
