@@ -41,7 +41,7 @@ get_package_count() {
 pick_packages() {
     query_packages 'common_packages'
 
-    local dm=$(guess_desktop_manager)
+    local dm=$(guess_wm)
     if [ -z "${dm}" ]; then
         log NOTICE "No desktop manager detected"
         dialog --keep-tite --title "No desktop manager detected" --yesno \
