@@ -188,13 +188,7 @@ init_git_submodules() {
     # It won't check if update succeeds because setup may be run offline
 }
 
-install_custom_font() {
-    local font_name='DejaVu Sans Mono'
-    local font_file='DejaVu Sans Mono Nerd Font Complete.ttf'
-    local font_url='https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/DejaVuSansMono/Regular/complete/DejaVu%20Sans%20Mono%20Nerd%20Font%20Complete.ttf?raw=true'
-    # local font_type='truetype' # truetype | opentype (ToDo: autodetect)
-    local font_config='DejaVu Sans Mono 10'
-
+install_custom_fonts() {
     mkdir ~/.fonts
 
     if [ ! -d ~/.local/share/fonts ]; then
@@ -202,24 +196,30 @@ install_custom_font() {
         ln -s ~/.fonts ~/.local/share/fonts
     fi
 
-    pushd ~/.fonts &>/dev/null
-    if [ ! -f "${font_file}" ]; then
-        curl --silent -kfLo "${font_file}" "${font_url}"
-        log INFO "Downloaded ${font_name}"
-
-        if cmd_exists "gsettings"; then
-            ask_yes_no "Set \e[1m${font_name}\e[0m as the default fixed width font?" $DEFAULT_YES
-            if answer_was_yes; then
-                # sudo mkdir -p /usr/share/fonts/${font_type}
-                # sudo cp "${font_file}" /usr/share/fonts/${font_type}/
-                gsettings set org.gnome.desktop.interface monospace-font-name "${font_config}"
-                log NOTICE "Default fixed width font changed"
-            fi
-        else
-            log WARN "gsettings missing, can't update default"
-        fi
-    fi
+    log INFO "Adding bundled fonts..."
+    pushd "$(dirname "${BASH_SOURCE[0]}")/fonts" &>/dev/null
+    pretty_print INDENT RIGHT 3
+    for FONT_FAMILY in *; do
+      if [ -d "${FONT_FAMILY}" ]; then
+        ln -s "$(pwd)/${FONT_FAMILY}" "${HOME}/.fonts/${FONT_FAMILY}" && \
+        log OK "${FONT_FAMILY}"
+      fi
+    done
+    pretty_print INDENT LEFT 3
     popd &>/dev/null
+
+    if cmd_exists "gsettings"; then
+      local font_name='DejaVu Sans Mono'
+      local font_config='DejaVu Sans Mono 10'
+
+      ask_yes_no "Set \e[1m${font_name}\e[0m as the default fixed width font?" $DEFAULT_YES
+      if answer_was_yes; then
+        gsettings set org.gnome.desktop.interface monospace-font-name "${font_config}"
+        log NOTICE "Default fixed width font changed"
+      fi
+    else
+        log WARN "gsettings missing, can't update default"
+    fi
 }
 
 pick_motd() {
@@ -380,7 +380,7 @@ unset -f init_git_submodules
 unset -f main
 unset -f print_help
 unset -f print_splash
-unset -f install_custom_font
+unset -f install_custom_fonts
 
 popd &>/dev/null
 echo
