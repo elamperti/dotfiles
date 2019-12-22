@@ -164,7 +164,10 @@ call plug#begin('~/.vim/plugins')
     " Plug 'dyng/ctrlsf.vim'
 
     " Zen coding
-    " Plug 'mattn/emmet-vim'
+    Plug 'mattn/emmet-vim'
+
+    " Automatically close parenthesis and similar symbols
+    Plug 'Townk/vim-autoclose'
 
     " Keyword completion system
     Plug 'shougo/neocomplete.vim'
@@ -181,7 +184,7 @@ call plug#begin('~/.vim/plugins')
     " Highlight yanks
     Plug 'machakann/vim-highlightedyank'
 
-    " Better repeat using .
+    " Better repeat using `.`
     Plug 'tpope/vim-repeat'
 
     " Useful mappings
@@ -207,34 +210,22 @@ call plug#begin('~/.vim/plugins')
     " | Syntax highlighting |
     " -----------------------
 
-    " Syntax checking plugin for several languages
+    " Syntax checking plugin
     Plug 'scrooloose/syntastic'
 
-    " Enhanced JavaScript syntax
-    Plug 'jelera/vim-javascript-syntax'
+    " Language pack
+    Plug 'sheerun/vim-polyglot'
 
     " Markdown highlighting, matching rules and mappings
     Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
 
-    " Docker syntax highlighting
-    Plug 'ekalinin/Dockerfile.vim', {'for': 'Dockerfile'}
-
-    " Jinja2 templates syntax
-    " Plug 'Glench/Vim-Jinja2-Syntax', {'for': 'jinja2'}
-
-    " Golang support
-    Plug 'fatih/vim-go', {'for': 'go'}
-
     " Vue.js highlighting
-    Plug 'posva/vim-vue'
-    Plug 'sekel/vim-vue-syntastic'
+    " Plug 'posva/vim-vue'
+    " Plug 'sekel/vim-vue-syntastic'
 
     " Preview CSS colors
     " Plug 'ap/vim-css-color', {'for': ['css', 'scss', 'less']}
-
-    " Autocomplete, indentation and syntax for HTML5
-    " ToDo: Remove or replace (dead plugin)
-    " Plug 'othree/html5.vim'
+    Plug 'lilydjwg/colorizer'
 
     " ledger-cli
     Plug 'ledger/vim-ledger', {'for': 'ledger'}
@@ -258,6 +249,14 @@ catch /^Vim\%((\a\+)\)\=:E185/
 endtry
 
 let g:airline_theme='cool'
+
+" Keep Vim background transparent
+" hi Normal guibg=NONE ctermbg=NONE
+hi SignColumn guibg=NONE ctermbg=NONE
+hi LineNr guibg=NONE ctermbg=NONE
+hi NonText guibg=NONE ctermbg=NONE
+" hi CursorLine guibg=NONE ctermbg=NONE
+
 
 " ----------------------------------------------------------------------
 " | Airline                                                            |
@@ -300,6 +299,14 @@ if executable('ag')
     "set grepprg=ag\ --nogroup\ --nocolor
 endif
 
+
+" ----------------------------------------------------------------------
+" | AutoClose                                                          |
+" ----------------------------------------------------------------------
+
+let g:AutoClosePumvisible = {"ENTER": "\<C-Y>", "ESC": "\<ESC>"}
+
+
 " ----------------------------------------------------------------------
 " | Emmet                                                              |
 " ----------------------------------------------------------------------
@@ -307,6 +314,16 @@ endif
 " let g:user_emmet_install_global = 0
 " autocmd FileType html,tpl,css,sass EmmetInstall
 " imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+
+" ----------------------------------------------------------------------
+" | Move lines                                                         |
+" ----------------------------------------------------------------------
+let g:move_map_keys = 0
+
+" vmap <a-[> <Plug>MoveBlockUp
+" vmap <a-]> <Plug>MoveBlockDown
+" nmap <a-[> <Plug>MoveLineUp
+" nmap <a-]> <Plug>MoveLineDown
 
 " ----------------------------------------------------------------------
 " | Deoplete                                                           |
@@ -323,10 +340,10 @@ let g:deoplete#enable_at_startup = 1
 call deoplete#custom#option('auto_complete', v:false)
 " call deoplete#custom#set('buffer', 'min_pattern_length', 3)
 
-inoremap <silent><expr> <Tab>
-        \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_backspace() ? "\<Tab>" :
-        \ deoplete#manual_complete()
+" inoremap <silent><expr> <Tab>
+"         \ pumvisible() ? "\<C-n>" :
+"         \ <SID>check_backspace() ? "\<Tab>" :
+"         \ deoplete#manual_complete()
 inoremap <expr> <C-h>
         \ deoplete#smart_close_popup() . "\<C-h>"
 inoremap <expr> <BS>
@@ -342,7 +359,10 @@ inoremap <expr> <C-g> deoplete#undo_completion()
 " | Ledger                                                              |
 " ----------------------------------------------------------------------
 
+" Set file type and make a vertical column on line 50
 au BufNewFile,BufRead *.ldg,*.ledger setf ledger | comp ledger | set colorcolumn=50
+
+" Use `{` and `}` to jump to other transactions
 au FileType ledger noremap { ?^\d<CR>
 au FileType ledger noremap } /^\d<CR>
 
@@ -363,7 +383,9 @@ if has('autocmd')
     autocmd FileType ledger setlocal sts=0 vartabstop=2,44,2
     autocmd FileType ledger map <leader>a :LedgerAlign<CR>
     autocmd FileType ledger vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>
-    autocmd FileType ledger inoremap <silent> <leader><Tab> <C-r>=ledger#autocomplete_and_align()<CR>
+    autocmd FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
+
+    autocmd FileType ledger inoremap <leader>l <C-R>=strftime('%m-%d')<CR> * 
 endif
 
 noremap <silent><buffer> <2-LeftMouse> :call ledger#transaction_state_toggle(line('.'), '*?!')<CR>
