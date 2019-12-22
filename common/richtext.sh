@@ -1,8 +1,10 @@
 #!/bin/bash
 
 normal=$(tput sgr0)
+dim=$(tput dim)
 bold=$(tput bold)
 underline=$(tput smul)
+blink=$(tput blink)
 
 #Colors
 fg_black=$(tput setaf 0)
