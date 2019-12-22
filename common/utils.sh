@@ -44,41 +44,47 @@ create_backup_directory() {
     return 1 # Already exists or error creating
 }
 
-function_exists() {
-    declare -f -F $1 > /dev/null
-    return $?
+# Returns the current OS or Linux distribution
+# Defaults to `unknown`
+guess_platform() {
+  if type -p lsb_release >/dev/null 2>&1; then
+    case "$(lsb_release -si)" in
+      "archlinux"|"Arch Linux"|"arch"|"Arch"|"archarm"|"ManjaroLinux")
+        echo "arch"
+        return
+        ;;
+      "Debian"|"Ubuntu")
+        echo "debian"
+        return
+        ;;
+    esac
+  fi
+  echo "unknown"
+  return 1
 }
 
-# Returns
-guess_desktop_manager() {
-    local dm=''
-    local possible_dm=''
+# Returns a compatible window manager name or empty
+guess_wm() {
+    local wm=''
+    local possible_wm=''
 
-    possible_dm=$(pgrep -l "\-session" |
+    possible_wm=$(pgrep -l "\-session" |
         sed 's/[0-9]* \([^0-9\-]*\).*/\1/' |
         awk '{print $1}'
     )
-    log DEBUG "Possible DM: ${possible_dm}"
+    log DEBUG "Possible WM: ${possible_wm}"
 
-    if [ -n "${possible_dm}" ]; then
-        dm=$(echo ${XDG_CURRENT_DESKTOP,,}|grep -o "$possible_dm" ||
-             echo $supported_desktop_managers|grep -o "$possible_dm")
+    if [ -n "${possible_wm}" ]; then
+        wm=$(echo ${XDG_CURRENT_DESKTOP,,}|grep -o "$possible_wm" ||
+             echo $supported_desktop_managers|grep -o "$possible_wm")
     fi
 
-    echo "${dm}"
+    echo "${wm}"
 }
 
 install_package() {
     sudo apt-get -qqy install $@ > /dev/null
     return $?
-}
-
-# Returns the last item from all the given arguments
-# Usual usage: `last_argument $@`
-# https://stackoverflow.com/questions/1853946/getting-the-last-argument-passed-to-a-shell-script
-last_argument() {
-    # The space is needed so the negative offset is not confused with :- expansion
-    echo ${@: -1}
 }
 
 # Returns 0 if it's been more than a day since last apt update
@@ -172,7 +178,7 @@ stow_and_verify() {
 
     stow -R -t "${dest_path}" "${target_path}"
     if [ $? -eq 1 ]; then
-        echo -e "\nStow couldn't create the symlinks for files in ${fg_white}$(last_argument $@)${normal}"
+        echo -e "\nStow couldn't create the symlinks for files in ${fg_white}${target_path}${normal}"
         echo -e "You may verify the problem manually and try again."
         ask_yes_no "Try again?" $DEFAULT_YES
         if answer_was_no; then

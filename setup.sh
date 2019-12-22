@@ -341,11 +341,11 @@ main() {
 
         set_keyboard_layout
 
-        local desktop_manager=$(guess_desktop_manager)
-        if [ -n "${desktop_manager}" ]; then
-            install_custom_font
+        local window_manager=$(guess_wm)
+        if [ -n "${window_manager}" ]; then
+            install_custom_fonts
         else
-            log WARN "Skipped custom font install (no DM detected)"
+            log WARN "Skipped installation of fonts (no WM detected)"
         fi
 
         if [ ! -f "$HOME/.bash_prompt" ]; then
