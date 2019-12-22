@@ -21,6 +21,9 @@ on_init() {
 
     # This package is required to have Lua (neocomplete requires it)
     send_cmd enqueue_packages "vim-nox"
+
+    # This package is required by deoplete
+    send_cmd enqueue_packages "neovim"
 }
 
 after_installs() {
