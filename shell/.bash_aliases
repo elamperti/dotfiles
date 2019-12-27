@@ -18,6 +18,7 @@ alias map='xargs -n1'
 alias s='cd ..'
 alias sl='ls'
 alias units='units -1 --compact -o '"'"'%.4g'"'"
+alias poewroff='poweroff'
 
 # Turn Bash history on/off
 alias histoff='set +o history'
