@@ -43,6 +43,7 @@ graphical_packages="
     gdebi: simple tool to install \`.deb\` files
     gnome-font-viewer: Preview and install fonts
     gnome-terminal: Gnome terminal emulator
+    gpick: color picker
     nemo: simple file explorer
     openscad: Parametric solid 3D CAD modeller
     pavucontrol: a volume control for the Pulse audio server
