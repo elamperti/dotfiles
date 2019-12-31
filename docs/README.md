@@ -4,6 +4,7 @@ These documents are quick walkthroughs or cheatsheets and they are probably inco
 
 | Title                                                                                        | Created on |
 |----------------------------------------------------------------------------------------------|------------|
+| [Using the Akai LPD8 from CLI](./lpd8.md)                                                    | (Dec 2019) |
 | [Controlling displays](./brightness-control.md)                                              | (Aug 2019) |
 | [Using GPG](./using-gpg.md) (incomplete)                                                     | (Jul 2019) |
 | [How to enable Wake On LAN](./enable-wol.md)                                                 | (May 2019) |
