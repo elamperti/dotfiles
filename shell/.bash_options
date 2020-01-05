@@ -32,3 +32,11 @@ shopt -s no_empty_cmd_completion
 # Match filenames in a case-insensitive fashion when performing
 # filename expansion
 shopt -s nocaseglob
+
+
+# Other not-shell options, that fit well in here
+
+# Disable software flow control (terminal hanging after pressing Ctrl+S, can be recovered using Ctrl+Q)
+# Context: https://unix.stackexchange.com/a/72092/95310
+stty -ixon
+
