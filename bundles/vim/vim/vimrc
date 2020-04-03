@@ -456,6 +456,10 @@ nnoremap N Nzzzv
 " use jk as <ESC>
 ino jk <esc>l
 
+" Enter adds blank lines without entering insert mode
+map <S-Enter> O<Esc><Esc>
+map <Enter> o<Esc><Esc>
+
 " [,cc] Toggle code comments
 map <leader>cc :Commentary<CR>
 
