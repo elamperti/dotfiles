@@ -24,6 +24,7 @@ common_packages="
     moreutils: sponge, vipe, pee and other utilities
     mosh: utility for intermittent SSH conections
     mtr: network diagnostic tool
+    net-tools: common network tools (netstat, arp, route)
     ncdu: pretty disk space analyzer
     ntp: synchronize time using NTP
     rename: modify file names using complex expressions
@@ -37,6 +38,7 @@ common_packages="
 
 graphical_packages="
     arduino: Arduino IDE
+    blueman: Bluetooth manager
     bookletimposer: basic PDF document imposition
     compton: compositor for Xorg
     filezilla: FTP client
@@ -44,6 +46,7 @@ graphical_packages="
     gnome-font-viewer: Preview and install fonts
     gnome-terminal: Gnome terminal emulator
     gpick: color picker
+    livestreamer: extract video from YouTube and other websites
     nemo: simple file explorer
     openscad: Parametric solid 3D CAD modeller
     pavucontrol: a volume control for the Pulse audio server
