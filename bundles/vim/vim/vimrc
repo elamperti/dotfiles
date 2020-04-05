@@ -381,6 +381,8 @@ highlight LedgerNegativeNumber ctermfg=1
 if has('autocmd')
     autocmd FileType ledger SpeedDatingFormat %m-%d
     autocmd FileType ledger setlocal sts=0 vartabstop=2,44,2
+    " Go to the last line when opening a ledger file
+    autocmd FileType ledger $
     autocmd FileType ledger map <leader>a :LedgerAlign<CR>
     autocmd FileType ledger vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>
     autocmd FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
