@@ -18,15 +18,13 @@ draw_graph_borders yes
 #shades
 draw_shades no
 #position
-alignment top_middle
+alignment top_left
 gap_y 4
-gap_x 0
+gap_x -1920
 #behaviour
 update_interval 1
 #colour
 default_color white
-#default_shade_color 000000
-#own_window_colour 303030
 #font
 use_xft yes
 xftfont System San Francisco Display:size=16
@@ -52,44 +50,44 @@ ${voffset -1}\
 ${endif}\
 ${endif}\
 ${goto 945}\
-${voffset 8}\
+${voffset 5}\
 ${font System San Francisco Display:style=Bold:size=8}${color gray}${time %a} ${color}${time %d %b} \
 ${goto 930}\
-${voffset -20}\
+${voffset -18}\
 ${font System San Francisco Display:style=Bold:size=14}${color}${time %H:%M}${color darkgray}:${time %S} \
+${goto 1120}\
 ${voffset 4}\
-${font DejaVu Sans Mono:size=16}\
-${alignr}\
-${goto 1100}${offset -20}\
+${font DejaVu Sans Mono:size=15}\
 ${voffset 2}${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
-${voffset 0}${color #454545}${memgraph 18,30 9AA863 9AB728 -t} \
-${voffset -1}${color darkgray}${font DejaVu Sans Mono:size=16}\
+${voffset -1}${color darkgray}${font DejaVu Sans Mono:size=15}\
 ${lua_parse pad 6 ${memperc}%}\
-${alignr}\
 ${goto 1100}${offset 105}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
 ${voffset 0}${color #454545}${cpugraph cpu0 18,50 AA5500 CC7700 -t} \
-${voffset -1}${color darkgray}${font DejaVu Sans Mono:size=16}\
+${offset -45}${voffset -2}${color darkgray}${font DejaVu Sans Mono:size=12}\
 ${lua_parse pad 6 ${cpu}%}\
-${alignr}\
 ${if_existing /sys/class/net/enp3s0/operstate up} \
-${goto 1100}${offset 235}\
+${goto 1300}\
+${voffset -1}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
-${voffset -1}${font DejaVu Sans Mono:size=12}Eth\
-${goto 1100}${offset 300}\
 ${voffset 0}\
 ${color #454545}${downspeedgraph enp3s0 18,50 1F8729 1BC62C 2000 -t} \
 ${color #454545}${upspeedgraph enp3s0 18,50 547D93 57AAD6 200 -t} \
+${goto 1445}\
+${voffset -11}\
+${color #DFDFDF}${font Font Awesome 5 Free Solid:size=6} \
 ${voffset -2}\
-${goto 1100}${offset 425}\
-${color #DFDFDF}${font Font Awesome 5 Free Solid:size=14} \
-${voffset -2}\
-${color #70b273}${font DejaVu Sans Mono:size=16}\
-${lua_parse pad 6 ${downspeedf enp3s0}Kb}\
-${goto 1100}${offset 535}\
-${voffset -2}\
-${color #DFDFDF}${font Font Awesome 5 Free Solid:size=14} \
-${voffset -2}\
-${color 7ca2ba}${font DejaVu Sans Mono:size=16}\
-${lua_parse pad 6 ${upspeedf enp3s0}Kb}\
+${color #70b273}${font DejaVu Sans Mono:size=8}\
+${lua_parse pad 6 ${downspeedf enp3s0} Kb}\
+${goto 1445}\
+${voffset 12}\
+${color #DFDFDF}${font Font Awesome 5 Free Solid:size=6} \
+${voffset -3}\
+${color 7ca2ba}${font DejaVu Sans Mono:size=8}\
+${lua_parse pad 6 ${upspeedf enp3s0} Kb}\
+${else}\
+${goto 1300}\
+${voffset -1}${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
+${voffset -1}${color darkgray}${font DejaVu Sans Mono:size=15}\
+${battery_percent BAT0}%\
 ${endif}\

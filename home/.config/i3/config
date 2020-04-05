@@ -6,9 +6,12 @@ set $mod Mod4
 set $alt Mod1
 set $ctrl Control
 
+set $primary-display DP-0
+set $secondary-display HDMI-0
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:System San Francisco Display 13
+font pango:Maven Pro Bold 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -23,28 +26,20 @@ bindsym $mod+q kill
 bindsym $mod+d exec i3-dmenu-desktop --dmenu='rofi -show drun -i -show-icons -sort false -matching fuzzy -l -theme irk'
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
-
-# alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
+
+# move workspace to other display
+bindsym $ctrl+$alt+Left move workspace to output left
+bindsym $ctrl+$alt+Right move workspace to output right
 
 # Splits
 bindsym $mod+h split h
@@ -61,6 +56,9 @@ bindsym $mod+e layout toggle split
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 
+# set window to floating PiP
+bindsym $mod+Shift+Return floating enable; resize set 590 px 333 px; sticky enable; move window to position 1330 px 723 px
+
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
 
@@ -70,20 +68,32 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-set $workspace0 "﵁"
 set $workspace1 "1 "
 set $workspace2 "2 "
 set $workspace3 "3 "
 set $workspace4 "4 "
 set $workspace5 "5 "
 set $workspace6 "6 "
-set $workspace7 "7 "
-set $workspace8 "8 "
-set $workspace9 "9 "
+set $workspace7 "7 "
+set $workspace8 "8 聆"
+set $workspace9 "9 "
 set $workspace10 "10 "
+set $workspace11 "﵁"
+
+workspace $workspace1 output $primary-display $secondary-display
+workspace $workspace2 output $primary-display $secondary-display
+workspace $workspace3 output $secondary-display $primary-display
+workspace $workspace4 output $primary-display $secondary-display
+workspace $workspace5 output $primary-display $secondary-display
+workspace $workspace6 output $primary-display $secondary-display
+workspace $workspace7 output $secondary-display $primary-display
+workspace $workspace8 output $secondary-display $primary-display
+workspace $workspace9 output $secondary-display $primary-display
+workspace $workspace10 output $secondary-display $primary-display
+workspace $workspace11 output $secondary-display $primary-display
 
 # switch to workspace
-bindsym $mod+grave workspace $workspace0
+bindsym $mod+grave workspace $workspace11
 bindsym $mod+1 workspace $workspace1
 bindsym $mod+2 workspace $workspace2
 bindsym $mod+3 workspace $workspace3
@@ -99,7 +109,7 @@ bindsym $alt+Tab workspace next
 bindsym $alt+Shift+Tab workspace prev
 
 # move focused container to workspace
-bindsym $mod+Shift+grave move container to workspace $workspace0
+bindsym $mod+Shift+grave move container to workspace $workspace11
 bindsym $mod+Shift+1 move container to workspace $workspace1
 bindsym $mod+Shift+2 move container to workspace $workspace2
 bindsym $mod+Shift+3 move container to workspace $workspace3
@@ -143,12 +153,12 @@ mode "$systemMode" {
 }
 
 set $transparent         #00000000
-set $bg-color 	         #2f343f
-set $inactive-bg-color   #2f343f66
-set $text-color          #f3f4f5
-set $inactive-text-color #676E7D
-set $urgent-bg-color     #a5423d
-set $indicator-color     #336699
+set $bg-color 	         #333229
+set $inactive-bg-color   #33322966
+set $text-color          #f5f1eb
+set $inactive-text-color #877d72
+set $urgent-bg-color     #ab5e4b
+set $indicator-color     #ad853e
 
 # Window colors
 #                       border              background         text                 indicator
@@ -161,9 +171,9 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color      
 bar {
     # mode hide
     position top
-    font pango:System San Francisco Display 18
+    font pango:DejaVuSansMono Nerd Font 16
     i3bar_command i3bar -t
-    tray_padding 2
+    tray_padding 6
 
     # Disable mouse wheel
     bindsym button4 nop
@@ -181,15 +191,17 @@ bar {
 
 # Gaps and borders
 smart_gaps on
-gaps inner 40
-# gaps outer 10
+gaps inner 16
+# gaps outer 8
 hide_edge_borders smart
 # border_radius 4
 
 # Floating windows
 for_window [class="Pavucontrol"] floating enable
+for_window [class="Blueman-manager"] floating enable
 for_window [class="Shutter"] floating enable
 for_window [class="Tilda"] floating enable
+for_window [class="Tilda"] move to output current
 for_window [class="Simplescreenrecorder"] floating enable
 for_window [class="Firefox"] border pixel 1
 for_window [class="Firefox" window_role="page-info"] border normal 1
@@ -199,22 +211,27 @@ for_window [title="Authy"] floating enable
 for_window [title="Loading Tixati..."] floating enable
 
 # Default workspaces (use xprop to inspect windows)
-assign [class="ClickUp"] $workspace0
+assign [class="RSSOwlnix"] $workspace11
 assign [class="Firefox"] $workspace1
+assign [class="Chromium-browser"] $workspace1
 assign [class="Code"] $workspace2
+for_window [class="Code"] layout stacking
 assign [class="jetbrains-studio"] $workspace2
 assign [class="processing-app-Base"] $workspace2
 assign [class="Thunar"] $workspace3
 assign [class="Nemo"] $workspace3
 assign [class="Steam"] $workspace5
+assign [title="Steam"] $workspace5
+for_window [class="Steam"] move to workspace $workspace5
 assign [class="net-minecraft-bootstrap-Bootstrap"] $workspace6
 for_window [class="minecraft-launcher"] move to workspace $workspace6
 assign [class="FML early loading progress"] $workspace6
 assign [class="Minecraft.*"] $workspace6
+assign [class="amidst-Amidst"] $workspace6
 assign [class="TelegramDesktop"] $workspace7
-assign [class="discord"] $workspace7
-for_window [class="discord"] layout stacking
-assign [class="Tixati"] $workspace8
+assign [class="slack"] $workspace7
+assign [class="discord"] $workspace8
+assign [class="Tixati"] $workspace9
 for_window [class="Spotify"] move to workspace $workspace10
 
 # General shortcuts
@@ -243,9 +260,17 @@ bindsym $mod+F6 exec $HOME/.config/i3/brightness_control.sh inc 10
 exec --no-startup-id compton --config $HOME/.config/i3/compton.config
 exec --no-startup-id conky -c $HOME/.config/i3/.conky
 exec --no-startup-id redshift-gtk
+exec --no-startup-id xset s off
+exec --no-startup-id xset s noblank
+exec --no-startup-id xset -dpms
 exec --no-startup-id start-pulseaudio-x11
+
+# + Tools and services
 exec --no-startup-id pasystray
+exec --no-startup-id nm-applet
+exec --no-startup-id blueman-applet
 exec --no-startup-id shutter --min_at_startup
+exec --no-startup-id gpick
 
 # + Applications
 exec --no-startup-id spotify

@@ -31,15 +31,10 @@ on_init() {
     wget -O ~/.fonts/fa-solid-900.otf "https://github.com/FortAwesome/Font-Awesome/blob/${FONTAWESOME_VERSION}/use-on-desktop/Font%20Awesome%205%20Free-Solid-900.otf?raw=true"
     wget -O ~/.fonts/fa-brands-400.otf "https://github.com/FortAwesome/Font-Awesome/blob/${FONTAWESOME_VERSION}/use-on-desktop/Font%20Awesome%205%20Brands-Regular-400.otf?raw=true"
 
-    send_cmd log DEBUG "Downloading Yosemite San Francisco fonts..."
-    wget -O ~/.fonts/"System San Francisco Display Regular.ttf" "https://github.com/supermarin/YosemiteSanFranciscoFont/blob/master/System%20San%20Francisco%20Display%20Regular.ttf?raw=true"
-    wget -O ~/.fonts/"System San Francisco Display Bold.ttf" "https://github.com/supermarin/YosemiteSanFranciscoFont/blob/master/System%20San%20Francisco%20Display%20Bold.ttf?raw=true"
-    wget -O ~/.fonts/"System San Francisco Display Thin.ttf" "https://github.com/supermarin/YosemiteSanFranciscoFont/blob/master/System%20San%20Francisco%20Display%20Thin.ttf?raw=true"
-    wget -O ~/.fonts/"System San Francisco Display Ultralight.ttf" "https://github.com/supermarin/YosemiteSanFranciscoFont/blob/master/System%20San%20Francisco%20Display%20Ultralight.ttf?raw=true"
-
     # send_cmd enqueue_packages "i3blocks"
     send_cmd enqueue_packages "conky"
     send_cmd enqueue_packages "python-dbus" # so conky can display currently played song
+    send_cmd enqueue_packages "dunst" # To show notifications
     send_cmd enqueue_packages "pasystray" # Volume control in tray
     send_cmd enqueue_packages "rofi"
     send_cmd enqueue_packages "feh" # To change background
