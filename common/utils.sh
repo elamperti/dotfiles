@@ -88,7 +88,7 @@ install_package() {
 }
 
 # Returns 0 if it's been more than a day since last apt update
-needs_apt_update() {
+needs_package_list_update() {
     # Return if reference file doesn't exist
     [ ! -f "/var/cache/apt/pkgcache.bin" ] && return 0
 
