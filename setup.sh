@@ -31,16 +31,16 @@ OPTIONS
            Print this help.
 
        -m, --motd
-           Shows the MOTD picker
+           Shows the MOTD picker.
 
        --no-updates
-           Skip `apt-get update` even if it's needed.
+           Skip updating packages even if it's needed.
 
        -p, --prompt
-           Shows the prompt parser wizard
+           Shows the prompt parser wizard.
 
        -u, --update
-           Updates all the symlinks as needed
+           Updates all the symlinks as needed.
 
        -v, --verbose
            Makes setup more verbose, mostly useful for debugging.
@@ -155,7 +155,7 @@ create_symlinks() {
 
     # This is the actual list of things being stowed
     stow_and_log "General dotfiles" ~/ shell/
-    stow_and_log "Keyboard configuration (xkb)" ~/.xkb/ xkb/
+    [ -d ~/.xkb/ ] && stow_and_log "Keyboard configuration (xkb)" ~/.xkb/ xkb/
     stow_and_log ".config directory" ~/.config/ home/.config/
 
     pretty_print INDENT LEFT 3
@@ -285,14 +285,14 @@ main() {
 
     ask_for_sudo
     if [[ -v NO_UPDATES ]]; then
-        log WARN "Skipping apt update"
+        log WARN "Skipping package list update"
     else
-        if needs_apt_update; then
-            log NOTICE "Updating apt package list"
+        if needs_package_list_update; then
+            log NOTICE "Updating package list"
             sudo apt-get update &> /dev/null ||
-                log ERROR "Couldn't update apt package list"
+                log ERROR "Couldn't update package list"
         else
-            log OK "apt is already up to date"
+            log OK "Package list already up to date"
         fi
     fi
 

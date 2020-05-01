@@ -1,5 +1,5 @@
 # Bundles
-Bundles go beyond a simple `apt-get install`: they may add a PPA, extra packages or execute custom scripts.
+Bundles go beyond a simple package installation: they may execute custom scripts or adjust configuration files, for example.
 
 ## Main file and mandatory functions
 The main file should be named exactly as the bundle directory, with `.sh` extension.

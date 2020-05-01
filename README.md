@@ -38,12 +38,12 @@ Just execute `setup.sh` and keep an eye on what happens :crystal_ball:
 | -m, --motd            | Shows the MOTD picker                                                 |
 | -p, --prompt          | Runs the prompt parser wizard (creates a prompt a-la-carte).          |
 | -u, --update          | Updates all the symlinks as needed.                                   |
-| --no-updates          | Skip `apt-get update`. Not recommended unless you've already updated. |
+| --no-updates          | Skip updating packages. Not recommended unless you've already updated.|
 | -v, --verbose         | Makes setup more verbose, mostly useful for debugging.                |
 
 ## How does it work?
 
-The setup will verify Bash version before starting. After updating `apt`'s package list and initializing the required [submodules](./.gitmodules), symlinks will be created and the installation section will start.
+The setup will verify Bash version before starting. After updating the package list and initializing the required [submodules](./.gitmodules), symlinks will be created and the installation section will start.
 
 Package/bundle selection is divided in four steps, and in each one the setup will ask which packages/bundles to install:
 
