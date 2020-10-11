@@ -387,7 +387,7 @@ if has('autocmd')
     autocmd FileType ledger vnoremap <silent> <buffer> <Tab> :LedgerAlign<CR>
     autocmd FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
 
-    autocmd FileType ledger inoremap <leader>l <C-R>=strftime('%m-%d')<CR> * 
+    autocmd FileType ledger inoremap <leader>l <C-R>=strftime('%m-%d')<CR> *
 endif
 
 noremap <silent><buffer> <2-LeftMouse> :call ledger#transaction_state_toggle(line('.'), '*?!')<CR>
@@ -423,7 +423,8 @@ if has('autocmd')
 
     augroup HiglightTODO
         autocmd!
-        autocmd WinEnter,VimEnter * :silent! call matchadd('Todo', 'TODO\|ToDo\|Todo\|FIXME', -1)
+        autocmd WinEnter,BufEnter * if &filetype != "ledger"
+            \ | :silent! call matchadd('Todo', 'TODO\|ToDo\|Todo\|FIXME', -1)
     augroup END
 
     " Toggle relative line numbers depending on mode

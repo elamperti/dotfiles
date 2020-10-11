@@ -9,10 +9,10 @@ warnWhenCapacityOver=80
 showBars=yes
 barWidth=50
 showAll=yes
-useNerdFonts=no
+useNerdFonts=yes
 
 # Load variables
-source "$HOME/dotfiles/common/richtext.sh"
+source "$HOME/dotfiles/utils/common/richtext.sh"
 get_motd_config
 
 # Initialize styled elements

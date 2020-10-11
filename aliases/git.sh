@@ -1,48 +1,5 @@
 #!/bin/bash
 
-# Colorize things
-alias dir='dir --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias grep='grep --color=auto'
-alias ls='ls --color=auto'
-
-# Other useful aliases
-alias :q='exit'
-alias chx='chmod +x'
-alias df='df -h'
-alias du='du -h'
-alias la='ls -lAh --group-directories-first'
-alias lad='ls -lAh --color=always|grep "^d" --color=never'
-alias map='xargs -n1'
-alias s='cd ..'
-alias sl='ls'
-alias units='units -1 --compact -o '"'"'%.4g'"'"
-alias poewroff='poweroff'
-
-# Turn Bash history on/off
-alias histoff='set +o history'
-alias histon='set -o history'
-
-# Short utilities
-alias cc='xclip -selection clip'
-alias https='http --default-scheme=https'
-alias tk='pkill'
-alias ports='sudo netstat -tulpn'
-
-alias e='vim'
-alias o='xdg-open'
-alias q='exit'
-
-# apt shortcuts
-alias sapar='sudo apt-get autoremove'
-alias sapi='sudo apt-get install'
-alias sapr='sudo apt-get remove'
-alias saps='sudo apt-cache search'
-alias sapu='sudo apt-get update'
-alias sapup='sudo apt-get upgrade'
-alias sapy='sudo apt-get install -y'
-
 # Git shortcut madness
 alias g='git'
 alias ga='git add'
@@ -79,8 +36,8 @@ alias grbm='git rebase master'
 alias grm='git rm --cached'
 alias grs='git reset'
 alias gs='git status' # -sb
-alias gsa='git stash apply'
 alias gsh='git stash save'
+alias gsha='git stash apply'
 alias gsl='git stash list'
 alias gsp='git stash pop'
 alias gsw='git show'
@@ -118,7 +75,3 @@ if type __git_complete &>/dev/null; then
   __git_complete gsl _git_stash
   __git_complete gsp _git_stash
 fi
-
-# Ledger
-alias led='ledger'
-alias lbr='led bal Expenses --effective --flat -S amount --no-total --period'

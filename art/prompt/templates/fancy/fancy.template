@@ -90,10 +90,9 @@ completely_dynamic_prompt() {
     ##############
 
     # Username
-    {~ !show_battery_level ~}
     # Reset, set username background color
     PS1+="\[\e[0m\]{{ colors.user_bg }}"
-    {~ /show_battery_level ~}
+
     # Set username color for SSH connctions, overriden later if local
     PS1+="{{ colors.ssh_user_fg }}"
     # Show user icon only if not going through a SSH connection
@@ -353,8 +352,8 @@ set_prompts() {
     export PS4
 }
 
-# Color theme, if it is just in this particular place
-# ToDo: make this more flexible
+# Color theme
+# ToDo: make this path more flexible
 [[ -s "$HOME/dotfiles/art/colors/{{ strings.palette }}.sh" ]] &&
     source "$HOME/dotfiles/art/colors/{{ strings.palette }}.sh"
 

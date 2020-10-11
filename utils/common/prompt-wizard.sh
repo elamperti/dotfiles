@@ -5,7 +5,7 @@ prompt_wizard() {
     local templates=()
     local styles=()
 
-    pushd "$(dirname "${BASH_SOURCE[0]}")/../art/prompt/templates/" &> /dev/null
+    pushd "$(dirname "${BASH_SOURCE[0]}")/../../art/prompt/templates/" &> /dev/null
 
     # To avoid filling a description for each template item, here's a unicode space v
     templates=($(ls -d */|sed 's#/##'|awk '{a[$1]=$1}END{for(i in a)printf " "a[i]"   on "}'))

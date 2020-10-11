@@ -72,7 +72,7 @@ if [ -d /usr/local/cuda ]; then
 fi
 
 # Node.js global packages
-[ -z "${NPM_PACKAGES}" ] && [ ! -f "$NVM_DIR/nvm.sh" ] && export NPM_PACKAGES="${HOME}/.npm-packages"
+[ -z "${NPM_PACKAGES}" ] && [ ! -f "${NVM_DIR:-$HOME/.nvm}/nvm.sh" ] && export NPM_PACKAGES="${HOME}/.npm-packages"
 if [ -d "${NPM_PACKAGES}" ]; then
   PATH="${NPM_PACKAGES}/bin:$PATH"
   export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
@@ -81,9 +81,9 @@ if [ -d "${NPM_PACKAGES}" ]; then
 fi
 
 # ESP-IDF
-if [ -f "${HOME}/esp/esp-idf/export.sh" ]; then
-  source "${HOME}/esp/esp-idf/export.sh" >/dev/null
-fi
+# if [ -f "${HOME}/esp/esp-idf/export.sh" ]; then
+#   source "${HOME}/esp/esp-idf/export.sh" >/dev/null
+# fi
 
 export PATH
 

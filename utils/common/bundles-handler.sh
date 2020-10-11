@@ -13,7 +13,7 @@ declare -a bundle_queue
 bundle_count=0
 
 bundle_exists() {
-    pushd "$(dirname "${BASH_SOURCE[0]}")/../bundles/" &> /dev/null
+    pushd "$(dirname "${BASH_SOURCE[0]}")/../../bundles/" &> /dev/null
     [ -f "$1/$1.sh" ]
     local ret=$?
     popd &>/dev/null
@@ -24,7 +24,7 @@ create_bundle_list() {
     local main_script=
     local description=
     local friendly_name=
-    pushd "$(dirname "${BASH_SOURCE[0]}")/../bundles/" &> /dev/null
+    pushd "$(dirname "${BASH_SOURCE[0]}")/../../bundles/" &> /dev/null
 
     log INFO "Creating bundle list..."
     for bundle in $(ls -d */); do
@@ -82,7 +82,7 @@ execute_bundle_after_installs() {
     if [ ${#bundle_queue[@]} -gt 0 ]; then
         log INFO "Installing bundles..."
         pretty_print INDENT RIGHT 6
-        pushd "$(dirname "${BASH_SOURCE[0]}")/../bundles/" &> /dev/null
+        pushd "$(dirname "${BASH_SOURCE[0]}")/../../bundles/" &> /dev/null
         for bundle in ${bundle_queue[@]}; do
             log DEBUG "Installing bundle $bundle"
 
@@ -109,7 +109,7 @@ execute_bundle_after_installs() {
 execute_bundle_inits() {
     if [ ${#bundle_queue[@]} -gt 0 ]; then
         log INFO "Initializing bundles..."
-        pushd "$(dirname "${BASH_SOURCE[0]}")/../bundles/" &> /dev/null
+        pushd "$(dirname "${BASH_SOURCE[0]}")/../../bundles/" &> /dev/null
         for bundle in ${bundle_queue[@]}; do
             call_bundle_function $bundle on_init EVAL_OUTPUT
         done
