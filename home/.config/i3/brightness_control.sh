@@ -44,7 +44,8 @@ else
   echo "${new_brightness} ${max_vcp_value}" >$cache_file
 
   # Send new value to display
-  ddcutil setvcp 10 ${new_brightness}
+  ddcutil setvcp 10 ${new_brightness} --nodetect -d 1
+  ddcutil setvcp 10 ${new_brightness} --nodetect -d 2
 fi
 
 # Unlock

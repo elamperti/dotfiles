@@ -80,19 +80,19 @@ def main():
 
     template_path = 'templates/' + args.template + '/' + args.template + '.template'
     try:
-        template = open(template_path, 'r').read().decode('utf-8')
+        template = open(template_path, 'r').read()
     except IOError:
         print ('Template <' + args.template + '> not found')
         exit(1)
 
     variables_path = 'templates/' + args.template + '/styles/' + 'default.json'
-    variables = json.loads(open(variables_path, 'r').read().decode('utf-8'))
+    variables = json.loads(open(variables_path, 'r').read())
 
     # Alt style besides 'default'
     if args.style != 'default':
         style_path = 'templates/' + args.template + '/styles/' + args.style + '.json'
         try:
-            style = json.loads(open(style_path, 'r').read().decode('utf-8'))
+            style = json.loads(open(style_path, 'r').read())
         except IOError:
             print ('Style <'+ args.style + '> not found')
             exit(1)

@@ -1,44 +1,47 @@
-# Load helper functions
-lua_load ~/.config/i3/conky_helpers.lua
+conky.config = {
+-- Load helper functions
+	lua_load = '~/.config/i3/conky_helpers.lua',
 
-#avoid flicker
-double_buffer yes
+--avoid flicker
+	double_buffer = true,
 
-#own window to run 2 or more conkys simultaneously
-own_window yes
-own_window_transparent yes
-own_window_type override
-own_window_hints undecorate,above,sticky,skip_taskbar,skip_pager
+--own window to run 2 or more conkys simultaneously
+	own_window = true,
+	own_window_transparent = true,
+	own_window_type = 'override',
+	own_window_hints = 'undecorated,above,sticky,skip_taskbar,skip_pager',
 
-#borders
-border_inner_margin 0
-border_outer_margin 5
-draw_borders no
-draw_graph_borders yes
-#shades
-draw_shades no
-#position
-alignment top_left
-gap_y 4
-gap_x -1920
-#behaviour
-update_interval 1
-#colour
-default_color white
-#font
-use_xft yes
-xftfont System San Francisco Display:size=16
+--borders
+	border_inner_margin = 0,
+	border_outer_margin = 5,
+	draw_borders = false,
+	draw_graph_borders = true,
+--shades
+	draw_shades = false,
+--position
+	alignment = 'top_left',
+	gap_y = 4,
+	gap_x = 0,
+--behaviour
+	update_interval = 1,
+--colour
+	default_color = 'white',
+--font
+	use_xft = true,
+	font = 'System San Francisco Display:size=16',
 
-# Force UTF8? note that UTF8 support required XFT
-override_utf8_locale yes
-#to prevent window from moving
-maximum_width 1920
-minimum_size 1920 22
-default_graph_size 20 100
-format_human_readable yes
-short_units yes
+-- Force UTF8? note that UTF8 support required XFT
+	override_utf8_locale = true,
+--to prevent window from moving
+	maximum_width = 1920,
+	minimum_width = 1920, minimum_height = 22,
+	default_graph_width = 20, default_graph_height = 100,
+	format_human_readable = true,
+	short_units = true,
 
-TEXT
+};
+
+conky.text = [[
 ${if_running spotify}\
 ${if_match "0" == "${exec ~/.config/i3/spotify_playing.sh}"}\
 ${goto 410}\
@@ -50,44 +53,44 @@ ${voffset -1}\
 ${endif}\
 ${endif}\
 ${goto 945}\
-${voffset 5}\
+${voffset 7}\
 ${font System San Francisco Display:style=Bold:size=8}${color gray}${time %a} ${color}${time %d %b} \
-${goto 930}\
-${voffset -18}\
+${goto 938}\
+${voffset -16}\
 ${font System San Francisco Display:style=Bold:size=14}${color}${time %H:%M}${color darkgray}:${time %S} \
 ${goto 1120}\
-${voffset 4}\
-${font DejaVu Sans Mono:size=15}\
+${font Droid Sans Mono:size=15}\
 ${voffset 2}${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
-${voffset -1}${color darkgray}${font DejaVu Sans Mono:size=15}\
-${lua_parse pad 6 ${memperc}%}\
+${voffset -1}${color darkgray}${font Droid Sans Mono:size=15}\
+${memperc}%\
 ${goto 1100}${offset 105}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
-${voffset 0}${color #454545}${cpugraph cpu0 18,50 AA5500 CC7700 -t} \
-${offset -45}${voffset -2}${color darkgray}${font DejaVu Sans Mono:size=12}\
-${lua_parse pad 6 ${cpu}%}\
-${if_existing /sys/class/net/enp3s0/operstate up} \
+${voffset 0}${color #454545}${cpugraph cpu0 18,50 AA5500 CC7700 -t -l} \
+${offset -45}${voffset -2}${color darkgray}${font Droid Sans Mono:size=12}\
+${cpu}%\
+${if_existing /sys/class/net/enp4s0/operstate up} \
 ${goto 1300}\
 ${voffset -1}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
 ${voffset 0}\
-${color #454545}${downspeedgraph enp3s0 18,50 1F8729 1BC62C 2000 -t} \
-${color #454545}${upspeedgraph enp3s0 18,50 547D93 57AAD6 200 -t} \
+${color #454545}${downspeedgraph enp4s0 18,50 1F8729 1BC62C 1500000 -t} \
+${color #454545}${upspeedgraph enp4s0 18,50 547D93 57AAD6 150000 -t} \
 ${goto 1445}\
 ${voffset -11}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=6} \
 ${voffset -2}\
-${color #70b273}${font DejaVu Sans Mono:size=8}\
-${lua_parse pad 6 ${downspeedf enp3s0} Kb}\
+${color #70b273}${font Droid Sans Mono:size=8}\
+${downspeedf enp4s0} Kb\
 ${goto 1445}\
 ${voffset 12}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=6} \
 ${voffset -3}\
-${color 7ca2ba}${font DejaVu Sans Mono:size=8}\
-${lua_parse pad 6 ${upspeedf enp3s0} Kb}\
+${color 7ca2ba}${font Droid Sans Mono:size=8}\
+${upspeedf enp4s0} Kb\
 ${else}\
 ${goto 1300}\
 ${voffset -1}${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
-${voffset -1}${color darkgray}${font DejaVu Sans Mono:size=15}\
+${voffset -1}${color darkgray}${font Droid Sans Mono:size=15}\
 ${battery_percent BAT0}%\
-${endif}\
+${endif}
+]];

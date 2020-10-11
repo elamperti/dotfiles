@@ -8,7 +8,6 @@ common_packages="
     bash-completion: command completion for Bash
     bind9: DNS Server
     build-essential: packages required to compile C programs
-    cmus: CLI music player with last.fm support
     curl: tool to transfer data using several protocols
     dnsutils: contains dig, nslookup and other tools
     ethtool: enable Wake On LAN and more
@@ -17,10 +16,10 @@ common_packages="
     git-crypt: transparent encryption for repositories
     htop: interactive process viewer
     httpie: CLI user-friendly HTTP client
+    i2c-tools: I²C tools (e.g. i2c-detect)
     imagemagick: image manipulation tools
     ledger: double-entry accounting system
     libimage-exiftool-perl: EXIF metadata viewer (exiftool)
-    mc: Midnight Commander file manager
     moreutils: sponge, vipe, pee and other utilities
     mosh: utility for intermittent SSH conections
     mtr: network diagnostic tool
@@ -40,24 +39,31 @@ graphical_packages="
     arduino: Arduino IDE
     blueman: Bluetooth manager
     bookletimposer: basic PDF document imposition
-    compton: compositor for Xorg
     filezilla: FTP client
-    gdebi: simple tool to install \`.deb\` files
-    gnome-font-viewer: Preview and install fonts
-    gnome-terminal: Gnome terminal emulator
     gpick: color picker
     livestreamer: extract video from YouTube and other websites
     nemo: simple file explorer
     openscad: Parametric solid 3D CAD modeller
     pavucontrol: a volume control for the Pulse audio server
+    picom: compositor for Xorg (fork of Compton)
     poedit: a gettext translations editor (i18n)
     redshift: adjusts screen color at night
     remmina: VNC and RDP client
     shutter: feature-rich screenshot tool
+    simplescreenrecorder: records parts of the screen to video
+    telegram-desktop: Telegram client
+    thunar: file manager (requires tumbler package)
     tilda: a simple dropdown terminal
+    ttf-apple-emoji: Apple emoji font
+    visual-studio-code-bin: Visual Studio Code (AUR)
     vlc: media player
     wmctrl: interact with Extended Window Manager Hints
     xclip: command line interface for clipboard
+"
+
+gnome_packages="
+    gnome-font-viewer: Preview and install fonts
+    gnome-terminal: Gnome terminal emulator
 "
 
 xfce_packages="

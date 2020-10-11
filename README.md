@@ -5,6 +5,7 @@ See [requirements](#requirements), [setup instructions](#installing) and [how to
 There's also some [unrelated documentation](./docs/).
 
 ## Screenshots
+
 ![i3 desktop](https://user-images.githubusercontent.com/910672/46715151-2b80e280-cc35-11e8-99ee-d681e4e74ab5.jpg)
 ![tmux featuring vim and bash](https://user-images.githubusercontent.com/910672/44622666-921f8c00-a893-11e8-86a4-1b3355ada324.jpg)
 ![bash prompt in a git repo](https://user-images.githubusercontent.com/910672/44622668-92b82280-a893-11e8-9b74-78e4693c179d.jpg)
@@ -22,6 +23,7 @@ The setup will look for the following packages (and try to install them, if you 
   * `stow` to symlink several files
 
 ## Installing
+
 Just execute `setup.sh` and keep an eye on what happens :crystal_ball:
 
 ```sh
@@ -59,8 +61,8 @@ After installing all the required packages, bundle scripts will finish their ins
 You should really take a look at [`setup.sh`](./setup.sh) to see what it does. Apart from that, you may want to change the following to suit your needs:
 
   * [Files in `shell/`](./shell/), which are most of the dotfiles
-  * [Files in `home/`](./home/), which will be symlinked to your home folder
-  * [Package lists](./common/package-lists.sh)
+  * [Files in `home/`](./home/), which will be symlinked to your home directory
+  * [Package lists](./config/package-lists.sh)
   * [Bundles](./bundles/), for more details see [the guide](./bundles/about-bundles.md)
   * `~/.bash*` files affixed with `.local` will be sourced (as long as they have their corresponding file in [`shell`](./shell/)
   * Edit the [prompt templates](./art/prompt/templates/), or create a style for an existing one (it's as easy as changing values in a JSON file)
@@ -68,7 +70,7 @@ You should really take a look at [`setup.sh`](./setup.sh) to see what it does. A
 
 ## Testing
 
-Tests are written using [Bats](https://github.com/sstephenson/bats) and live in the [`test`](./test/) folder. To run them locally:
+Tests are written using [Bats](https://github.com/sstephenson/bats) and live in the [`test`](./test/) directory. To run them locally:
 
 ```sh
 bats test

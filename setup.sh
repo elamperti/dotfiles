@@ -1,14 +1,15 @@
 #!/bin/bash
 
 pushd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null
-source 'common/utils.sh'
-source 'common/packages-handler.sh'
-source 'common/bundles-handler.sh'
-source 'common/prompt-wizard.sh'
-source 'common/motd-wizard.sh'
+source 'utils/common/functions.sh'
+source 'utils/common/packages.sh'
+source 'utils/common/bundles-handler.sh'
+source 'utils/common/prompt-wizard.sh'
+source 'utils/common/motd-wizard.sh'
+source 'utils/common/aliases-picker.sh'
 
 # Default config for bashlog
-LOG_FILE=`readlink -f "$(dirname $0)/latest.log"`
+LOG_FILE=$(readlink -f "$(dirname $0)/latest.log")
 LOG_LEVEL="DEBUG"
 STDOUT_LOG_LEVEL="INFO"
 LOG_TO_STDOUT="YES"
@@ -21,6 +22,9 @@ NAME
        Dotfiles setup script
 
 OPTIONS
+       -a, --aliases
+           Pick aliases to be used.
+
        -b, --bundle BUNDLE
            Install just one particular bundle.
 
@@ -54,16 +58,21 @@ filter_args() {
         arg="$1"
 
         case $arg in
+            -a|--aliases)
+              NO_UPDATES=1
+              JUST_ALIASES=1
+              ;;
+
             -b|--bundle)
-                NO_UPDATES=1;
+                NO_UPDATES=1
                 if [ -n "$2" ]; then
                     if bundle_exists $2; then
                         bundle_count=1
                         create_bundle_list
                         enqueue_bundle $2
 
-                        JUST_BUNDLES=1;
-                        BUNDLE=$2;
+                        JUST_BUNDLES=1
+                        BUNDLE=$2
                     else
                         echo "Bundle $2 not found."
                         exit 1
@@ -77,7 +86,7 @@ filter_args() {
                 ;;
 
             -B|--bundles)
-                JUST_BUNDLES=1;
+                JUST_BUNDLES=1
                 ;;
 
             -h|--help)
@@ -91,12 +100,12 @@ filter_args() {
                 ;;
 
             --no-updates)
-                NO_UPDATES=1;
+                NO_UPDATES=1
                 ;;
 
             -p|--prompt)
-                NO_UPDATES=1;
-                JUST_PROMPT=1;
+                NO_UPDATES=1
+                JUST_PROMPT=1
                 ;;
 
             -u|--update)
@@ -154,9 +163,8 @@ create_symlinks() {
     pretty_print INDENT RIGHT 3
 
     # This is the actual list of things being stowed
-    stow_and_log "General dotfiles" ~/ shell/
+    stow_and_log "Home directory" ~/ home/
     [ -d ~/.xkb/ ] && stow_and_log "Keyboard configuration (xkb)" ~/.xkb/ xkb/
-    stow_and_log ".config directory" ~/.config/ home/.config/
 
     pretty_print INDENT LEFT 3
 
@@ -179,7 +187,7 @@ init_git_submodules() {
     log NOTICE "Submodules updated"
 
     if [ -v PROGRESSBAR_MISSING ]; then
-        source 'common/progressbar/progressbar.sh' &>/dev/null
+        source 'utils/common/progressbar/progressbar.sh' &>/dev/null
         if [ $? -eq 0 ]; then
             log DEBUG "Progressbar was missing. Sourced submodule."
             unset PROGRESSBAR_MISSING
@@ -283,13 +291,15 @@ main() {
     rm -f latest.log
     print_splash
 
+    log INFO "Detected distribution: ${DETECTED_OS}"
+
     ask_for_sudo
     if [[ -v NO_UPDATES ]]; then
         log WARN "Skipping package list update"
     else
         if needs_package_list_update; then
             log NOTICE "Updating package list"
-            sudo apt-get update &> /dev/null ||
+            update_package_list ||
                 log ERROR "Couldn't update package list"
         else
             log OK "Package list already up to date"
@@ -318,6 +328,12 @@ main() {
         exit
     fi
 
+    if [[ -v JUST_ALIASES ]]; then
+      log INFO "Linking aliases"
+      pick_aliases
+      exit
+    fi
+
     if [[ ! -v JUST_BUNDLES ]]; then
         # Create a tarball of previous backup so ./backups folder is (almost) empty
         local backup_postfix="dotfiles_backup.tar.gz"
@@ -341,6 +357,8 @@ main() {
 
         set_keyboard_layout
 
+        check_misc_configs
+
         local window_manager=$(guess_wm)
         if [ -n "${window_manager}" ]; then
             install_custom_fonts
@@ -354,6 +372,8 @@ main() {
         fi
 
         pick_motd
+
+        pick_aliases
 
         pick_packages
     fi

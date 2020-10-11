@@ -262,7 +262,12 @@ webserver() {
        exit 1
     fi
 
-    ws_port=${1:-8000}
+    local ws_port=${1:-8000}
+    local py_version=$(python --version|grep -oP '(?<=Python ).')
 
-    python -m SimpleHTTPServer $ws_port
+    if [ "${py_version}" -eq 2 ]; then
+      python -m SimpleHTTPServer $ws_port
+    else
+      python -m http.server $ws_port
+    fi
 }

@@ -30,12 +30,6 @@
   text-color: @text;
 }
 
-configuration {
-  display-drun: "Activate";
-  show-icons: true;
-  lines: 6;
-}
-
 window {
   transparency: "real";
   fullscreen: false;

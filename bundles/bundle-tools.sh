@@ -2,7 +2,7 @@
 
 RESPONSE=""
 pushd "$(dirname "${BASH_SOURCE[0]}")/.." &> /dev/null
-source "common/utils.sh"
+source "utils/common/functions.sh"
 popd &> /dev/null
 
 trap on_unload EXIT

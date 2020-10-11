@@ -2,5 +2,5 @@
 	path = common/bashlog
 	url = https://github.com/elamperti/bashlog.git
 [submodule "common/progressbar"]
-	path = common/progressbar
+	path = utils/common/progressbar
 	url = https://github.com/elamperti/bash-progressbar.git

@@ -9,7 +9,7 @@ warnDaysBefore=14
 useNerdFonts=no
 
 # Load variables
-source "$HOME/dotfiles/common/richtext.sh"
+source "$HOME/dotfiles/utils/common/richtext.sh"
 get_motd_config
 
 # Initialize icons

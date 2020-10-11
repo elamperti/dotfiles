@@ -1,13 +1,12 @@
-# i3 config file (v4)
-#
+# i3 config file
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
 set $alt Mod1
 set $ctrl Control
 
-set $primary-display DP-0
-set $secondary-display HDMI-0
+set $primary-display "DP-1-8"
+set $secondary-display "DP-1-1"
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -23,7 +22,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+q kill
 
 # Rofi
-bindsym $mod+d exec i3-dmenu-desktop --dmenu='rofi -show drun -i -show-icons -sort false -matching fuzzy -l -theme irk'
+bindsym $mod+d exec i3-dmenu-desktop --dmenu='rofi -show drun -i -matching fuzzy -l'
 
 # change focus
 bindsym $mod+Left focus left
@@ -75,8 +74,8 @@ set $workspace4 "4 "
 set $workspace5 "5 "
 set $workspace6 "6 "
 set $workspace7 "7 "
-set $workspace8 "8 聆"
-set $workspace9 "9 "
+set $workspace8 "8 ﭮ"
+set $workspace9 "9 "
 set $workspace10 "10 "
 set $workspace11 "﵁"
 
@@ -124,15 +123,15 @@ bindsym $mod+Shift+0 move container to workspace $workspace10
 # resize window (you can also use the mouse for that)
 set $resizeMode "Resize"
 mode $resizeMode {
-        # These bindings trigger as soon as you enter the resize mode
-        bindsym Right resize shrink width 10 px or 10 ppt
-        bindsym Up resize grow height 10 px or 10 ppt
-        bindsym Down resize shrink height 10 px or 10 ppt
-        bindsym Left resize grow width 10 px or 10 ppt
+  # These bindings trigger as soon as you enter the resize mode
+  bindsym Right resize shrink width 10 px or 10 ppt
+  bindsym Up resize grow height 10 px or 10 ppt
+  bindsym Down resize shrink height 10 px or 10 ppt
+  bindsym Left resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
 bindsym $mod+r mode $resizeMode
 
@@ -144,18 +143,19 @@ bindsym $mod+Shift+r restart
 set $systemMode System (S for shutdown, Z for sleep, L for lock, Q to logout)
 bindsym $mod+Scroll_Lock mode "$systemMode"
 mode "$systemMode" {
-    bindsym l exec i3lock -c 0f090c -f -i "$HOME/.config/i3/locked-1080p.png" &; mode "default"
-    bindsym s exec shutdown -hP now; mode "default"
-    bindsym r exec systemctl reboot &; mode "default"
-    bindsym z exec systemctl suspend &; mode "default"
+  bindsym l exec i3lock -c 0f090c -f -i "$HOME/.config/i3/locked-1080p.png" &; mode "default"
+  bindsym s exec shutdown -hP now; mode "default"
+  bindsym r exec systemctl reboot &; mode "default"
+  bindsym z exec systemctl suspend &; mode "default"
+  bindsym q exec i3-msg exit &; mode "default"
 
-    bindsym Escape mode "default"
+  bindsym Escape mode "default"
 }
 
 set $transparent         #00000000
-set $bg-color 	         #333229
-set $inactive-bg-color   #33322966
+set $bg-color            #333229
 set $text-color          #f5f1eb
+set $inactive-bg-color   #33322999
 set $inactive-text-color #877d72
 set $urgent-bg-color     #ab5e4b
 set $indicator-color     #ad853e
@@ -169,24 +169,46 @@ client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color      
 
 
 bar {
-    # mode hide
-    position top
-    font pango:DejaVuSansMono Nerd Font 16
-    i3bar_command i3bar -t
-    tray_padding 6
+  # Note that you might not have a primary output configured yet. To do so, run:
+  # xrandr --output <output> --primary
+  output primary
+  position top
+  font pango:DejaVuSansMono Nerd Font 16
+  i3bar_command i3bar -t
+  tray_padding 6
+  tray_output primary
 
-    # Disable mouse wheel
-    bindsym button4 nop
-    bindsym button5 nop
+  # Disable mouse wheel
+  bindsym button4 nop
+  bindsym button5 nop
 
-    colors {
-        background $transparent
+  colors {
+    background $transparent
+    #                  border             background         text
+    focused_workspace  $bg-color          $bg-color          $text-color
+    inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+    urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+  }
+}
 
-        #                  border             background         text
-        focused_workspace  $bg-color          $bg-color          $text-color
-        inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
-        urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
-    }
+bar {
+  output $secondary-display
+  position top
+  font pango:DejaVuSansMono Nerd Font 16
+  i3bar_command i3bar -t
+  # Disable mouse wheel
+  tray_output primary
+
+  bindsym button4 nop
+  bindsym button5 nop
+
+  colors {
+    background $transparent
+    #                  border             background         text
+    focused_workspace  $bg-color          $bg-color          $text-color
+    inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
+    urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
+  }
 }
 
 # Gaps and borders
@@ -212,9 +234,11 @@ for_window [title="Loading Tixati..."] floating enable
 
 # Default workspaces (use xprop to inspect windows)
 assign [class="RSSOwlnix"] $workspace11
-assign [class="Firefox"] $workspace1
-assign [class="Chromium-browser"] $workspace1
+assign [class="epiphany"] $workspace1
+assign [class="Navigator"] $workspace1
+assign [window_role="browser"] $workspace1
 assign [class="Code"] $workspace2
+for_window [class="Code"] move to workspace $workspace2
 for_window [class="Code"] layout stacking
 assign [class="jetbrains-studio"] $workspace2
 assign [class="processing-app-Base"] $workspace2
@@ -231,6 +255,8 @@ assign [class="amidst-Amidst"] $workspace6
 assign [class="TelegramDesktop"] $workspace7
 assign [class="slack"] $workspace7
 assign [class="discord"] $workspace8
+for_window [class="discord"] move to workspace $workspace8
+assign [title="Discord Updater"] $workspace8
 assign [class="Tixati"] $workspace9
 for_window [class="Spotify"] move to workspace $workspace10
 
@@ -240,9 +266,11 @@ bindsym Print exec --no-startup-id shutter -f -o "$HOME/Screenshots/Screenshot f
 bindsym --release $alt+Sys_Req exec --no-startup-id shutter -s # This is alt + Print Screen
 
 # Media controls
-bindsym XF86AudioMute exec amixer -D pulse set 'Master' 1+ toggle
-bindsym XF86AudioLowerVolume exec amixer sset 'Master' 2%-
-bindsym XF86AudioRaiseVolume exec amixer sset 'Master' 2%+
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
+
 bindsym XF86AudioPlay exec $HOME/.config/i3/spotify_playPause.sh
 bindsym $ctrl+$alt+Home exec $HOME/.config/i3/spotify_playPause.sh
 bindsym XF86AudioPrev exec $HOME/.config/i3/spotify_prev.sh
@@ -251,37 +279,39 @@ bindsym XF86AudioNext exec $HOME/.config/i3/spotify_next.sh
 bindsym $ctrl+$alt+Next exec $HOME/.config/i3/spotify_next.sh
 
 # Display brightness control
-bindsym XF86MonBrightnessDown exec $HOME/.config/i3/brightness_control.sh dec 10
-bindsym XF86MonBrightnessUp exec $HOME/.config/i3/brightness_control.sh inc 10
-bindsym $mod+F5 exec $HOME/.config/i3/brightness_control.sh dec 10
-bindsym $mod+F6 exec $HOME/.config/i3/brightness_control.sh inc 10
+bindsym XF86MonBrightnessDown exec $HOME/.config/i3/brightness_control.sh dec 20
+bindsym XF86MonBrightnessUp exec $HOME/.config/i3/brightness_control.sh inc 20
+bindsym $mod+F5 exec $HOME/.config/i3/brightness_control.sh dec 20
+bindsym $mod+F6 exec $HOME/.config/i3/brightness_control.sh inc 20
 
 # Startup
-exec --no-startup-id compton --config $HOME/.config/i3/compton.config
+exec --no-startup-id picom --config $HOME/.config/i3/compton.config
+exec --no-startup-id xrandr --output DP-1-1 --mode 1920x1080 --pos 1920x0 --output DP-1-8 --mode 1920x1080 --pos 0x0 && xrandr --output DP-1-8 --primary
 exec --no-startup-id conky -c $HOME/.config/i3/.conky
 exec --no-startup-id redshift-gtk
-exec --no-startup-id xset s off
-exec --no-startup-id xset s noblank
 exec --no-startup-id xset -dpms
 exec --no-startup-id start-pulseaudio-x11
 
 # + Tools and services
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 exec --no-startup-id pasystray
 exec --no-startup-id nm-applet
 exec --no-startup-id blueman-applet
+exec --no-startup-id pamac-tray
 exec --no-startup-id shutter --min_at_startup
 exec --no-startup-id gpick
 
 # + Applications
+exec --no-startup-id firefox
 exec --no-startup-id spotify
 exec --no-startup-id discord
-exec --no-startup-id /opt/telegram/Telegram
+exec --no-startup-id telegram-desktop
 exec --no-startup-id tilda
 
 # On reloads
 exec_always --no-startup-id xrdb -merge $HOME/.Xresources
 exec_always --no-startup-id xkbcomp -I$HOME/.xkb -R$HOME/.xkb $HOME/.xkbrc $DISPLAY
-exec_always --no-startup-id feh --bg-scale $HOME/dotfiles/wallpapers/sunset.jpg
+exec_always --no-startup-id feh --bg-scale $HOME/dotfiles/wallpapers/winternight.jpg
 
 # + Applications
-exec_always --no-startup-id powermated
+exec_always --no-startup-id powermate

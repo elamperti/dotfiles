@@ -1,13 +1,13 @@
 #!/bin/bash
 
-source "$(dirname "${BASH_SOURCE[0]}")/../common/questions.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/questions.sh"
 
 motd_wizard() {
     local exit_status=0
 
-    pushd "$(dirname "${BASH_SOURCE[0]}")/../art/motd" &> /dev/null
+    pushd "$(dirname "${BASH_SOURCE[0]}")/../../art/motd" &> /dev/null
 
-    # This avoids filling a description for each item using a invisible space char here v
+    # This avoids filling a description for each item using a invisible space char here 🡓
     artworks=($(ls *.motd|sed 's#.motd##'|awk '{a[$1]=$1}END{for(i in a)printf " "a[i]"   on "}'))
 
     exec 3>&1;
@@ -74,7 +74,7 @@ create_local_motd_dir() {
 pick_motd_bits() {
     local package_list_height=12
     local motd_bits=()
-    local motd_repo_path="$(dirname "${BASH_SOURCE[0]}")/../motd"
+    local motd_repo_path="$(dirname "${BASH_SOURCE[0]}")/../../motd"
 
     pushd "${motd_repo_path}" &> /dev/null
 
