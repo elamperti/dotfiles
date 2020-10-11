@@ -1,0 +1,13 @@
+configuration {
+  display-drun: "Activate";
+  kb-move-end: "End";
+  kb-move-front: "Home";
+  kb-remove-word-back: "Control+BackSpace";
+  kb-remove-word-forward: "Control+Delete";
+  kb-row-first: "KP_Home";
+  kb-row-last: "KP_End";
+  lines: 6;
+  show-icons: true;
+}
+
+@import "/home/elamperti/.config/rofi/themes/irk.rasi"
