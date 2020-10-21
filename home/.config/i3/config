@@ -219,6 +219,7 @@ hide_edge_borders smart
 # border_radius 4
 
 # Floating windows
+for_window [class="kitty"] floating enable, resize set 1920px 1048px, sticky enable; move window to position 0 px 34 px; move scratchpad
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Blueman-manager"] floating enable
 for_window [class="Shutter"] floating enable
@@ -233,7 +234,7 @@ for_window [title="Authy"] floating enable
 for_window [title="Loading Tixati..."] floating enable
 
 # Default workspaces (use xprop to inspect windows)
-assign [class="RSSOwlnix"] $workspace11
+# WM_CLASS shows [instance, class]
 assign [class="epiphany"] $workspace1
 assign [class="Navigator"] $workspace1
 assign [window_role="browser"] $workspace1
@@ -260,10 +261,18 @@ assign [title="Discord Updater"] $workspace8
 assign [class="Tixati"] $workspace9
 for_window [class="Spotify"] move to workspace $workspace10
 
+# Borderless windows
+# (usually the ones that don't show a useful title)
+for_window [class="TelegramDesktop"] border none
+for_window [class="discord"] border none
+for_window [class="Spotify"] border none
+
 # General shortcuts
 # ToDo: use scrot instead and find alt editor for quick highlights
 bindsym Print exec --no-startup-id shutter -f -o "$HOME/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.jpg"
 bindsym --release $alt+Sys_Req exec --no-startup-id shutter -s # This is alt + Print Screen
+
+bindsym F9 exec $HOME/.config/i3/toggle-terminal.sh
 
 # Media controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
@@ -306,7 +315,7 @@ exec --no-startup-id firefox
 exec --no-startup-id spotify
 exec --no-startup-id discord
 exec --no-startup-id telegram-desktop
-exec --no-startup-id tilda
+exec --no-startup-id $HOME/.config/i3/toggle-terminal.sh
 
 # On reloads
 exec_always --no-startup-id xrdb -merge $HOME/.Xresources
