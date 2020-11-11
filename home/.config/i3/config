@@ -232,6 +232,7 @@ for_window [class="Firefox" window_role="page-info"] floating enable
 #for_window [class="Firefox" window_role="toolbox"] floating enable # inspector
 for_window [title="Authy"] floating enable
 for_window [title="Loading Tixati..."] floating enable
+for_window [title="nomacs"] floating enable
 
 # Default workspaces (use xprop to inspect windows)
 # WM_CLASS shows [instance, class]
@@ -273,6 +274,9 @@ bindsym Print exec --no-startup-id shutter -f -o "$HOME/Screenshots/Screenshot f
 bindsym --release $alt+Sys_Req exec --no-startup-id shutter -s # This is alt + Print Screen
 
 bindsym F9 exec $HOME/.config/i3/toggle-terminal.sh
+
+# Image viewer
+bindsym $mod+I exec --no-startup-id nomacs
 
 # Media controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%

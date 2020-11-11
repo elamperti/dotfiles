@@ -43,6 +43,7 @@ graphical_packages="
     gpick: color picker
     livestreamer: extract video from YouTube and other websites
     nemo: simple file explorer
+    nomacs: quick image viewer (nice IrfanView alternative)
     openscad: Parametric solid 3D CAD modeller
     pavucontrol: a volume control for the Pulse audio server
     picom: compositor for Xorg (fork of Compton)
