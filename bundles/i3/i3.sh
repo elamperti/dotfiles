@@ -40,6 +40,8 @@ on_init() {
     send_cmd enqueue_packages "feh" # To change background
     send_cmd enqueue_packages "scrot" # To take screenshots
     send_cmd enqueue_packages "sox" # To make screenshot sound
+    send_cmd enqueue_packages "xdotool" # Used to toggle terminal window
+    send_cmd enqueue_packages "xcape" # Map Super to Alt+F1
 
     send_cmd enqueue_packages "arc-theme"
     send_cmd enqueue_packages "moka-icon-theme"

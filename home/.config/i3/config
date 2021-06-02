@@ -22,7 +22,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+q kill
 
 # Rofi
-bindsym $mod+d exec i3-dmenu-desktop --dmenu='rofi -show drun -i -matching fuzzy -l'
+bindsym $alt+F1 exec i3-dmenu-desktop --dmenu='rofi -show drun -i -matching fuzzy -l -kb-cancel Alt+F1'
 
 # change focus
 bindsym $mod+Left focus left
@@ -70,7 +70,7 @@ bindsym $mod+a focus parent
 set $workspace1 "1 "
 set $workspace2 "2 "
 set $workspace3 "3 "
-set $workspace4 "4 "
+set $workspace4 "4 "
 set $workspace5 "5 "
 set $workspace6 "6 "
 set $workspace7 "7 "
@@ -153,12 +153,12 @@ mode "$systemMode" {
 }
 
 set $transparent         #00000000
-set $bg-color            #333229
-set $text-color          #f5f1eb
-set $inactive-bg-color   #33322999
-set $inactive-text-color #877d72
+set $bg-color            #2c2933
+set $text-color          #ecebf5
+set $inactive-bg-color   #2c293399
+set $inactive-text-color #727587
 set $urgent-bg-color     #ab5e4b
-set $indicator-color     #ad853e
+set $indicator-color     #3e63ad
 
 # Window colors
 #                       border              background         text                 indicator
@@ -196,9 +196,9 @@ bar {
   position top
   font pango:DejaVuSansMono Nerd Font 16
   i3bar_command i3bar -t
-  # Disable mouse wheel
   tray_output primary
 
+  # Disable mouse wheel
   bindsym button4 nop
   bindsym button5 nop
 
@@ -226,10 +226,10 @@ for_window [class="Shutter"] floating enable
 for_window [class="Tilda"] floating enable
 for_window [class="Tilda"] move to output current
 for_window [class="Simplescreenrecorder"] floating enable
-for_window [class="Firefox"] border pixel 1
-for_window [class="Firefox" window_role="page-info"] border normal 1
-for_window [class="Firefox" window_role="page-info"] floating enable
-#for_window [class="Firefox" window_role="toolbox"] floating enable # inspector
+for_window [class="firefox"] border pixel 1
+for_window [class="firefox" window_role="page-info"] border normal 1
+for_window [class="firefox" window_role="page-info"] floating enable
+for_window [class="Pamac-manager"] floating enable
 for_window [title="Authy"] floating enable
 for_window [title="Loading Tixati..."] floating enable
 for_window [title="nomacs"] floating enable
@@ -238,7 +238,7 @@ for_window [title="nomacs"] floating enable
 # WM_CLASS shows [instance, class]
 assign [class="epiphany"] $workspace1
 assign [class="Navigator"] $workspace1
-assign [window_role="browser"] $workspace1
+assign [class="(?i)firefox"] $workspace1
 assign [class="Code"] $workspace2
 for_window [class="Code"] move to workspace $workspace2
 for_window [class="Code"] layout stacking
@@ -246,6 +246,9 @@ assign [class="jetbrains-studio"] $workspace2
 assign [class="processing-app-Base"] $workspace2
 assign [class="Thunar"] $workspace3
 assign [class="Nemo"] $workspace3
+assign [class="Google-chrome"] $workspace4
+assign [class="Chromium"] $workspace4
+assign [class="cypress"] $workspace4
 assign [class="Steam"] $workspace5
 assign [title="Steam"] $workspace5
 for_window [class="Steam"] move to workspace $workspace5
@@ -317,14 +320,15 @@ exec --no-startup-id gpick
 # + Applications
 exec --no-startup-id firefox
 exec --no-startup-id spotify
-exec --no-startup-id discord
 exec --no-startup-id telegram-desktop
-exec --no-startup-id $HOME/.config/i3/toggle-terminal.sh
+exec --no-startup-id discord
+exec --no-startup-id firefox --class firefox
 
 # On reloads
 exec_always --no-startup-id xrdb -merge $HOME/.Xresources
 exec_always --no-startup-id xkbcomp -I$HOME/.xkb -R$HOME/.xkb $HOME/.xkbrc $DISPLAY
-exec_always --no-startup-id feh --bg-scale $HOME/dotfiles/wallpapers/winternight.jpg
+exec_always --no-startup-id xcape -t 251 -e "Super_L=Alt_L|F1"
+exec_always --no-startup-id feh --bg-scale $HOME/dotfiles/wallpapers/desert-night.jpg
 
 # + Applications
 exec_always --no-startup-id powermate
