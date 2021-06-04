@@ -1,6 +1,7 @@
 conky.config = {
 -- Load helper functions
 	lua_load = '~/.config/i3/conky_helpers.lua',
+  lua_draw_hook_pre = 'main',
 
 --avoid flicker
 	double_buffer = true,
@@ -23,7 +24,7 @@ conky.config = {
 	gap_y = 4,
 	gap_x = 0,
 --behaviour
-	update_interval = 1,
+	update_interval = 0.5,
 --colour
 	default_color = 'white',
 --font
@@ -65,23 +66,20 @@ ${voffset -1}${color darkgray}${font Droid Sans Mono:size=15}\
 ${memperc}%\
 ${goto 1100}${offset 105}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
-${voffset 0}${color #454545}${cpugraph cpu0 18,50 AA5500 CC7700 -t -l} \
-${offset -45}${voffset -2}${color darkgray}${font Droid Sans Mono:size=12}\
-${cpu}%\
 ${if_existing /sys/class/net/enp4s0/operstate up} \
-${goto 1300}\
+${goto 1325}\
 ${voffset -1}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
-${voffset 0}\
-${color #454545}${downspeedgraph enp4s0 18,50 1F8729 1BC62C 1500000 -t} \
-${color #454545}${upspeedgraph enp4s0 18,50 547D93 57AAD6 150000 -t} \
-${goto 1445}\
-${voffset -11}\
+${voffset 1}\
+${color #454545}${downspeedgraph enp4s0 19,50 1F8729 1BC62C 6250000 -t} \
+${color #454545}${upspeedgraph enp4s0 19,50 547D93 57AAD6 2500000 -t} \
+${goto 1470}\
+${voffset -12}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=6} \
-${voffset -2}\
+${voffset -1}\
 ${color #70b273}${font Droid Sans Mono:size=8}\
 ${downspeedf enp4s0} Kb\
-${goto 1445}\
+${goto 1470}\
 ${voffset 12}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=6} \
 ${voffset -3}\
