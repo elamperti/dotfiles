@@ -14,4 +14,8 @@ xkb_symbols "extras" {
   replace key <AE11> { [ minus, underscore, emdash, overline ] };
   replace key <AE12> { [ equal, plus, notequal, plusminus ] };
   replace key <BKSL> { [ backslash, bar, notsign, bar ] };
+  replace key <UP>   { [ up, up, uparrow, uparrow ] };
+  replace key <DOWN> { [ down, down, downarrow, downarrow ] };
+  replace key <LEFT> { [ left, left, leftarrow, leftarrow ] };
+  replace key <RGHT> { [ right, right, rightarrow, rightarrow ] };
 };
