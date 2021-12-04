@@ -18,7 +18,8 @@ alias gds='git diff --staged'
 alias gfa='git fetch --all'
 alias gk='git checkout'
 alias gkb='git checkout -b'
-alias gl='git log'
+alias gl='git log --oneline --decorate'
+alias glo='git log'
 alias gm='git merge'
 alias gmt='git mergetool'
 alias gmv='git mv'
@@ -60,6 +61,7 @@ if type __git_complete &>/dev/null; then
   __git_complete gkb _git_checkout
   __git_complete gkp _git_checkout
   __git_complete gl _git_log
+  __git_complete glo _git_log
   __git_complete gm _git_merge
   __git_complete gmt _git_merge
   __git_complete gmv _git_mv
@@ -69,7 +71,7 @@ if type __git_complete &>/dev/null; then
   __git_complete grb _git_rebase
   __git_complete grm _git_rm
   __git_complete grs _git_reset
-  __git_complete gs _git_statuse
+  __git_complete gs _git_status
   __git_complete gsa _git_stash
   __git_complete gsh _git_stash
   __git_complete gsl _git_stash
