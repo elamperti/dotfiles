@@ -2,10 +2,6 @@
 
 [ -n "$PS1" ] \
     && source "$HOME/.bash_profile"
-
-# added by travis gem
-[ -f "$HOME/.travis/travis.sh" ] && source "$HOME/.travis/travis.sh"
-
 export PATH="$HOME/.yarn/bin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"

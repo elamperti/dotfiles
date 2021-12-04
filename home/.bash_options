@@ -3,6 +3,8 @@
 # Shell Options
 # http://ss64.com/bash/shopt.html
 
+if [ -n "$BASH" ]; then
+
 # If command is a valid directory, cd into it
 shopt -s autocd
 
@@ -40,3 +42,4 @@ shopt -s nocaseglob
 # Context: https://unix.stackexchange.com/a/72092/95310
 stty -ixon
 
+fi

@@ -34,7 +34,7 @@ function extract() {
   if [ -f "$1" ] ; then
     local filename=$(basename "$1")
     local foldername="${filename%%.*}"
-    local fullpath=`perl -e 'use Cwd "abs_path";print abs_path(shift)' "$1"`
+    local fullpath=$(perl -e 'use Cwd "abs_path";print abs_path(shift)' "$1")
     local didfolderexist=false
     if [ -d "$foldername" ]; then
       didfolderexist=true

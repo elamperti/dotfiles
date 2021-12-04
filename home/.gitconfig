@@ -32,10 +32,16 @@
 [transfer]
   fsckobjects = true
 
+[protocol]
+  version = 2
+
 [push]
   # Make `git push` automatically push relevant
   # annotated tags when pushing branches out
   followTags = true
+
+[pull]
+  rebase = true
 
 [fetch]
   # Remove remote branches that were deleted
