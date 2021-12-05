@@ -54,7 +54,6 @@ graphical_packages="
     simplescreenrecorder: records parts of the screen to video
     telegram-desktop: Telegram client
     thunar: file manager (requires tumbler package)
-    tilda: a simple dropdown terminal
     ttf-apple-emoji: Apple emoji font
     visual-studio-code-bin: Visual Studio Code (AUR)
     vlc: media player

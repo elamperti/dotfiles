@@ -232,8 +232,6 @@ for_window [class="Pamac-manager"] floating enable
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Shutter"] floating enable
 for_window [class="Simplescreenrecorder"] floating enable
-for_window [class="Tilda"] floating enable
-for_window [class="Tilda"] move to output current
 
 # Default workspaces (use xprop to inspect windows)
 # WM_CLASS shows [instance, class]
