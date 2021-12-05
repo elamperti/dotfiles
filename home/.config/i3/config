@@ -5,8 +5,8 @@ set $mod Mod4
 set $alt Mod1
 set $ctrl Control
 
-set $primary-display "DP-1-8"
-set $secondary-display "DP-1-1"
+set $primary-display "DP-1"
+set $secondary-display "HDMI-1"
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -22,7 +22,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+q kill
 
 # Rofi
-bindsym $alt+F1 exec i3-dmenu-desktop --dmenu='rofi -show drun -i -matching fuzzy -l -kb-cancel Alt+F1'
+bindsym $alt+F1 exec i3-dmenu-desktop --dmenu='rofi -show drun -i -matching fuzzy -l -kb-cancel Escape'
 
 # change focus
 bindsym $mod+Left focus left
@@ -81,7 +81,7 @@ set $workspace11 "﵁"
 
 workspace $workspace1 output $primary-display $secondary-display
 workspace $workspace2 output $primary-display $secondary-display
-workspace $workspace3 output $secondary-display $primary-display
+# workspace $workspace3 output $secondary-display $primary-display
 workspace $workspace4 output $primary-display $secondary-display
 workspace $workspace5 output $primary-display $secondary-display
 workspace $workspace6 output $primary-display $secondary-display
@@ -95,7 +95,7 @@ workspace $workspace11 output $secondary-display $primary-display
 bindsym $mod+grave workspace $workspace11
 bindsym $mod+1 workspace $workspace1
 bindsym $mod+2 workspace $workspace2
-bindsym $mod+3 workspace $workspace3
+bindsym $mod+3 exec "$HOME/.config/i3/launch-in-workspace.sh 3\  thunar"
 bindsym $mod+4 workspace $workspace4
 bindsym $mod+5 workspace $workspace5
 bindsym $mod+6 workspace $workspace6
@@ -219,20 +219,21 @@ hide_edge_borders smart
 # border_radius 4
 
 # Floating windows
-for_window [class="kitty"] floating enable, resize set 1920px 1048px, sticky enable; move window to position 0 px 34 px; move scratchpad
-for_window [class="Pavucontrol"] floating enable
+for_window [title="Authy"] floating enable
 for_window [class="Blueman-manager"] floating enable
-for_window [class="Shutter"] floating enable
-for_window [class="Tilda"] floating enable
-for_window [class="Tilda"] move to output current
-for_window [class="Simplescreenrecorder"] floating enable
 for_window [class="firefox"] border pixel 1
 for_window [class="firefox" window_role="page-info"] border normal 1
 for_window [class="firefox" window_role="page-info"] floating enable
-for_window [class="Pamac-manager"] floating enable
-for_window [title="Authy"] floating enable
+for_window [class="Gnome-calculator"] floating enable
+for_window [class="kitty"] floating enable sticky enable
 for_window [title="Loading Tixati..."] floating enable
-for_window [title="nomacs"] floating enable
+for_window [class="opensnitch-ui"] floating enable
+for_window [class="Pamac-manager"] floating enable
+for_window [class="Pavucontrol"] floating enable
+for_window [class="Shutter"] floating enable
+for_window [class="Simplescreenrecorder"] floating enable
+for_window [class="Tilda"] floating enable
+for_window [class="Tilda"] move to output current
 
 # Default workspaces (use xprop to inspect windows)
 # WM_CLASS shows [instance, class]
@@ -253,9 +254,8 @@ assign [class="Steam"] $workspace5
 assign [title="Steam"] $workspace5
 for_window [class="Steam"] move to workspace $workspace5
 assign [class="net-minecraft-bootstrap-Bootstrap"] $workspace6
-for_window [class="minecraft-launcher"] move to workspace $workspace6
+for_window [class="Minecraft"] move to workspace $workspace6
 assign [class="FML early loading progress"] $workspace6
-assign [class="Minecraft.*"] $workspace6
 assign [class="amidst-Amidst"] $workspace6
 assign [class="TelegramDesktop"] $workspace7
 assign [class="slack"] $workspace7
@@ -278,9 +278,6 @@ bindsym --release $alt+Sys_Req exec --no-startup-id shutter -s # This is alt + P
 
 bindsym F9 exec $HOME/.config/i3/toggle-terminal.sh
 
-# Image viewer
-bindsym $mod+I exec --no-startup-id nomacs
-
 # Media controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -2%
@@ -302,23 +299,24 @@ bindsym $mod+F6 exec $HOME/.config/i3/brightness_control.sh inc 20
 
 # Startup
 exec --no-startup-id picom --config $HOME/.config/i3/compton.config
-exec --no-startup-id xrandr --output DP-1-1 --mode 1920x1080 --pos 1920x0 --output DP-1-8 --mode 1920x1080 --pos 0x0 && xrandr --output DP-1-8 --primary
+exec --no-startup-id xrandr --output $secondary-display --right-of $primary-display && xrandr --output $primary-display --primary
 exec --no-startup-id conky -c $HOME/.config/i3/.conky
 exec --no-startup-id redshift-gtk
 exec --no-startup-id xset -dpms
 exec --no-startup-id start-pulseaudio-x11
 
 # + Tools and services
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-exec --no-startup-id pasystray
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &  # ToDo: use lxsession?
+exec --no-startup-id pasystray --always-notify
 exec --no-startup-id nm-applet
+exec --no-startup-id opensnitch-ui
 exec --no-startup-id blueman-applet
 exec --no-startup-id pamac-tray
 exec --no-startup-id shutter --min_at_startup
 exec --no-startup-id gpick
 
 # + Applications
-exec --no-startup-id firefox
+exec --no-startup-id $HOME/.config/i3/toggle-terminal.sh --startup
 exec --no-startup-id spotify
 exec --no-startup-id telegram-desktop
 exec --no-startup-id discord

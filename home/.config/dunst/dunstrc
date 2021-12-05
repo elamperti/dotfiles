@@ -1,3 +1,4 @@
+
 [global]
   ### Display ###
 
@@ -5,7 +6,7 @@
 
   # Display notification on focused monitor. Possible modes are: mouse/keyboard/none
   # If this option is set to mouse or keyboard, the monitor option will be ignored.
-  follow = mouse
+  follow = none
 
   # The geometry of the window:
   #   [{width}]x{height}[+/-{x}+/-{y}]
@@ -39,7 +40,7 @@
   # Draw a line of "separator_height" pixel height between two
   # notifications.
   # Set to 0 to disable.
-  separator_height = 2
+  separator_height = 0
 
   # Padding between text and separator.
   padding = 8
@@ -49,7 +50,7 @@
 
   # Defines width in pixels of frame around the notification window.
   # Set to 0 to disable.
-  frame_width = 2
+  frame_width = 1
 
   # Defines color of the frame around the notification window.
   frame_color = "#aaaaaa"
@@ -63,7 +64,7 @@
   separator_color = frame
 
   # Sort messages by urgency.
-  sort = yes
+  sort = no
 
   # Don't remove messages, if the user is idle (no mouse or keyboard input)
   # for longer than idle_threshold seconds.
@@ -86,8 +87,8 @@
   #        <s>strikethrough</s>
   #        <u>underline</u>
   #
-  #        For a complete reference see
-  #        <http://developer.gnome.org/pango/stable/PangoMarkupFormat.html>.
+  #        For a complete reference see:
+  #        https://developer.gnome.org/pygtk/stable/pango-markup-language.html
   #
   # strip: This setting is provided for compatibility with some broken
   #        clients that send markup even though it's not enabled on the
@@ -113,7 +114,7 @@
   #   %n  progress value if set without any extra characters
   #   %%  Literal %
   # Markup is allowed
-  format = "<b>%s</b>\n%b"
+  format = "<b>%s</b> %p\n%b"
 
   # Alignment of message text.
   # Possible values are "left", "center" and "right".
@@ -145,7 +146,7 @@
   show_indicators = yes
 
   # Nifty corners
-  corner_radius = 2
+  corner_radius = 4
 
   ### Icons ###
 
@@ -219,7 +220,7 @@
   # Xev might be helpful to find names for keys.
 
   # Close notification.
-  # close = ctrl+space
+  close = Pause
 
   # Close all notifications.
   close_all = ctrl+Pause
@@ -231,29 +232,29 @@
   history = ctrl+shift+Pause
 
   # Context menu (mod1 = alt)
-  context = ctrl+mod1+Pause
+  context = mod1+Pause
 
 [urgency_low]
   # IMPORTANT: colors have to be defined in quotation marks.
   # Otherwise the "#" and following would be interpreted as a comment.
-  background = "#222222"
-  foreground = "#888888"
+  background = "#D3D3DF"
+  foreground = "#58607A"
   timeout = 10
   # Icon for notifications with low urgency, uncomment to enable
   #icon = /path/to/icon
 
 [urgency_normal]
-  background = "#87633d"
-  foreground = "#ffffff"
-  frame_color = "#59442e"
+  background = "#D3D3DF"
+  foreground = "#253569"
+  # frame_color = "#59442e"
   timeout = 10
   # Icon for notifications with normal urgency, uncomment to enable
   #icon = /path/to/icon
 
 [urgency_critical]
-  background = "#900000"
+  background = "#9C1C1C"
   foreground = "#ffffff"
-  frame_color = "#ff0000"
+  # frame_color = "#ff0000"
   timeout = 0
   # Icon for notifications with critical urgency, uncomment to enable
   #icon = /path/to/icon
@@ -290,29 +291,4 @@
 #    summary = "foobar"
 #    format = ""
 
-#[history-ignore]
-#    # This notification will not be saved in history
-#    summary = "foobar"
-#    history_ignore = yes
-
-#[signed_on]
-#    appname = Pidgin
-#    summary = "*signed on*"
-#    urgency = low
-#
-#[signed_off]
-#    appname = Pidgin
-#    summary = *signed off*
-#    urgency = low
-#
-#[says]
-#    appname = Pidgin
-#    summary = *says*
-#    urgency = critical
-#
-#[twitter]
-#    appname = Pidgin
-#    summary = *twitter.com*
-#    urgency = normal
-#
 # vim: ft=cfg

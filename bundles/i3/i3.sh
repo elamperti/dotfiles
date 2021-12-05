@@ -1,7 +1,7 @@
 #!/bin/bash
 
 get_name() { echo "i3"; }
-get_desc() { echo "i3 window manager with custom setup"; }
+get_desc() { echo "i3 window manager with custom setup (Debian)"; }
 
 pushd ".." &>/dev/null
 source "bundle-tools.sh"
@@ -42,6 +42,7 @@ on_init() {
     send_cmd enqueue_packages "sox" # To make screenshot sound
     send_cmd enqueue_packages "xdotool" # Used to toggle terminal window
     send_cmd enqueue_packages "xcape" # Map Super to Alt+F1
+    send_cmd enqueue_packages "imwheel" # Mouse behavior configuration
 
     send_cmd enqueue_packages "arc-theme"
     send_cmd enqueue_packages "moka-icon-theme"
