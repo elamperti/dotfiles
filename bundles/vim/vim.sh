@@ -44,7 +44,7 @@ after_installs() {
 
     # Deoplete requires pynvim
     if type -p pip3 >/dev/null 2>&1; then
-      pip3 install --user pynvim >/dev/null
+      pip3 install --user pynvim neovim >/dev/null
     else
       send_cmd log WARN "Python 3 is required for Deoplete"
     fi

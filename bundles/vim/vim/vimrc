@@ -251,7 +251,7 @@ endtry
 let g:airline_theme='cool'
 
 " Keep Vim background transparent
-" hi Normal guibg=NONE ctermbg=NONE
+hi Normal guibg=NONE ctermbg=NONE
 hi SignColumn guibg=NONE ctermbg=NONE
 hi LineNr guibg=NONE ctermbg=NONE
 hi NonText guibg=NONE ctermbg=NONE
@@ -360,12 +360,14 @@ inoremap <expr> <C-g> deoplete#undo_completion()
 " ----------------------------------------------------------------------
 
 " Set file type and make a vertical column on line 50
-au BufNewFile,BufRead *.ldg,*.ledger setf ledger | comp ledger | set colorcolumn=50
+au BufNewFile,BufRead *.ldg,*.ledger setf ledger | comp ledger | set colorcolumn=50,59
 
 " Use `{` and `}` to jump to other transactions
 au FileType ledger noremap { ?^\d<CR>
 au FileType ledger noremap } /^\d<CR>
 
+let g:ledger_bin = 'ledger'
+let g:ledger_main = 'main.ledger'
 let g:ledger_align_at = 50
 let g:ledger_commodity_before = 0
 let g:ledger_commodity_sep = ' '
@@ -441,9 +443,8 @@ if &term == "screen"
   set t_ts=k
   set t_fs=\
 endif
-if &term == "screen" || &term == "xterm"
-  set title
-endif
+
+set title
 
 " ----------------------------------------------------------------------
 " | Mappings                                                           |
