@@ -54,22 +54,36 @@ ${voffset -1}\
 ${endif}\
 ${endif}\
 ${goto 945}\
-${voffset 7}\
+${voffset 1}\
 ${font System San Francisco Display:style=Bold:size=8}${color gray}${time %a} ${color}${time %d %b} \
 ${goto 938}\
-${voffset -16}\
+${voffset -18}\
 ${font System San Francisco Display:style=Bold:size=14}${color}${time %H:%M}${color darkgray}:${time %S} \
 ${goto 1120}\
 ${font Droid Sans Mono:size=15}\
-${voffset 2}${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
+${voffset 6}${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
 ${voffset -1}${color darkgray}${font Droid Sans Mono:size=15}\
+${if_match ${memperc} > 65}\
+${color #FF0000}\
+${endif}\
 ${memperc}%\
 ${goto 1100}${offset 105}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
 ${if_existing /sys/class/net/enp4s0/operstate up} \
-${goto 1325}\
+${goto 1330}\
+${if_existing /sys/class/net/tun0/operstate}\
+${voffset -6}\
+${color #CF9933}${font Font Awesome 5 Free Solid:size=12} \
+${goto 1330}\
+${voffset 11}\
+${color #C0BC9F}${font System San Francisco Display:style=bold:size=6}VPN\
+${voffset -16}\
+${else}\
 ${voffset -1}\
 ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
+${endif}\
+${font Font Awesome 5 Free Solid:size=16}\
+${goto 1356}\
 ${voffset 1}\
 ${color #454545}${downspeedgraph enp4s0 19,50 1F8729 1BC62C 6250000 -t} \
 ${color #454545}${upspeedgraph enp4s0 19,50 547D93 57AAD6 2500000 -t} \
@@ -85,6 +99,24 @@ ${color #DFDFDF}${font Font Awesome 5 Free Solid:size=6} \
 ${voffset -3}\
 ${color 7ca2ba}${font Droid Sans Mono:size=8}\
 ${upspeedf enp4s0} Kb\
+${goto 1075}\
+${color #DFDFDF}\
+${voffset -12}\
+${font  Font Awesome 5 Pro Regular:size=8}\
+${goto 1088}${font System San Francisco Display:style=bold:size=6}\
+${if_match ${nvidia temp} > 65}\
+${color #FF0000}\
+${endif}\
+${nvidia temp}°C\
+${goto 1076}\
+${color #DFDFDF}\
+${voffset 12}\
+${font  Font Awesome 5 Pro Light:size=7}\
+${goto 1088}${font System San Francisco Display:style=bold:size=6}\
+${if_match ${hwmon 3 temp 2} > 54}\
+${color #FF0000}\
+${endif}\
+${hwmon 3 temp 2}°C\
 ${else}\
 ${goto 1300}\
 ${voffset -1}${color #DFDFDF}${font Font Awesome 5 Free Solid:size=16} \
