@@ -271,3 +271,46 @@ webserver() {
       python -m http.server $ws_port
     fi
 }
+
+# Reboot to Windows™
+win() {
+  trap 'return' SIGINT
+
+  # Ask for sudo now, before the countdown
+  sudo -v &>/dev/null
+
+  # Countdown
+  for i in {4..1}; do
+    echo -ne "\rRebooting to Windows in $i seconds, press Ctrl+C to abort"
+
+    # Wait for any key press
+    read -t 1 -n 1 -s
+
+    # If a key is pressed, skip the countdown
+    if [ $? -eq 0 ]; then
+        break
+    fi
+  done
+
+  # Go to beginning of line and clear the line
+  echo -e "\r$(tput el)"
+
+  # Try altering the UEFI boot sequence; if not possible, change the GRUB default option
+  if command -v efibootmgr &>/dev/null; then
+    sudo efibootmgr -n "$(efibootmgr -v|grep -oP '(?<=Boot)[0-9]{4}(?=.+Win)')" &>/dev/null
+  elif command -v grub-reboot &>/dev/null; then
+    sudo grub-reboot "$(awk -F\' '/Win/ {print $2}' /boot/grub/grub.cfg)"
+  else
+    echo "No compatible tools were found, impossible to alter boot sequence."
+    return 1
+  fi
+
+  # Reboot if the next boot is successfully pointed to Windows
+  if [ $? -eq 0 ]; then
+    echo "Rebooting to Windows now!"
+    sleep 0.5
+    reboot
+  else
+    echo "Error preparing for reboot, aborting."
+  fi
+}
