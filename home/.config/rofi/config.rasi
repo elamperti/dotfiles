@@ -1,13 +1,32 @@
 configuration {
   display-drun: "Activate";
+  lines: 6;
+  show-icons: true;
+
+  kb-cancel: "Escape";
   kb-move-end: "End";
   kb-move-front: "Home";
   kb-remove-word-back: "Control+BackSpace";
   kb-remove-word-forward: "Control+Delete";
+  kb-move-front: "Control+Home";
+  kb-remove-to-sol: "Control+Shift+Home";
+  kb-remove-to-eol: "Control+Shift+End";
+  // kb-move-char-back: "Shift+Left";
+  // kb-move-char-forward: "Shift+Right";
+  // kb-mode-previous: "Control+ISO_Left_Tab"; // Reset to use shift+left for moving characters
+  // kb-mode-next: "Control+Tab"; // Reset to use shift+right for moving characters
+  kb-delete-entry: "Shift+Delete";
   kb-row-first: "KP_Home";
   kb-row-last: "KP_End";
-  lines: 6;
-  show-icons: true;
+
+  drun-match-fields: "name,generic,exec";
+  drun-show-actions: false;
+  drun-use-desktop-cache: false;
+  drun-reload-desktop-cache: false;
+  drun {
+    parse-user: true;
+    parse-system: true;
+    }
 }
 
-@import "/home/elamperti/.config/rofi/themes/irk.rasi"
+@import "~/.config/rofi/themes/blurry.rasi"
