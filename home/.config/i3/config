@@ -22,7 +22,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+q kill
 
 # Rofi
-bindsym $alt+F1 exec i3-dmenu-desktop --dmenu='rofi -show drun -i -matching fuzzy -l -kb-cancel Escape'
+bindsym $alt+F1 exec "$HOME/.config/i3/app-launcher.sh"
 
 # change focus
 bindsym $mod+Left focus left
@@ -323,7 +323,7 @@ exec --no-startup-id firefox --class firefox
 # On reloads
 exec_always --no-startup-id xrdb -merge $HOME/.Xresources
 exec_always --no-startup-id xkbcomp -I$HOME/.xkb -R$HOME/.xkb $HOME/.xkbrc $DISPLAY
-exec_always --no-startup-id xcape -t 251 -e "Super_L=Alt_L|F1"
+exec_always --no-startup-id xcape -t 250 -e "Super_L=Alt_L|F1"
 exec_always --no-startup-id feh --bg-scale $HOME/dotfiles/wallpapers/desert-night.jpg
 
 # + Applications

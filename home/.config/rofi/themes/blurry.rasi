@@ -8,6 +8,7 @@ configuration {
     show-icons:                 true;
     display-drun:               "";
     drun-display-format:        "{name}";
+    kb-cancel: "Escape,Super_L"; // Override to add super key
 }
 
 * {
