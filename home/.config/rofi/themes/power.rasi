@@ -1,0 +1,114 @@
+/**
+ * Theme based on the work of Aditya Shakya (adi1090x)
+ **/
+
+/*****----- Configuration -----*****/
+configuration {
+    show-icons:                  false;
+    kb-move-char-forward: "Ctrl+f";
+    kb-row-down: "Down,Right";
+    kb-move-char-back: "Ctrl+b";
+    kb-row-up: "Up,Left";
+    cycle: true;
+}
+
+/*****----- Global Properties -----*****/
+* {
+    /* Resolution : 1920x1080 */
+    mainbox-spacing:             14px;
+    mainbox-margin:              70px;
+    message-border-radius:       16px;
+    listview-spacing:            45px;
+    element-border-radius:       64px;
+
+    textbox-font:                "System San Francisco Display 16";
+    element-text-font:           "Font Awesome 5 Free Regular 40";
+
+    background-window:           #1E2127CF;
+    background-normal:           #2E3137CC;
+    background-selected:         #7E8187DD;
+    foreground-normal:           white;
+    foreground-selected:         white;
+}
+
+/*****----- Main Window -----*****/
+window {
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       1100px;
+    border-radius:               32px;
+    cursor:                      "default";
+    background-color:            var(background-window);
+}
+
+/*****----- Main Box -----*****/
+mainbox {
+    enabled:                     true;
+    spacing:                     var(mainbox-spacing);
+    margin:                      var(mainbox-margin);
+    background-color:            transparent;
+    children:                    [ "inputbar", "listview", "message" ];
+}
+
+/*****----- Inputbar -----*****/
+inputbar {
+    enabled:                     false;
+}
+
+/*****----- Message -----*****/
+message {
+  enabled: true;
+  color: white/70%;
+  background-color: transparent;
+}
+
+textbox {
+    font:                        var(textbox-font);
+    background-color:            transparent;
+    text-color:                  inherit;
+}
+
+/*****----- Listview -----*****/
+listview {
+    enabled:                     true;
+    expand:                      false;
+    columns:                     6;
+    lines:                       1;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+
+    spacing:                     var(listview-spacing);
+    background-color:            transparent;
+    cursor:                      "default";
+}
+
+/*****----- Elements -----*****/
+element {
+    enabled:                     true;
+    padding:                     35px 0px;
+    border-radius:               var(element-border-radius);
+    background-color:            var(background-normal);
+    text-color:                  var(foreground-normal);
+    cursor:                      pointer;
+}
+element-text {
+    font:                        var(element-text-font);
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      inherit;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
+element selected.normal {
+    background-color:            var(background-selected);
+    text-color:                  var(foreground-selected);
+    border: 0px 0px 4px 0px;
+    // border-color: black/30%;
+}

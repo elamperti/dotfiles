@@ -139,18 +139,6 @@ bindsym $mod+r mode $resizeMode
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
-# System controls (power/session)
-set $systemMode System (S for shutdown, Z for sleep, L for lock, Q to logout)
-bindsym $mod+Scroll_Lock mode "$systemMode"
-mode "$systemMode" {
-  bindsym l exec i3lock -c 0f090c -f -i "$HOME/.config/i3/locked-1080p.png" &; mode "default"
-  bindsym s exec shutdown -hP now; mode "default"
-  bindsym r exec systemctl reboot &; mode "default"
-  bindsym z exec systemctl suspend &; mode "default"
-  bindsym q exec i3-msg exit &; mode "default"
-
-  bindsym Escape mode "default"
-}
 
 set $transparent         #00000000
 set $bg-color            #2c2933
@@ -274,6 +262,8 @@ for_window [class="Spotify"] border none
 bindsym Print exec --no-startup-id shutter -f -o "$HOME/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.jpg"
 bindsym --release $alt+Sys_Req exec --no-startup-id shutter -s # This is alt + Print Screen
 
+# System controls (power/session)
+bindsym $mod+Scroll_Lock exec $HOME/.config/rofi/power-menu.sh
 bindsym F9 exec $HOME/.config/i3/toggle-terminal.sh
 
 # Media controls
