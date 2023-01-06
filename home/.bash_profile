@@ -106,10 +106,13 @@ if [ -n "$SSH_CONNECTION" ]; then
 fi
 
 # Run tmux automatically for interactive SSH connections
+DISCONNECT_DELAY="3"
 if [ -z "$TMUX" ] && [[ $- == *i* ]] && [ -n "$SSH_CONNECTION" ]; then
-  tmux new -A -s ssh_client && \
-  echo "Will disconnect in 10 seconds... (Ctrl+C to abort)" && \
-  sleep 10 && exit
+  if command -v "tmux" &>/dev/null; then
+    tmux new -A -s ssh_client && \
+    echo "Will disconnect in ${DISCONNECT_DELAY} seconds... (Ctrl+C to abort)" && \
+    sleep ${DISCONNECT_DELAY} & exit
+  fi
 fi
 
 # Customized MOTD
