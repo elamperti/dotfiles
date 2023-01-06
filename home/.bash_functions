@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Plays a short notification sound
+beep() {
+  play -q ~/dotfiles/sounds/beep.wav &>/dev/null
+}
+
 # Change directory and list everything inside it
 cs() {
     cd "$@" && ls
@@ -130,7 +135,39 @@ lipsum() {
 
 # Make directory and enter immediately
 mkd() {
-    [ -n "$*" ] && mkdir -p "$@" && cd "$@"
+    [ -n "$*" ] && mkdir -p "$@" && cd "$_"
+}
+
+# Make a directory with a YYYYMMDD timestamp and enter immediately
+mkt() {
+  NEW_DIR="$(date "+%Y%m%d")"
+  if [ -n "$*" ]; then
+    NEW_DIR="${NEW_DIR} - $*"
+  fi
+  mkdir "${NEW_DIR}" && cd "${NEW_DIR}"
+}
+
+# Get your public IP + local one
+myip() {
+  local ip_local=$(ip -o route get to 1.1.1.1 | sed -n 's/.*src \([0-9.]\+\).*/\1/p')
+  echo "Local IP:    ${ip_local}"
+
+  local ip_external=$(curl --silent 'http://checkip.amazonaws.com/' 2>/dev/null)
+  echo "External IP: ${ip_external:-???}"
+
+  if command -v "nmcli" &>/dev/null; then
+    IFS=% read vpn_name vpn_device < <(nmcli -t -f NAME,TYPE,DEVICE c show --active|grep ":vpn"|cut -d ':' -f1,3 --output-delimiter '%')
+    if [ -n "${vpn_name}" ]; then
+      echo -n "VPN:         ${vpn_name} "
+
+echo $vpn_device
+      if ifconfig "${vpn_device}"|grep -q -E '(00-){15}00'; then
+        echo '(active)'
+      else
+        echo '(inactive)'
+      fi
+    fi
+  fi
 }
 
 # Prints a beatiful list of recent branches of the current repository
@@ -210,6 +247,11 @@ print_recent_branches() {
     fi
   done < <(git for-each-ref --sort=-committerdate --format="%(refname:short)" refs/heads/)
   echo -ne ${color_reset}
+}
+
+# Change ownership to current user
+pwn() {
+  sudo chown "$USER":"$USER" $@
 }
 
 # Search for text within the current directory
