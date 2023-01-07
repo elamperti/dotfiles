@@ -1,0 +1,26 @@
+{
+  "options": {
+    "hide_hostname_locally": "no"
+  },
+
+  "colors": {
+    "arrow_fg": "7",
+    "user_bg": "237",
+    "user_symbol_fg": "240",
+    "user_fg": "230",
+    "timing_fg": "244",
+    "hostname_fg": "230",
+    "hostname_symbol_fg": "208",
+    "ssh_user_fg": "230",
+    "ssh_term_bg_hex": "302318",
+
+    "path_bg": "234",
+    "path_fg": "214",
+    "path_home_fg": "166",
+    "path_cwd_fg": "221"
+  },
+
+  "symbol": {
+    "ssh": "💫"
+  }
+}
