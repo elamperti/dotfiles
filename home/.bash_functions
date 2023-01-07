@@ -356,3 +356,5 @@ win() {
     echo "Error preparing for reboot, aborting."
   fi
 }
+
+alias reboot-to-windows='win'
