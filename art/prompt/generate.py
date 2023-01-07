@@ -1,11 +1,19 @@
-#!/usr/bin/python
-import sys, re, json, codecs, collections, argparse
+#!/usr/bin/env python3
+
+import platform
+import re, json, codecs, collections.abc, argparse
 
 
 fgbg_function_regex = re.compile(r'([fb]g)\((.+)\)')
 
 template = ''
 variables = {'options': {}}
+
+current_platform = platform.system()
+generator_constants = {
+    'IS_MACOS': current_platform == 'Darwin',
+    'IS_LINUX': current_platform == 'Linux'
+}
 
 # Gets a keyword by dot notation (and prepares it if it's a color)
 def parse_keyword(obj, ref):
@@ -17,9 +25,9 @@ def parse_keyword(obj, ref):
             return None
 
     if key[-3:] == '_fg':
-        return '\[\e[38;5;' + val + 'm\]'
+        return f'\[\e[38;5;{val}m\]'
     elif key[-3:] == '_bg':
-        return '\[\e[48;5;' + val + 'm\]'
+        return f'\[\e[48;5;{val}m\]'
     else:
         return val
 
@@ -53,15 +61,20 @@ def process_variable_match(match):
 # Matches:
 # {~ option ~} thing to be toggled {~ /option ~}
 def process_option_match(match):
-    if parse_keyword(variables['options'], match.group(2)) == 'yes':
-        if match.group(1) is None:
+    negate = match.group(1) == '!'
+    if parse_keyword(variables['options'], match.group(2)) == 'yes' or parse_keyword(generator_constants, match.group(2)):
+        if not negate:
             return match.group(3)
+    else:
+        if negate:
+            return match.group(3)
+
     return ''
 
 # https://stackoverflow.com/a/3233356/854076
 def update_style(d, u):
-    for k, v in u.iteritems():
-        if isinstance(v, collections.Mapping):
+    for k, v in u.items():
+        if isinstance(v, collections.abc.Mapping):
             r = update_style(d.get(k, {}), v)
             d[k] = r
         else:

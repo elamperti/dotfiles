@@ -52,10 +52,15 @@ completely_dynamic_prompt() {
     #################
 
     # Get battery capacity, check if AC is plugged
+    {~ IS_LINUX ~}
     local power_supply_capacity="$(cat /sys/class/power_supply/BAT0/capacity)"
     local power_ac_online="$(cat /sys/class/power_supply/AC/online)"
+    {~ /IS_LINUX ~}
+    {~ IS_MAC ~}
+    read -r power_ac_online power_supply_capacity <<<$(pmset -g batt|awk 'NR==1{print ($0 ~ /AC Power/);next}{sub(/%;.*/,"");print}'|grep -o -E "[0-9]+$")
+    {~ /IS_MAC ~}
 
-    if [ $power_ac_online -ne 1 ] || [ $power_supply_capacity -lt 99 ]; then
+    if [ $power_ac_online -lt 1 ] || [ $power_supply_capacity -lt 99 ]; then
         local batt_icons=""
         local batt_icon_index=11
         local batt_bg=""
@@ -77,7 +82,7 @@ completely_dynamic_prompt() {
         # Set bg+fg color, add corresponding icon
         PS1+="\e[48;5;${batt_bg}m\e[97m ${batt_blink}${batt_icons:$batt_icon_index:1}${batt_blink/5/25}"
         # Add AC icon if connected
-        [ $power_ac_online -eq 1 ] && PS1+="⚡"
+        [ $power_ac_online -ge 1 ] && PS1+="⚡"
         # Percentage value
         PS1+=" ${power_supply_capacity}%"
         # Closing arrow
@@ -93,11 +98,13 @@ completely_dynamic_prompt() {
     # Reset, set username background color
     PS1+="\[\e[0m\]{{ colors.user_bg }}"
 
-    # Set username color for SSH connctions, overriden later if local
-    PS1+="{{ colors.ssh_user_fg }}"
     # Show user icon only if not going through a SSH connection
-    # because I don't want my prompt to be an emoji parade
-    [ -z "$SSH_CONNECTION" ] && PS1+="{{ colors.user_symbol_fg }} {{ symbol.user }} {{ colors.user_fg }}"
+    # because I don't want my prompt to be an icon parade
+    if [ -z "$SSH_CONNECTION" ]; then
+      PS1+="{{ colors.user_symbol_fg }} {{ symbol.user }} {{ colors.user_fg }}"
+    else
+      PS1+=" {{ colors.ssh_user_fg }}"
+    fi
     # Print username
     PS1+="{{ strings.username }} "
 
