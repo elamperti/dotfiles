@@ -61,16 +61,6 @@ if [ -d "${ANDROID_HOME}" ]; then
   export ANDROID_SDK_ROOT="${ANDROID_HOME}"
 fi
 
-# CUDA binaries + libs
-if [ -d /usr/local/cuda ]; then
-  PATH="$PATH:/usr/local/cuda/bin"
-  if [ "$(getconf LONG_BIT)" -eq 64 ]; then
-    LD_LIBRARY_PATH=/usr/local/cuda/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-  else
-    LD_LIBRARY_PATH=/usr/local/cuda/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-  fi
-fi
-
 # Node.js global packages
 [ -z "${NPM_PACKAGES}" ] && [ ! -f "${NVM_DIR:-$HOME/.nvm}/nvm.sh" ] && export NPM_PACKAGES="${HOME}/.npm-packages"
 if [ -d "${NPM_PACKAGES}" ]; then
