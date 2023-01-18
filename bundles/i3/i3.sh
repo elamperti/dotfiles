@@ -26,10 +26,10 @@ on_init() {
     send_cmd enqueue_packages "moka-icon-theme" # snwh/ppa
 
     send_cmd log DEBUG "Downloading FA5 fonts..."
-    local FONTAWESOME_VERSION="5.3.1"
-    wget -O ~/.fonts/fa-regular-400.otf "https://github.com/FortAwesome/Font-Awesome/blob/${FONTAWESOME_VERSION}/use-on-desktop/Font%20Awesome%205%20Free-Regular-400.otf?raw=true"
-    wget -O ~/.fonts/fa-solid-900.otf "https://github.com/FortAwesome/Font-Awesome/blob/${FONTAWESOME_VERSION}/use-on-desktop/Font%20Awesome%205%20Free-Solid-900.otf?raw=true"
-    wget -O ~/.fonts/fa-brands-400.otf "https://github.com/FortAwesome/Font-Awesome/blob/${FONTAWESOME_VERSION}/use-on-desktop/Font%20Awesome%205%20Brands-Regular-400.otf?raw=true"
+    local FONTAWESOME_VERSION="5.15.4"
+    wget -qO ~/.fonts/fa-regular-400.otf "https://github.com/FortAwesome/Font-Awesome/blob/${FONTAWESOME_VERSION}/otfs/Font%20Awesome%205%20Free-Regular-400.otf?raw=true"
+    wget -qO ~/.fonts/fa-solid-900.otf   "https://github.com/FortAwesome/Font-Awesome/blob/${FONTAWESOME_VERSION}/otfs/Font%20Awesome%205%20Free-Solid-900.otf?raw=true"
+    wget -qO ~/.fonts/fa-brands-400.otf  "https://github.com/FortAwesome/Font-Awesome/blob/${FONTAWESOME_VERSION}/otfs/Font%20Awesome%205%20Brands-Regular-400.otf?raw=true"
 
     # send_cmd enqueue_packages "i3blocks"
     send_cmd enqueue_packages "conky"
@@ -43,6 +43,7 @@ on_init() {
     send_cmd enqueue_packages "xdotool" # Used to toggle terminal window
     send_cmd enqueue_packages "xcape" # Map Super to Alt+F1
     send_cmd enqueue_packages "imwheel" # Mouse behavior configuration
+    send_cmd enqueue_packages "numlockx" # Numlock toggler
 
     send_cmd enqueue_packages "arc-theme"
     send_cmd enqueue_packages "moka-icon-theme"
