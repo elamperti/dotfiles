@@ -76,6 +76,37 @@ gcl() {
   git clone $@ && cd "$(basename "${2:-$1}" .git)"
 }
 
+# Git commit --amend --no-edit --no-verify with modified timestamp
+gcanh() {
+  echo "This will modify the commit's date."
+  # "You can use expressions such as 'now', 'tomorrow' and specific dates/times (e.g. '7 Nov', '14:30')."
+  # "Relative values can be used as well (e.g. '+1 day', '+4 hours', '2 days ago', etc.)"
+
+  if [ -z "$1" ]; then
+    read -p "New date: "
+
+    if [ -z "${REPLY}" ]; then
+      echo "No input, aborting"
+      return
+    fi
+  else
+    REPLY="$*"
+  fi
+
+  FORMATTED_DATE=$(date -R --date="${REPLY}")
+  if [ "$?" -ne 0 ]; then
+    echo "Unexpected date format, aborting"
+    return
+  fi
+
+  export GIT_COMMITTER_DATE="${FORMATTED_DATE}"
+
+  git commit --amend --no-edit --no-verify --date="${FORMATTED_DATE}"
+  echo "Date set to ${FORMATTED_DATE}"
+
+  unset GIT_COMMITTER_DATE
+}
+
 # Git fetch new branch + checkout
 gfb() {
     git fetch origin $1:$1 && git checkout $1

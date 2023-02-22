@@ -54,6 +54,7 @@ if type __git_complete &>/dev/null; then
   __git_complete gc _git_commit
   __git_complete gca _git_commit
   __git_complete gcan _git_commit
+  __git_complete gcanh _git_commit
   __git_complete gd _git_diff
   __git_complete gds _git_diff
   __git_complete gfa _git_fetch
