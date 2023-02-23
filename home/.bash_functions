@@ -164,6 +164,21 @@ lipsum() {
   fi
 }
 
+# List paths and friendly name of connected USB devices
+# via https://unix.stackexchange.com/a/144735/95310
+lsusbdev() {
+  for sysdevpath in $(find /sys/bus/usb/devices/usb*/ -name dev); do
+    (
+        syspath="${sysdevpath%/dev}"
+        devname="$(udevadm info -q name -p $syspath)"
+        [[ "$devname" == "bus/"* ]] && exit
+        eval "$(udevadm info -q property --export -p $syspath)"
+        [[ -z "$ID_SERIAL" ]] && exit
+        echo "/dev/$devname - $ID_SERIAL"
+    )
+  done
+}
+
 # Make directory and enter immediately
 mkd() {
     [ -n "$*" ] && mkdir -p "$@" && cd "$_"
@@ -191,7 +206,6 @@ myip() {
     if [ -n "${vpn_name}" ]; then
       echo -n "VPN:         ${vpn_name} "
 
-echo $vpn_device
       if ifconfig "${vpn_device}"|grep -q -E '(00-){15}00'; then
         echo '(active)'
       else
@@ -306,7 +320,7 @@ ssh() {
     source ~/.bash_prompt
 }
 
-# Define a title for the current terminal
+# Define a title on the current terminal
 title() {
     echo -en "\033]0;$@\a"
 }
