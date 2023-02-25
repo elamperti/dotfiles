@@ -196,16 +196,6 @@ call plug#begin('~/.vim/plugins')
     " Search and get information about unicode chars
     " Plug 'chrisbra/unicode.vim'
 
-    if has('python3')
-        if has('nvim')
-            Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-        else
-            Plug 'Shougo/deoplete.nvim'
-            Plug 'roxma/nvim-yarp'
-            Plug 'roxma/vim-hug-neovim-rpc'
-        endif
-    endif
-
     " -----------------------
     " | Syntax highlighting |
     " -----------------------
@@ -235,6 +225,7 @@ call plug#end()
 
 filetype on
 
+
 " ----------------------------------------------------------------------
 " | Color Scheme                                                       |
 " ----------------------------------------------------------------------
@@ -261,6 +252,7 @@ hi NonText guibg=NONE ctermbg=NONE
 " ----------------------------------------------------------------------
 " | Airline                                                            |
 " ----------------------------------------------------------------------
+"
 " Show buffers as tabs
 let g:airline#extensions#tabline#enabled = 1
 
@@ -270,6 +262,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 " Use powerline fonts
 let g:airline_powerline_fonts = 1
 
+
 " ----------------------------------------------------------------------
 " | Markdown                                                           |
 " ----------------------------------------------------------------------
@@ -278,6 +271,7 @@ let g:airline_powerline_fonts = 1
 " https://github.com/plasticboy/vim-markdown#disable-folding
 
 let g:vim_markdown_folding_disabled=1
+
 
 " ----------------------------------------------------------------------
 " | CtrlP                                                              |
@@ -308,6 +302,7 @@ let g:AutoClosePumvisible = {"ENTER": "\<C-Y>", "ESC": "\<ESC>"}
 " autocmd FileType html,tpl,css,sass EmmetInstall
 " imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
+
 " ----------------------------------------------------------------------
 " | Move lines                                                         |
 " ----------------------------------------------------------------------
@@ -317,35 +312,6 @@ let g:move_map_keys = 0
 " vmap <a-]> <Plug>MoveBlockDown
 " nmap <a-[> <Plug>MoveLineUp
 " nmap <a-]> <Plug>MoveLineDown
-
-" ----------------------------------------------------------------------
-" | Deoplete                                                           |
-" ----------------------------------------------------------------------
-
-
-function! s:check_backspace() abort
-    let l:column = col('.') - 1
-    return !l:column || getline('.')[l:column - 1] =~ '\s'
-endfunction
-
-let g:deoplete#enable_at_startup = 1
-"let g:deoplete#auto_complete = 0
-call deoplete#custom#option('auto_complete', v:false)
-" call deoplete#custom#set('buffer', 'min_pattern_length', 3)
-
-" inoremap <silent><expr> <Tab>
-"         \ pumvisible() ? "\<C-n>" :
-"         \ <SID>check_backspace() ? "\<Tab>" :
-"         \ deoplete#manual_complete()
-inoremap <expr> <C-h>
-        \ deoplete#smart_close_popup() . "\<C-h>"
-inoremap <expr> <BS>
-        \ deoplete#smart_close_popup() . "\<C-h>"
-inoremap <expr> <C-g> deoplete#undo_completion()
-
-
-" Make `<TAB>` autocomplete
-"inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 
 " ----------------------------------------------------------------------
@@ -365,9 +331,10 @@ let g:ledger_align_at = 50
 let g:ledger_commodity_before = 0
 let g:ledger_commodity_sep = ' '
 let g:ledger_default_commodity = 'ARS'
+let g:ledger_fillstring = '                                                -'
 let g:ledger_date_format = '%m-%d'
 let g:ledger_detailed_first = 1
-let g:ledger_extra_options = '--pedantic --explicit --check-payees'
+let g:ledger_extra_options = '--pedantic --explicit'
 let g:ledger_maxwidth = 80
 
 highlight LedgerNumber ctermfg=2
