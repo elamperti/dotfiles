@@ -1,0 +1,25 @@
+# Theme
+Net/ThemeName "WhiteSur-Dark"
+Net/IconThemeName "WhiteSur-orange-dark"
+Gtk/CursorThemeName "Vanilla-DMZ"
+
+# Typography
+Gtk/FontName "System San Fransisco Display Regular 10"
+Xft/Antialias 1
+Xft/Hinting 1
+Xft/HintStyle "hintslight"
+Xft/RGBA "rgb"
+
+# Display settings
+# DPI = 1024 * value; in this case 96 DPI
+Xft/DPI 98304
+
+# Other misc GTK settings
+Gtk/ButtonImages 1
+Gtk/CanChangeAccels 1
+Gtk/CursorThemeSize 0
+Gtk/EnableEventSounds 0
+Gtk/EnableInputFeedbackSounds 0
+Gtk/MenuImages 1
+Gtk/ToolbarIconSize 3
+Gtk/ToolbarStyle "icons"
