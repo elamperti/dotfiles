@@ -9,8 +9,7 @@ popd &>/dev/null
 
 verify_requirements() {
     if ! cmd_exists "dpkg"; then
-        # What the hell? dpkg?! Come on, this is not even using a deb package!
-        # Calm down. It's just because I use it to compare versions on `needs_update()`
+        # dpkg is just used to compare versions in `needs_update()`
         # ToDo: implement a version comparator or research `sort -V` usability
         exit 1
     fi
