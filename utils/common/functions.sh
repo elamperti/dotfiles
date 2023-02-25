@@ -49,9 +49,10 @@ clear_last_line() {
 create_backup_directory() {
     local backup_directory="$(dirname "${BASH_SOURCE[0]}")/../backups/"
     if [ ! -d "${backup_directory}" ]; then
-        mkdir -p "${backup_directory}" && return 0
+        mkdir -p "${backup_directory}"
+        return $?
     fi
-    return 1 # Already exists or error creating
+    return 99 # Already exists
 }
 
 # I was born in MS-DOS.
@@ -120,7 +121,7 @@ stow_and_verify() {
             stow_and_verify $@ || ([ -v new_path ] && popd &>/dev/null; return 1)
         fi
     fi
-    [ -v new_path ] && popd  &>/dev/null
+    [ -v new_path ] && popd &>/dev/null
     return 0
 }
 

@@ -25,7 +25,7 @@ else
   statusWarning="!"
 fi
 
-if ! command -v openssl &>/dev/null; then
+if ! command -v "openssl" &>/dev/null; then
   echo -e "Please install ${fg_white}${bold}openssl${normal} to check the expiration dates of SSL certificates."
 else
   currentTime=$(date +%s)

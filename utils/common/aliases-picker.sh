@@ -12,7 +12,7 @@ pick_aliases() {
   local aliases_to_be_sourced=""
 
   exec 3>&1;
-  local selected_aliases=$(dialog --keep-tite --title 'MOTD' \
+  local selected_aliases=$(dialog --keep-tite --title 'Aliases' \
       --checklist 'Pick which sets of aliases should be enabled:' 20 60 16\
       ${aliases_files[@]} \
       2>&1 1>&3 \

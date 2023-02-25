@@ -1,10 +1,10 @@
 #!/bin/bash
 
 __install_packages() {
-  if command -v yay; then
+  if command -v "yay" &>/dev/null; then
     yay -S $@ # &> /dev/null
   else
-    pacman -S $@ # &> /dev/null
+    sudo pacman -S $@ # &> /dev/null
   fi
 }
 
