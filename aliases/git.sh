@@ -19,21 +19,22 @@ alias gfa='git fetch --all'
 alias gk='git checkout'
 alias gkb='git checkout -b'
 alias gl='git log --oneline --decorate'
+alias glt='git log --oneline --decorate -10'
 alias glo='git log'
 alias gm='git merge'
 alias gmt='git mergetool'
 alias gmv='git mv'
 alias gol='git log --oneline'
 alias gpl='git pull'
-alias gplom='git pull origin master'
+alias gplom='git pull origin $(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null|sed "s@^origin/@@" || echo "main")'
 alias gps='git push'
 alias gpsoh='git push origin HEAD'
 alias gpsohf='git push origin HEAD --force' # Yes, this makes sense to me
-alias gpsom='git push origin master'
+alias gpsom='git push origin $(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null|sed "s@^origin/@@" || echo "main")'
 alias grb='git rebase'
 alias grbc='git rebase --continue'
 alias grba='git rebase --abort'
-alias grbm='git rebase master'
+alias grbm='git rebase $(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null|sed "s@^origin/@@" || echo "main")'
 alias grm='git rm --cached'
 alias grs='git reset'
 alias gs='git status' # -sb
@@ -62,6 +63,7 @@ if type __git_complete &>/dev/null; then
   __git_complete gkb _git_checkout
   __git_complete gkp _git_checkout
   __git_complete gl _git_log
+  __git_complete glt _git_log
   __git_complete glo _git_log
   __git_complete gm _git_merge
   __git_complete gmt _git_merge
