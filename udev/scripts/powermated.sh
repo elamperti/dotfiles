@@ -11,6 +11,6 @@ fi
 prob_user=$(who|grep " :0"|head -n1|awk '{print $1}')
 
 # Start powermated
-if command -v /usr/local/bin/powermated >/dev/null; then
+if command -v "/usr/local/bin/powermated" &>/dev/null; then
     echo 'sleep 1 && powermated &'| su - "${prob_user:-elamperti}" -c 'at now' -s /bin/sh
 fi

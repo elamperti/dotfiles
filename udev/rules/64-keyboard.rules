@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="usb", ENV{ID_VENDOR_ID}=="04d9", ENV{ID_MODEL_ID}=="a0ce", RUN+="/opt/udev_scripts/keyboard.sh"

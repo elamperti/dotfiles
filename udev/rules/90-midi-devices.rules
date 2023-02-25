@@ -1,0 +1,12 @@
+#!/bin/bash
+
+DEVICE_NAME="LPD8"
+
+aseqdump -p "${DEVICE_NAME}" | \
+while IFS=" ," read src ev1 ev2 ch label1 data1 label2 data2 rest; do
+    case "$ch $ev1 $ev2 $data1" in
+        # Examples:
+        # "0 Note on 36" ) xdotool type hello ;;
+        # "0 Note on 48" ) xdotool key ctrl+j ;;
+    esac
+done
