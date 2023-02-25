@@ -6,7 +6,7 @@ local settings = {
     -- Number of CPU cores. Leave on 0 to auto-detect (if setting manually, see core_loads)
     cores = 0,
     x = 1240,
-    y = 5,
+    y = 6,
     total_width = 72,
     total_height = 26,
     padding = 2,
