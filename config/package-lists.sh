@@ -14,11 +14,13 @@ common_packages="
     gcal: the GNU calendar (useful to see holidays)
     git: popular distributed version control system
     git-crypt: transparent encryption for repositories
+    gnuplot: graphing utility
     htop: interactive process viewer
     httpie: CLI user-friendly HTTP client
     i2c-tools: I²C tools (e.g. i2c-detect)
     imagemagick: image manipulation tools
     ledger: double-entry accounting system
+    libheif: convert HEIF/HEIC images to other formats
     libimage-exiftool-perl: EXIF metadata viewer (exiftool)
     moreutils: sponge, vipe, pee and other utilities
     mosh: utility for intermittent SSH conections
@@ -26,13 +28,15 @@ common_packages="
     net-tools: common network tools (netstat, arp, route)
     ncdu: pretty disk space analyzer
     ntp: synchronize time using NTP
+    rclone: utility to backup and sync files
     rename: modify file names using complex expressions
     ssh: OpenSSH client
+    ssh-audit: server/client SSH config auditor
     sshfs: mount directories over SSH
     tmux: terminal multiplexer (similar to \`screen\`)
     units: perform unit conversion from CLI
     unrar: extracts RAR files
-    dropbear: alternative SSH server
+    yt-dlp: extract video from YouTube and other websites
 "
 
 graphical_packages="
@@ -40,8 +44,9 @@ graphical_packages="
     blueman: Bluetooth manager
     bookletimposer: basic PDF document imposition
     filezilla: FTP client
+    ffmpegthumbnailer: Creates thumbnails for videos (Tumbler)
     gpick: color picker
-    livestreamer: extract video from YouTube and other websites
+    imwheel: tweaks mouse behavior
     nemo: simple file explorer
     nomacs: quick image viewer (nice IrfanView alternative)
     openscad: Parametric solid 3D CAD modeller
@@ -51,13 +56,16 @@ graphical_packages="
     redshift: adjusts screen color at night
     remmina: VNC and RDP client
     shutter: feature-rich screenshot tool
+    shotcut: video editor
     simplescreenrecorder: records parts of the screen to video
     telegram-desktop: Telegram client
     thunar: file manager (requires tumbler package)
     ttf-apple-emoji: Apple emoji font
+    tumbler: creates thumbnails (suggested for Thunar)
     visual-studio-code-bin: Visual Studio Code (AUR)
     vlc: media player
     wmctrl: interact with Extended Window Manager Hints
+    xbacklight: display brightness control
     xclip: command line interface for clipboard
 "
 
@@ -76,6 +84,7 @@ i3_packages="
     arandr: graphical interface for xrandr
     lxappearance: tool to customize look and feel of your desktop
     pasystray: control the volume from the systray
+    lightdm-settings: customize login background and settings
 "
 
 declare -A dialog_title
