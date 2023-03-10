@@ -321,7 +321,7 @@ exec --no-startup-id start-pulseaudio-x11
 
 # + Tools and services
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &  # ToDo: use lxsession
-exec --no-startup-id pasystray --always-notify
+exec --no-startup-id pasystray --notify=all
 exec --no-startup-id nm-applet
 exec --no-startup-id opensnitch-ui
 exec --no-startup-id blueman-applet
