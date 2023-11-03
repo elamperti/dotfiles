@@ -17,5 +17,9 @@ if xdotool search --limit 1 --class $DROPDOWN_CLASS 1>/dev/null 2>/dev/null; the
   fi
 else
   kitty --single-instance --class $DROPDOWN_CLASS 1>/dev/null 2>/dev/null &
-  [ -n "$1" ] && _hide_kitty || _show_kitty
+  if [ "$1" = "--startup" ]; then
+    # Wait until kitty window is ready
+    xdotool search --sync --onlyvisible --class "$DROPDOWN_CLASS"
+    _hide_kitty
+  fi
 fi

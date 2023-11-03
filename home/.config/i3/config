@@ -1,5 +1,6 @@
 # i3 config file
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
+# shellcheck disable=all
 
 set $mod Mod4
 set $alt Mod1
@@ -22,7 +23,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+q kill
 
 # Rofi
-bindsym $alt+F1 exec "$HOME/.config/i3/app-launcher.sh"
+bindsym $alt+F1 exec "$HOME/.config/i3/scripts/app-launcher.sh"
 
 # change focus
 bindsym $mod+Left focus left
@@ -67,19 +68,23 @@ bindsym $mod+a focus parent
 # focus the child container
 #bindsym $mod+d focus child
 
-set $workspace1 "1 "
-set $workspace2 "2 "
-set $workspace3 "3 "
-set $workspace4 "4 "
-set $workspace5 "5 "
-set $workspace6 "6 "
-set $workspace7 "7 "
-set $workspace8 "8 ﭮ"
-set $workspace9 "9 "
+# Workspaces
+set $workspace1  "1 "
+set $auxiliar1   "1 "
+set $workspace2  "2 "
+set $workspace3  "3 "
+set $workspace4  "4 "
+set $workspace5  "5 "
+set $workspace6  "6 "
+set $workspace7  "7 "
+set $workspace8  "8 ﭮ"
+set $workspace9  "9 "
 set $workspace10 "10 "
 set $workspace11 "11 ﵁"
 
+# Display assignments
 workspace $workspace1 output $primary-display $secondary-display
+workspace $auxiliar1 output $secondary-display $primary-display
 workspace $workspace2 output $primary-display $secondary-display
 workspace $workspace3 output $secondary-display $primary-display
 workspace $workspace4 output $primary-display $secondary-display
@@ -93,9 +98,9 @@ workspace $workspace11 output $secondary-display $primary-display
 
 # switch to workspace
 bindsym $mod+grave workspace $workspace11
-bindsym $mod+1 workspace $workspace1
+bindsym $mod+1 workspace $workspace1; exec "$HOME/.config/i3/scripts/focus-devtools.sh 1\ "
 bindsym $mod+2 workspace $workspace2
-bindsym $mod+3 exec "$HOME/.config/i3/launch-in-workspace.sh 3\  thunar"
+bindsym $mod+3 exec "$HOME/.config/i3/scripts/launch-in-workspace.sh 3\  Thunar"
 bindsym $mod+4 workspace $workspace4
 bindsym $mod+5 workspace $workspace5
 bindsym $mod+6 workspace $workspace6
@@ -103,9 +108,6 @@ bindsym $mod+7 workspace $workspace7
 bindsym $mod+8 workspace $workspace8
 bindsym $mod+9 workspace $workspace9
 bindsym $mod+0 workspace $workspace10
-
-bindsym $alt+Tab workspace next
-bindsym $alt+Shift+Tab workspace prev
 
 # move focused container to workspace
 bindsym $mod+Shift+grave move container to workspace $workspace11
@@ -121,7 +123,11 @@ bindsym $mod+Shift+9 move container to workspace $workspace9
 bindsym $mod+Shift+0 move container to workspace $workspace10
 
 # Specific workspace layouts
+for_window [workspace=$auxiliar1] layout stacking
 for_window [workspace=$workspace6] layout stacking
+for_window [workspace=$workspace7] layout stacking
+for_window [workspace=$workspace3] layout splitv
+for_window [class="^(?!Thunar).*" workspace=$workspace3] move left
 
 # resize window (you can also use the mouse for that)
 set $resizeMode "Resize"
@@ -211,16 +217,19 @@ smart_gaps on
 gaps inner 16
 hide_edge_borders smart
 
+# Icons
+for_window [all] title_window_icon on
+for_window [all] title_window_icon padding 4px
+
 # Floating windows
 for_window [class="Blueman-manager"] floating enable
-for_window [class="firefox"] border pixel 1
-for_window [class="firefox" window_role="page-info"] border normal 1
 for_window [class="firefox" window_role="page-info"] floating enable
-for_window [class="Gnome-calculator"] floating enable sticky enable
+for_window [class="gnome-calculator"] floating enable sticky enable
 for_window [class="kitty"] floating enable sticky enable
 for_window [title="Loading Tixati..."] floating enable
 for_window [title="File Operation Progress"] floating enable # Thunar
 for_window [class="minecraft-launcher"] floating enable  # updater
+for_window [class="^se.llbit.chunky.*" title="Warning Summary"] floating enable
 for_window [class="net-fabricmc-installer-Main"] floating enable
 for_window [class="opensnitch-ui"] floating enable
 for_window [class="Pamac-manager" title="Transaction Summary"] floating enable
@@ -231,9 +240,15 @@ for_window [class="Simplescreenrecorder"] floating enable
 # Default workspaces (use xprop to inspect windows)
 # WM_CLASS shows [instance, class]
 # for xdo purposes take it as [winclassname, winclass]
+
+ # assign will only be executed when the application maps (displays on screen) the window
+ # for_window will be executed whenever a window property changes (matching the specified criteria)
+
 assign [class="epiphany"] $workspace1
 assign [instance="Navigator"] $workspace1
 for_window [instance="Navigator"] $workspace1
+assign [instance="Devtools"] $auxiliar1
+for_window [workspace=$auxiliar1] workspace $auxiliar1
 for_window [class="firefox"] $workspace1
 assign [class="firefox"] $workspace1
 assign [class="Code"] $workspace2
@@ -248,24 +263,28 @@ assign [class="Chromium"] $workspace4
 assign [class="cypress"] $workspace4
 assign [class="Steam"] $workspace5
 assign [title="Steam"] $workspace5
+assign [title="Steam setup"] $workspace5 # Updater
 for_window [class="Steam"] move to workspace $workspace5
 assign [class="net-minecraft-bootstrap-Bootstrap"] $workspace6
-assign [class="minecraft-launcher"] $workspace6
+for_window [class="Minecraft Launcher"] $workspace6
 assign [class="net-fabricmc-installer-Main"] $workspace6
 for_window [class="Minecraft"] move to workspace $workspace6
 assign [class="FML early loading progress"] $workspace6
 assign [class="amidst-Amidst"] $workspace6
+assign [class="^se.llbit.chunky.*"] $workspace6
 assign [class="photoshop.exe"] $workspace6
 assign [class="TelegramDesktop"] $workspace7
+assign [class="Whatsapp-for-linux"] $workspace7
 assign [class="Signal"] $workspace7
 assign [class="slack"] $workspace7
 assign [class="discord"] $workspace8
 for_window [class="discord"] move to workspace $workspace8
 assign [title="Discord Updater"] $workspace8
 assign [class="Tixati"] $workspace9
-assign [class="Pamac-manager"] $workspace9
+assign [class="pamac-manager"] $workspace9
 for_window [class="Spotify"] move to workspace $workspace10
 # for_window [name="thinkorswim"] move to workspace $workspace11
+assign [class="Sunsama"] $workspace11
 
 # Custom resizes/positions
 for_window [class="Authy Desktop"] floating disable; resize set 80 ppt 0
@@ -277,19 +296,21 @@ for_window [class="vlc"] no_focus
 
 # Borderless windows
 # (usually the ones that don't show a useful title)
-for_window [class="TelegramDesktop"] border none
 for_window [class="discord"] border none
+for_window [class="firefox"] border pixel 1
+for_window [class="firefox" window_role="page-info"] border normal 1
 for_window [class="Spotify"] border none
 for_window [class="Steam"] border none
+for_window [class="TelegramDesktop"] border none
 
 # General shortcuts
 # ToDo: use scrot instead and find alt editor for quick highlights
-bindsym Print exec --no-startup-id shutter -f -o "$HOME/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.jpg"
-bindsym --release $alt+Sys_Req exec --no-startup-id shutter -s # This is alt + Print Screen
+bindsym Print exec --no-startup-id shutter -f -o "$HOME/Screenshots/Screenshot_%Y-%m-%d-%H-%M-%S.jpg"
+bindsym --release $alt+Sys_Req exec --no-startup-id shutter -s -o "$HOME/Screenshots/Selection_%Y-%m-%d-%H-%M-%S.jpg" # This is alt + Print Screen
 
 # System controls (power/session)
 bindsym $mod+Scroll_Lock exec $HOME/.config/rofi/power-menu.sh
-bindsym F9 exec $HOME/.config/i3/toggle-terminal.sh
+bindsym F9 exec $HOME/.config/i3/scripts/toggle-terminal.sh
 
 # Media controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2%
@@ -297,18 +318,18 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle
 
-bindsym XF86AudioPlay exec $HOME/.config/i3/spotify_playPause.sh
-bindsym $ctrl+$alt+Home exec $HOME/.config/i3/spotify_playPause.sh
-bindsym XF86AudioPrev exec $HOME/.config/i3/spotify_prev.sh
-bindsym $ctrl+$alt+Prior exec $HOME/.config/i3/spotify_prev.sh
-bindsym XF86AudioNext exec $HOME/.config/i3/spotify_next.sh
-bindsym $ctrl+$alt+Next exec $HOME/.config/i3/spotify_next.sh
+bindsym XF86AudioPlay exec $HOME/.config/i3/scripts/spotify-play-pause.sh
+bindsym $ctrl+$alt+Home exec $HOME/.config/i3/scripts/spotify-play-pause.sh
+bindsym XF86AudioPrev exec $HOME/.config/i3/scripts/spotify-prev.sh
+bindsym $ctrl+$alt+Prior exec $HOME/.config/i3/scripts/spotify-prev.sh
+bindsym XF86AudioNext exec $HOME/.config/i3/scripts/spotify-next.sh
+bindsym $ctrl+$alt+Next exec $HOME/.config/i3/scripts/spotify-next.sh
 
 # Display brightness control
-bindsym XF86MonBrightnessDown exec $HOME/.config/i3/brightness_control.sh dec 20
-bindsym XF86MonBrightnessUp exec $HOME/.config/i3/brightness_control.sh inc 20
-bindsym $mod+F5 exec $HOME/.config/i3/brightness_control.sh dec 20
-bindsym $mod+F6 exec $HOME/.config/i3/brightness_control.sh inc 20
+bindsym XF86MonBrightnessDown exec $HOME/.config/i3/scripts/brightness_control.sh dec 20
+bindsym XF86MonBrightnessUp exec $HOME/.config/i3/scripts/brightness_control.sh inc 20
+bindsym $mod+F5 exec $HOME/.config/i3/scripts/brightness_control.sh dec 20
+bindsym $mod+F6 exec $HOME/.config/i3/scripts/brightness_control.sh inc 20
 
 # Startup
 exec --no-startup-id picom --config $HOME/.config/i3/compton.config
@@ -325,17 +346,16 @@ exec --no-startup-id pasystray --notify=all
 exec --no-startup-id nm-applet
 exec --no-startup-id opensnitch-ui
 exec --no-startup-id blueman-applet
-exec --no-startup-id pamac-tray
+exec --no-startup-id $HOME/dotfiles/bin/arch-updates.sh
 exec --no-startup-id shutter --min_at_startup
 exec --no-startup-id gpick
 exec --no-startup-id openrgb --startminimized --profile OrangeTeal
 
 # + Applications
 exec --no-startup-id firefox --class firefox
-exec --no-startup-id $HOME/.config/i3/toggle-terminal.sh --startup
+exec --no-startup-id $HOME/.config/i3/scripts/toggle-terminal.sh --startup
 exec --no-startup-id spotify
-exec --no-startup-id telegram-desktop
-exec --no-startup-id discord
+exec --no-startup-id sunsama
 
 # On reloads
 exec_always --no-startup-id xrdb -merge $HOME/.Xresources
@@ -349,3 +369,4 @@ exec_always --no-startup-id numlockx off
 
 # + Applications
 exec_always --no-startup-id powermate
+exec --no-startup-id $HOME/bin/streamdeck-start.sh
