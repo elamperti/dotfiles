@@ -18,8 +18,10 @@ export WAIT_DELAY="0.4" # Must be higher than xcape's timeout!
 # The parenthesis in the following command fork the {cmd} so it can be disowned.
 # LOCKFILE and WAIT_DELAY are exported variables, we can use them inside the
 # single quotes here, going against SC2016.
+# The output of the command *must* be piped because otherwise when this script
+# exits the expected stdout would be broken and some applications may complain.
 # shellcheck disable=SC2016
-RUN_COMMAND='bash -c "({cmd} &);sleep $WAIT_DELAY;rm \"$LOCKFILE\""'
+RUN_COMMAND='bash -c "({cmd} >/dev/null 2>&1 &);sleep $WAIT_DELAY;rm \"$LOCKFILE\""'
 
 if [ ! -f "${LOCKFILE}" ]; then
   # Store this script's PID into the lockfile
