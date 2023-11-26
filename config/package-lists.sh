@@ -45,6 +45,7 @@ graphical_packages="
     bookletimposer: basic PDF document imposition
     filezilla: FTP client
     ffmpegthumbnailer: Creates thumbnails for videos (Tumbler)
+    flameshot: screenshots and quick annotations
     gpick: color picker
     imwheel: tweaks mouse behavior
     nemo: simple file explorer
@@ -55,7 +56,6 @@ graphical_packages="
     poedit: a gettext translations editor (i18n)
     redshift: adjusts screen color at night
     remmina: VNC and RDP client
-    shutter: feature-rich screenshot tool
     shotcut: video editor
     simplescreenrecorder: records parts of the screen to video
     telegram-desktop: Telegram client

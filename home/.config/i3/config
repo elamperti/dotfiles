@@ -235,6 +235,8 @@ for_window [class="opensnitch-ui"] floating enable
 for_window [class="Pamac-manager" title="Transaction Summary"] floating enable
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Shutter"] floating enable
+for_window [class="flameshot" title="Configuration"] floating enable
+for_window [class="flameshot" title="Open with"] floating enable
 for_window [class="Simplescreenrecorder"] floating enable
 
 # Default workspaces (use xprop to inspect windows)
@@ -304,9 +306,11 @@ for_window [class="Steam"] border none
 for_window [class="TelegramDesktop"] border none
 
 # General shortcuts
-# ToDo: use scrot instead and find alt editor for quick highlights
-bindsym Print exec --no-startup-id shutter -f -o "$HOME/Screenshots/Screenshot_%Y-%m-%d-%H-%M-%S.jpg"
-bindsym --release $alt+Sys_Req exec --no-startup-id shutter -s -o "$HOME/Screenshots/Selection_%Y-%m-%d-%H-%M-%S.jpg" # This is alt + Print Screen
+
+# Flameshot
+bindsym Print exec --no-startup-id flameshot screen -p "$HOME/Screenshots/"
+bindsym Shift+Print exec --no-startup-id flameshot full -p "$HOME/Screenshots/"
+bindsym --release $alt+Sys_Req exec --no-startup-id flameshot gui -p "$HOME/Screenshots/"
 
 # System controls (power/session)
 bindsym $mod+Scroll_Lock exec $HOME/.config/rofi/power-menu.sh
@@ -347,7 +351,7 @@ exec --no-startup-id nm-applet
 exec --no-startup-id opensnitch-ui
 exec --no-startup-id blueman-applet
 exec --no-startup-id $HOME/dotfiles/bin/arch-updates.sh
-exec --no-startup-id shutter --min_at_startup
+exec --no-startup-id flameshot
 exec --no-startup-id gpick
 exec --no-startup-id openrgb --startminimized --profile OrangeTeal
 
