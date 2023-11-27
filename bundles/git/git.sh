@@ -71,7 +71,7 @@ after_installs() {
     # Download and enable diff-so-fancy |
     #------------------------------------
 
-    curl --silent -kfLo ~/bin/diff-so-fancy "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy"
+    curl --silent -kfLo ~/bin/diff-so-fancy "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/diff-so-fancy"
 
     if [[ -f ~/bin/diff-so-fancy ]]; then
         chmod +x ~/bin/diff-so-fancy

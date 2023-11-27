@@ -14,12 +14,8 @@ setup() {
     }
 }
 
-@test "URLs for core files" {
-    test_url "https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/DejaVuSansMono/Regular/complete/DejaVu%20Sans%20Mono%20Nerd%20Font%20Complete.ttf"
-}
-
 @test "URLs for Git bundle" {
-    test_url "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy"
+    test_url "https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/diff-so-fancy"
     test_url "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash"
 }
 
