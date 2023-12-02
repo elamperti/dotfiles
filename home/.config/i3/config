@@ -336,7 +336,7 @@ bindsym $mod+F5 exec $HOME/.config/i3/scripts/brightness_control.sh dec 20
 bindsym $mod+F6 exec $HOME/.config/i3/scripts/brightness_control.sh inc 20
 
 # Startup
-exec --no-startup-id picom --config $HOME/.config/i3/compton.config
+exec --no-startup-id picom --daemon --config $HOME/.config/picom/picom.conf
 exec --no-startup-id xrandr --output $secondary-display --right-of $primary-display && xrandr --output $primary-display --primary
 exec --no-startup-id conky -c $HOME/.config/i3/.conky
 exec --no-startup-id redshift-gtk
@@ -363,7 +363,7 @@ exec --no-startup-id sunsama
 
 # On reloads
 exec_always --no-startup-id xrdb -merge $HOME/.Xresources
-exec_always --no-startup-id xkbcomp -I$HOME/.xkb -R$HOME/.xkb $HOME/.xkbrc $DISPLAY
+exec_always --no-startup-id xkbcomp -w0 -I$HOME/.xkb -R$HOME/.xkb $HOME/.xkbrc $DISPLAY
 exec_always --no-startup-id xcape -t 250 -e "Super_L=Alt_L|F1"
 exec_always --no-startup-id feh --bg-scale $HOME/dotfiles/wallpapers/desert-night.jpg
 # Enabling numlock may induce a conflict with function keys in kitty terminal!
