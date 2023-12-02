@@ -7,15 +7,15 @@ export WAIT_DELAY="0.4" # Must be higher than xcape's timeout!
 # ================================
 #
 # rofi's `-run-command (...)` will be executed when an entry is selected,
-# otherwise it exits with a non-zero code (and doesn't run `-run-comand`).
+# otherwise it exits with a non-zero code (and doesn't run `-run-command`).
 # That's why the sleep/rm is duplicated in RUN_COMMAND and in the last lines.
 #
 # When rofi launches an application, the process doesn't end until the launched
-# application is close, so without this method the lockfile would remain open
-# until the launched application quits, breaking the purpose of this script.
+# application is closed, so without this method the lockfile would remain open
+# until the launched application quits, missing the purpose of this script.
 
 
-# The parenthesis in the following command fork the {cmd} so it can be disowned.
+# The parentheses in the following command fork {cmd} so it can be disowned.
 # LOCKFILE and WAIT_DELAY are exported variables, we can use them inside the
 # single quotes here, going against SC2016.
 # The output of the command *must* be piped because otherwise when this script
@@ -28,7 +28,7 @@ if [ ! -f "${LOCKFILE}" ]; then
   echo $$ >"${LOCKFILE}"
 
   # Launch rofi
-  i3-dmenu-desktop --dmenu="rofi -show drun -i -matching fuzzy -theme blurry -run-command '$RUN_COMMAND'"
+  i3-dmenu-desktop --dmenu="rofi -show drun -i -matching fuzzy -theme blurry -run-command '$RUN_COMMAND'" 2>/dev/null
 
   # At this point I tried to check for the exit code of the process above, but it
   # turns out it always returns the same exit code either canceling rofi or after
@@ -37,6 +37,6 @@ if [ ! -f "${LOCKFILE}" ]; then
   # This checks this script's PID against the one stored in the lockfile
   if [[ $(< ${LOCKFILE}) == "$$" ]]; then
     sleep ${WAIT_DELAY}
-    rm "${LOCKFILE}"
+    rm "${LOCKFILE}" 2>/dev/null
   fi
 fi
