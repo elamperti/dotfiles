@@ -1,4 +1,9 @@
-# My dotfiles :sparkles: [![Build Status](https://github.com/elamperti/dotfiles/workflows/Tests/badge.svg)](https://github.com/elamperti/dotfiles/actions?workflow=Tests)
+<p align="center">
+  <img alt="My dotfiles ✨" src="https://github.com/elamperti/dotfiles/blob/master/docs/images/dotfiles-logo.png?raw=true" />
+<p>
+
+![Works on my machine](https://img.shields.io/badge/works%20-%20on%20my%20machine-yellow)
+[![Build Status](https://github.com/elamperti/dotfiles/workflows/Tests/badge.svg)](https://github.com/elamperti/dotfiles/actions?workflow=Tests)
 
 Hi, these are my dotfiles and a bunch of scripts to make new deployments easier.
 See [requirements](#requirements), [setup instructions](#installing) and [how to customize](#customization).
@@ -18,9 +23,9 @@ There's also some [unrelated documentation](./docs/).
 
 The setup will look for the following packages (and try to install them, if you want/are ok with it):
 
-  * `git` to initialize submodules
-  * `dialog` which is used for the setup process
-  * `stow` to symlink several files
+- `git` to initialize submodules
+- `dialog` which is used for the setup process
+- `stow` to symlink several files
 
 ## Installing
 
@@ -32,16 +37,16 @@ Just execute `setup.sh` and keep an eye on what happens :crystal_ball:
 
 ### `setup.sh` options
 
-| **Option**            |                                                                       |
-|-----------------------|-----------------------------------------------------------------------|
-| -h, --help            | Print the option list.                                                |
-| -B, --bundles         | Set up bundles only.                                                  |
-| -b, --bundle _BUNDLE_ | Install just one particular bundle.                                   |
-| -m, --motd            | Shows the MOTD picker                                                 |
-| -p, --prompt          | Runs the prompt parser wizard (creates a prompt a-la-carte).          |
-| -u, --update          | Updates all the symlinks as needed.                                   |
-| --no-updates          | Skip updating packages. Not recommended unless you've already updated.|
-| -v, --verbose         | Makes setup more verbose, mostly useful for debugging.                |
+| **Option**            |                                                                        |
+| --------------------- | ---------------------------------------------------------------------- |
+| -h, --help            | Print the option list.                                                 |
+| -B, --bundles         | Set up bundles only.                                                   |
+| -b, --bundle _BUNDLE_ | Install just one particular bundle.                                    |
+| -m, --motd            | Shows the MOTD picker                                                  |
+| -p, --prompt          | Runs the prompt parser wizard (creates a prompt a-la-carte).           |
+| -u, --update          | Updates all the symlinks as needed.                                    |
+| --no-updates          | Skip updating packages. Not recommended unless you've already updated. |
+| -v, --verbose         | Makes setup more verbose, mostly useful for debugging.                 |
 
 ## How does it work?
 
@@ -49,10 +54,10 @@ The setup will verify Bash version before starting. After updating the package l
 
 Package/bundle selection is divided in four steps, and in each one the setup will ask which packages/bundles to install:
 
-  1. **Common packages** are used from terminal and usually found across different distributions.
-  2. **Graphical packages** are programs that require a window manager to be used or are only useful in that context.
-  3. **Window manager packages** are packages related to specific window managers.
-  4. :package: **Bundles**: are special scripts, read more about them in [the guide](./bundles/about-bundles.md).
+1. **Common packages** are used from terminal and usually found across different distributions.
+2. **Graphical packages** are programs that require a window manager to be used or are only useful in that context.
+3. **Window manager packages** are packages related to specific window managers.
+4. :package: **Bundles**: are special scripts, read more about them in [the guide](./bundles/about-bundles.md).
 
 After installing all the required packages, bundle scripts will finish their installation and may ask for additional information.
 
@@ -60,13 +65,13 @@ After installing all the required packages, bundle scripts will finish their ins
 
 You should really take a look at [`setup.sh`](./setup.sh) to see what it does. Apart from that, you may want to change the following to suit your needs:
 
-  * [Files in `shell/`](./shell/), which are most of the dotfiles
-  * [Files in `home/`](./home/), which will be symlinked to your home directory
-  * [Package lists](./config/package-lists.sh)
-  * [Bundles](./bundles/), for more details see [the guide](./bundles/about-bundles.md)
-  * `~/.bash*` files affixed with `.local` will be sourced (as long as they have their corresponding file in [`shell`](./shell/)
-  * Edit the [prompt templates](./art/prompt/templates/), or create a style for an existing one (it's as easy as changing values in a JSON file)
-  * Add your own [ascii art](./art/motd/) to use it as MOTD, or custom scripts in [`motd/`](./motd/); the MOTD wizard will let you pick which ones to use.
+- [Files in `shell/`](./shell/), which are most of the dotfiles
+- [Files in `home/`](./home/), which will be symlinked to your home directory
+- [Package lists](./config/package-lists.sh)
+- [Bundles](./bundles/), for more details see [the guide](./bundles/about-bundles.md)
+- `~/.bash*` files suffixed with `.local` will be sourced (as long as they have their corresponding file in [`shell`](./shell/)
+- Edit the [prompt templates](./art/prompt/templates/), or create a style for an existing one (it's as easy as changing values in a JSON file)
+- Add your own [ascii art](./art/motd/) to use it as MOTD, or custom scripts in [`motd/`](./motd/); the MOTD wizard will let you pick which ones to use.
 
 ## Testing
 
@@ -82,10 +87,10 @@ I use this repository to hold documentation and findings on my Linux ventures. [
 
 ## Acknowledgements
 
-  * **Cătălin Mariș**' [dotfiles](https://github.com/alrra/dotfiles) are very interesting and were great to learn when I started using dotfiles. My dotfiles take some functions and ideas from his work.
-  * **Kevin Hochhalter** for the simple and powerful [bashlog](https://github.com/klhochhalter/bashlog).
-  * I rely on [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) by **Ryan McIntyre** to make my prompt (and Vim) look ~~like there's an icon parade in my console~~ good.
-  * [/r/vim](https://www.reddit.com/r/vim/) gave me good ideas and lots of information on how to config my [.vimrc](./bundles/vim/vim/vimrc)
-  * The [Git bundle](./bundles/git/) uses [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) :information_desk_person:
-  * The i3 theme was based on [videos by Alex Booker](https://www.youtube.com/watch?v=j1I63wGcvU4&list=PL5ze0DjYv5DbCv9vNEzFmP6sU7ZmkGzcf) and customizations from [/r/i3wm](https://www.reddit.com/r/i3wm/), while the theme for rofi was adapted from the work of Benjamin Stauss' [One Dark](https://github.com/DaveDavenport/rofi-themes).
-  * My [`.motdrc`](./shell/.motdrc) was inspired on [FalconStats](https://github.com/Heholord/FalconStats), from which I also took some lines of code to bootstrap part of my MOTD scripts.
+- **Cătălin Mariș**' [dotfiles](https://github.com/alrra/dotfiles) are very interesting and were great to learn when I started using dotfiles. My dotfiles take some functions and ideas from his work.
+- **Kevin Hochhalter** for the simple and powerful [bashlog](https://github.com/klhochhalter/bashlog).
+- I rely on [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts) by **Ryan McIntyre** to make my prompt (and Vim) look ~~like there's an icon parade in my console~~ good.
+- [/r/vim](https://www.reddit.com/r/vim/) gave me good ideas and lots of information on how to config my [.vimrc](./bundles/vim/vim/vimrc)
+- The [Git bundle](./bundles/git/) uses [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) :information_desk_person:
+- The i3 theme was based on [videos by Alex Booker](https://www.youtube.com/watch?v=j1I63wGcvU4&list=PL5ze0DjYv5DbCv9vNEzFmP6sU7ZmkGzcf) and customizations from [/r/i3wm](https://www.reddit.com/r/i3wm/), while the theme for rofi was adapted from the work of Benjamin Stauss' [One Dark](https://github.com/DaveDavenport/rofi-themes).
+- My [`.motdrc`](./shell/.motdrc) was inspired on [FalconStats](https://github.com/Heholord/FalconStats), from which I also took some lines of code to bootstrap part of my MOTD scripts.
