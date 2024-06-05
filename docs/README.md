@@ -4,6 +4,7 @@ These documents are quick walkthroughs or cheatsheets and they are probably inac
 
 | **Title**                                                           | **Created on** |
 | :------------------------------------------------------------------ | -------------: |
+| [Encrypting your home directory on Linux](./encrypted-home.md)      |     (Jun 2024) |
 | [Useful commands](./useful-commands.md) (WIP)                       |     (Feb 2022) |
 | [ffmpeg tricks](./ffmpeg-tricks.md)                                 |     (Aug 2020) |
 | [Using the Akai LPD8 from CLI](./lpd8.md)                           |     (Dec 2019) |
